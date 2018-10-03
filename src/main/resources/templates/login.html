@@ -3,7 +3,9 @@
 <head th:replace="fragments/head" />
 <body>
 	<nav th:replace="fragments/nav" />
-
+	
+	
+	
 	<div class="container">
 		<h2 th:text="#{loginText.message}"></h2>
 		<form class="form-horizontal" method="post" action="/login">
@@ -29,15 +31,10 @@
 						th:text="#{loginButton.message}"></button>
 				</div>
 			</div>
-
-			<h4 class="text-center">
-			<a href="/signup" th:text="#{signup.message}"></a> 
-			</h4> 
-
-
 			<input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" />
 		</form>
+		<span class = "errorLogin" th:if="${param.error}" th:text="#{errorLogin.message}"></span>
 	</div>
 	<footer th:replace="fragments/footer" />
 </body>

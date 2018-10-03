@@ -13,14 +13,12 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
 	@Column(unique = true)
 	private String email;
 	private String name;
 	private String password;
 	@Transient
 	private String passwordConfirm;
-
 	private String role;
 
 	public User() {
@@ -66,6 +64,14 @@ public class User {
 
 	public Long getId() {
 		return id;
+	}
+
+	public String getPasswordConfirm() {
+		return passwordConfirm;
+	}
+
+	public void setPasswordConfirm(String passwordConfirm) {
+		this.passwordConfirm = passwordConfirm;
 	}
 
 	@Override
