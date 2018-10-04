@@ -15,12 +15,16 @@
 			<ul class="nav navbar-nav" sec:authorize="isAuthenticated()">
 				<li><a href="/home" th:text="#{home.message}"></a></li>
 			</ul>
+			<ul class="nav navbar-nav" sec:authorize="isAuthenticated()">
+				<li><a href="/productos" th:text="#{productos.message}"></a></li>
+			</ul>
 
 			<ul class="nav navbar-nav navbar-right">
 
-				<li sec:authorize="!isAuthenticated()"><a href
-						="/signup"  th:id="botonSignup" th:text="#{signup.message}"> <span
-						class="glyphicon glyphicon-user"></span> </a></li>
+				<li sec:authorize="!isAuthenticated()"><a href="/signup"
+					th:id="botonSignup" th:text="#{signup.message}"> <span
+						class="glyphicon glyphicon-user"></span>
+				</a></li>
 				<li sec:authorize="!isAuthenticated()"><a href="/login"
 					th:text="#{login.message}"> <span
 						class="glyphicon glyphicon-log-in"></span>
@@ -32,4 +36,4 @@
 			</ul>
 		</div>
 	</div>
-</nav> 
+</nav>

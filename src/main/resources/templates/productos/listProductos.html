@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head" />
+<body>
+	<!-- Barra de NavegaciÃ³n superior -->
+	<nav th:replace="fragments/nav" />
+	<div class="container">
+		<h2 th:text="#{listProductos.message}"></h2>
+		<form class="navbar-form" action="/productos">
+			<div class="form-group">
+				<input th:id="searchProductos" name="searchText" type="text" class="form-control" size="50"
+					th:placeholder="#{listProductosSearch.message}" />
+			</div>
+			<button type="submit" class="btn btn-default" th:text="#{listProductosSearchButton.message}"></button>
+		</form>
+		<div class="table-responsive">
+			<table class="table table-hover" th:fragment="tableListProductos" id="tableListProductos">
+				<thead>
+					<tr>
+						<th th:text="#{listProductosName.message}"></th>
+						<th th:text="#{listProductosDescripcion.message}"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="producto : ${productosList}">						
+						<td th:text="${producto.name}"></td>
+						<td th:text="${producto.description}"></td>
+						<!-- <td sec:authorize="hasRole('ROLE_USER')">
+							<button type="button" th:id="${'friendshipRequestButton' + user.id}"
+								class="btn btn-info" th:text="#{addFriend.message}"></button>
+								
+							<script th:inline="javascript">
+								/*<![CDATA[*/
+									$( "#friendshipRequestButton[[${user.id}]]").click(function(){
+										var numberPage = [[${param.page}]];
+										var url = '/friendshipRequest/add/[[${user.id}]]';
+										if(numberPage != null){
+											url+="?page=" + numberPage[0];
+										}
+										$("#tableListUsers").load(url);
+									});
+								/*]]>*/
+							</script>
+						</td> -->
+						<!-- <td sec:authorize="hasRole('ROLE_ADMIN')">
+							<button type="button" th:id="${'deleteUserButton' + user.id}" 
+								class="btn btn-info" th:text="#{deleteUser.message}"></button>
+								
+							<script th:inline="javascript">
+								/*<![CDATA[*/
+									$( "#deleteUserButton[[${user.id}]]").click(function(){
+										var numberPage = [[${param.page}]];
+										var url = '/deleteUser/[[${user.id}]]';
+										if(numberPage != null){
+											url+="?page=" + numberPage[0];
+										}
+										$("#tableListUsers").load(url);
+									});
+								/*]]>*/
+							</script>
+						</td> -->
+						<!-- <td th:if="${errorEnviado == user.id}" th:text="#{alreadySend.message}"></td> -->								 	
+					</tr>
+				</tbody>
+			</table>
+			<hr />
+		</div>
+		<footer th:replace="fragments/pagination" />
+	</div>
+	<footer th:replace="fragments/footer" />
+</body>
+</html>
