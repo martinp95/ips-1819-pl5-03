@@ -44,8 +44,7 @@
 								/*<![CDATA[*/
 									$( "#addCarritoButton[[${producto.id}]]").click(function(){
 										var numberPage = [[${param.page}]];
-										var numberProductos = document.getElementById("cantidad").value;
-										var url = '/carrito/add/[[${producto.id}]]/';
+										var url = '/carrito/add/[[${producto.id}]]';
 										if(numberPage != null){
 											url+="?page=" + numberPage[0];
 										}

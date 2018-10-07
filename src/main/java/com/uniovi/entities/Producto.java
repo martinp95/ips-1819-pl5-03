@@ -1,9 +1,13 @@
 package com.uniovi.entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Producto {
@@ -19,6 +23,9 @@ public class Producto {
 	private String posicion;
 	private int numEstanteria;
 	private int numFila;
+
+	@OneToMany(mappedBy = "productos")
+	private Set<ProductosCarrito> productosCarrito = new HashSet<ProductosCarrito>();
 
 	public Producto() {
 	}
@@ -102,6 +109,14 @@ public class Producto {
 
 	public Long getId() {
 		return id;
+	}
+	
+	Set<ProductosCarrito> _getProductosCarrito() {
+		return productosCarrito;
+	}
+
+	public Set<ProductosCarrito> getProductosCarrito() {
+		return new HashSet<ProductosCarrito>(productosCarrito);
 	}
 
 	@Override
