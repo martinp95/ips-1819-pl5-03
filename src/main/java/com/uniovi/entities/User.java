@@ -1,10 +1,14 @@
 package com.uniovi.entities;
 
+import java.util.ArrayList;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 @Entity
@@ -20,6 +24,9 @@ public class User {
 	@Transient
 	private String passwordConfirm;
 	private String role;
+	
+	@OneToMany(mappedBy = "user")
+	private Set<ProductoComprado> carrito;
 
 	public User() {
 	}
@@ -72,6 +79,14 @@ public class User {
 
 	public void setPasswordConfirm(String passwordConfirm) {
 		this.passwordConfirm = passwordConfirm;
+	}		
+
+	public Set<ProductoComprado> getCarrito() {
+		return carrito;
+	}
+
+	public void setCarrito(Set<ProductoComprado> carrito) {
+		this.carrito = carrito;
 	}
 
 	@Override

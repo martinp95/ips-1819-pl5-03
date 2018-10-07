@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head" />
+<body>
+	<!-- Barra de Navegación superior -->
+	<nav th:replace="fragments/nav" />
+	<div class="container">
+		<h2>Lista del carrito</h2>
+		<form class="navbar-form" action="/list">
+			<div class="form-group">
+				<input name="searchText" type="text" class="form-control" size="50"
+					placeholder="Buscar por nombre o descripcion del producto">
+			</div>
+			<button type="submit" class="btn btn-default">Buscar</button>
+		</form>
+		<p>Los productos que actualmente figuran en el carrito son los
+			siguientes:</p>
+		<div class="table-responsive">
+			<table class="table table-hover" th:fragment="tableCarrito"
+				id="tableCarrito">
+				<thead>
+					<tr>
+						<th>Nombre</th>
+						<th>Descripcion</th>
+						<th>Precio</th>
+						<th class="col-md-1"></th>
+						<th class="col-md-1"></th>
+						<th class="col-md-1"></th>
+						<th class="col-md-1"></th>
+						<th class="col-md-1"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="productoComprado : carritoList">
+						<td th:text="${productoComprado.producto.nombre}">Nombre producto</td>
+						<td th:text="${productoComprado.producto.descripcion}">Descripcion producto</td>
+						<td th:text="${productoComprado.producto.precio}">Precio producto</td>	
+						
+						<td><button type="button"
+								th:id="${'incrementarButton' + productoComprado.id" class="incrementar">Aumentar unidad</button></td>
+								
+						<td><button type="button"
+								th:id="${'decrementarButton' + productoComprado.id" class="decrementar">Decrementar Unidad</button></td>		
+											
+						<td><button type="button"
+								th:id="${'eliminarButton' + productoComprado.id" class="delete">Borrar
+								de carrito</button></td>								
+								
+						
+						<script th:inline="javascript">
+									/*<![CDATA[*/
+										$( "#incrementarButton[[${productoComprado.id}]]" ).click(function() {
+											$.get( "/carrito/aumentarUnidad/[[${productoComprado.id}]]", function( data ) {
+												var numberPage = [[${param.page}]];
+												var urlUpdate = '/carrito/list/';
+												if ( numberPage != null ){
+													urlUpdate += "?page="+numberPage[0];
+													}
+												$("#tableCarrito").load(urlUpdate);
+															});											
+										});
+									/*]]>*/
+									</script>	
+										
+						<script th:inline="javascript">
+									/*<![CDATA[*/
+										$( "#decrementarButton[[${productoComprado.id}]]" ).click(function() {
+											$.get( "/carrito/decrementarUnidad/[[${productoComprado.id}]]", function( data ) {
+												var numberPage = [[${param.page}]];
+												var urlUpdate = '/carrito/list/';
+												if ( numberPage != null ){
+													urlUpdate += "?page="+numberPage[0];
+													}
+												$("#tableCarrito").load(urlUpdate);
+															});											
+										});
+									/*]]>*/
+									</script>
+								
+						<script th:inline="javascript">
+									/*<![CDATA[*/
+										$( "#eliminarButton[[${productoComprado.id}]]" ).click(function() {
+											$.get( "/carrito/delete/[[${productoComprado.id}]]", function( data ) {
+												var numberPage = [[${param.page}]];
+												var urlUpdate = '/carrito/list/';
+												if ( numberPage != null ){
+													urlUpdate += "?page="+numberPage[0];
+													}
+												$("#tableCarrito").load(urlUpdate);
+															});											
+										});
+									/*]]>*/
+									</script>
+					</tr>
+
+				</tbody>
+			</table>
+		</div>
+		<footer th:replace="fragments/pagination" />
+	</div>
+
+	<footer th:replace="fragments/footer" />
+</body>
+</html>

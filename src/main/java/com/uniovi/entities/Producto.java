@@ -1,9 +1,13 @@
 package com.uniovi.entities;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Producto {
@@ -19,6 +23,10 @@ public class Producto {
 	private String posicion;
 	private int numEstanteria;
 	private int numFila;
+	
+	@OneToMany(mappedBy = "producto")
+	private Set<ProductoComprado> productosComprados;
+	
 
 	public Producto() {
 	}
@@ -102,6 +110,16 @@ public class Producto {
 
 	public Long getId() {
 		return id;
+	}
+	
+	
+
+	public Set<ProductoComprado> getProductosComprados() {
+		return productosComprados;
+	}
+
+	public void setProductosComprados(Set<ProductoComprado> productosComprados) {
+		this.productosComprados = productosComprados;
 	}
 
 	@Override

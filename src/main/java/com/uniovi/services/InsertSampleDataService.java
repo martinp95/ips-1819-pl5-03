@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uniovi.entities.Producto;
+import com.uniovi.entities.ProductoComprado;
 import com.uniovi.entities.User;
 
 @Service
@@ -18,6 +19,9 @@ public class InsertSampleDataService {
 	
 	@Autowired
 	private ProductosService productoService;
+	
+	@Autowired
+	private CarritoService carritoService;
 
 	@PostConstruct
 	public void init() {
@@ -70,5 +74,8 @@ public class InsertSampleDataService {
 
 		Producto producto = new Producto("Teclado", "teclado retroiluminado", 10.2, 3, 2, "derecha", 3, 2);
 		productoService.addProducto(producto);
+		
+		ProductoComprado pc = new ProductoComprado(producto, 5, user1);
+		carritoService.addProducto(pc);
 	}
 }
