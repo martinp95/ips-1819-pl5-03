@@ -3,6 +3,7 @@ package com.uniovi.entities;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ public class User {
 	private String passwordConfirm;
 	private String role;
 	
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy="user", cascade = CascadeType.ALL)
 	private Set<ProductosCarrito> productosCarrito = new HashSet<ProductosCarrito>();
 
 	public User() {
@@ -81,11 +82,11 @@ public class User {
 		this.passwordConfirm = passwordConfirm;
 	}
 
-	Set<ProductosCarrito> getProductosCarrito() {
+	Set<ProductosCarrito> _getProductosCarrito() {
 		return productosCarrito;
 	}
 
-	public Set<ProductosCarrito> _getProductosCarrito() {
+	public Set<ProductosCarrito> getProductosCarrito() {
 		return new HashSet<ProductosCarrito>(productosCarrito);
 	}
 

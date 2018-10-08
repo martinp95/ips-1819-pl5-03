@@ -31,12 +31,12 @@
 						<td th:text="${producto.name}"></td>
 						<td th:text="${producto.description}"></td>
 						<td th:text="${producto.stock}"></td>
-						
+
 						<td><input id="cantidad" type="number"
 							oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
 							step="1" class="form-control" name="cantidad" value="1" min="1"
 							th:max="${producto.stock}" /></td>
-							
+
 						<td sec:authorize="hasRole('ROLE_USER')">
 							<button type="button" th:id="${'addCarritoButton' + producto.id}"
 								class="btn btn-info" th:text="#{addCarrito.message}"></button> <script
@@ -45,6 +45,8 @@
 									$( "#addCarritoButton[[${producto.id}]]").click(function(){
 										var numberPage = [[${param.page}]];
 										var url = '/carrito/add/[[${producto.id}]]';
+										var cantidad = document.getElementById("cantidad").value;
+										url+="/"+ cantidad;
 										if(numberPage != null){
 											url+="?page=" + numberPage[0];
 										}

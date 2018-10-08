@@ -31,5 +31,9 @@ public class ProductosService {
 	public void addProducto(Producto producto) {
 		productosRepository.save(producto);
 	}
+	
+	public Producto getProducto(Long id) {
+		return productosRepository.findOne(id);
+	}
 
 }

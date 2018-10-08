@@ -3,6 +3,7 @@ package com.uniovi.entities;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,7 +25,7 @@ public class Producto {
 	private int numEstanteria;
 	private int numFila;
 
-	@OneToMany(mappedBy = "productos")
+	@OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
 	private Set<ProductosCarrito> productosCarrito = new HashSet<ProductosCarrito>();
 
 	public Producto() {

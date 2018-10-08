@@ -14,12 +14,12 @@ public class ProductosCarrito {
 
 	@Id
 	@ManyToOne
-	@JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+	@JoinColumn(name = "USER_ID")
 	private User user;
 
 	@Id
 	@ManyToOne
-	@JoinColumn(name = "PRODUCTO_ID", referencedColumnName = "ID")
+	@JoinColumn(name = "PRODUCTO_ID")
 	private Producto producto;
 
 	private int cantidad;
@@ -28,21 +28,9 @@ public class ProductosCarrito {
 	}
 
 	public ProductosCarrito(User user, Producto producto, int cantidad) {
-		_setUser(user);
-		_setProducto(producto);
-
-		user._getProductosCarrito().add(this);
-		producto._getProductosCarrito().add(this);
-		
-		this.setCantidad(cantidad);
-	}
-
-	private void _setProducto(Producto producto) {
-		this.producto = producto;
-	}
-
-	private void _setUser(User user) {
 		this.user = user;
+		this.producto = producto;		
+		this.setCantidad(cantidad);
 	}
 
 	public int getCantidad() {

@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.uniovi.entities.Producto;
+import com.uniovi.entities.ProductosCarrito;
 import com.uniovi.entities.User;
+import com.uniovi.services.ProductosCarritoService;
 import com.uniovi.services.ProductosService;
 import com.uniovi.services.UsersService;
 
@@ -22,26 +24,27 @@ public class CarritoCompraController {
 	private UsersService usersService;
 	@Autowired
 	private ProductosService productosService;
+	@Autowired
+	private ProductosCarritoService productosCarritoService;
 
-	@RequestMapping(value = "/carrito/add/{id}")
-	public String addProductoCarrito(Model model, Pageable pageable, @PathVariable Long id, Principal principal) {
+	@RequestMapping(value = "/carrito/add/{id}/{cantidad}")
+	public String addProductoCarrito(Model model, Pageable pageable, @PathVariable Long id,@PathVariable int cantidad, Principal principal) {
 		String email = principal.getName();
 		User user = usersService.getUserByEmail(email);
-		// Comprobar si el user tiene carrito, sino se crea, si lo tiene se añade el
-		//if (user.getCarrito() == null) {
-			
-		//} else {
+		Producto producto = productosService.getProducto(id);
 
-			// si ya tiene carrito y el producto ya lo tiene añadido le envio un error para
-			// que lo modifique desde el carrito
-
-			// sino lo añdo y lo salvo
-		//}
+		ProductosCarrito productosCarrito = new ProductosCarrito(user, producto, cantidad);
+		
+		if (user.getProductosCarrito().contains(productosCarrito)) {
+			model.addAttribute("error", user.getId());
+		} else {
+			productosCarritoService.addProductoCarrito(productosCarrito);
+		}
 
 		Page<Producto> productos = productosService.findAll(pageable);
 		model.addAttribute("productosList", productos.getContent());
 		model.addAttribute("page", productos);
-		return "home";
+		return "productos/listProductos :: tableListProductos";
 	}
 
 }
