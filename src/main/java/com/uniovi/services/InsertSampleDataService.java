@@ -70,5 +70,7 @@ public class InsertSampleDataService {
 
 		Producto producto = new Producto("Teclado", "teclado retroiluminado", 10.2, 3, 2, "derecha", 3, 2);
 		productoService.addProducto(producto);
+		Producto producto2 = new Producto("Teclado", "teclado mecanico", 10.2, 3, 2, "derecha", 3, 2);
+		productoService.addProducto(producto2);
 	}
 }
