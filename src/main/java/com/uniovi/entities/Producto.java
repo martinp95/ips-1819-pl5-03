@@ -23,7 +23,7 @@ public class Producto {
 	private int pasillo;
 	private String posicion;
 	private int numEstanteria;
-	private int numFila;
+	private int numFila;	
 
 	@OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
 	private Set<ProductosCarrito> productosCarrito = new HashSet<ProductosCarrito>();

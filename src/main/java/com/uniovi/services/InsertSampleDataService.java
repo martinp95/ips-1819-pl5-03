@@ -18,7 +18,7 @@ public class InsertSampleDataService {
 	
 	@Autowired
 	private ProductosService productoService;
-
+	
 	@PostConstruct
 	public void init() {
 		User user1 = new User("email1@example.com", "Pedro");

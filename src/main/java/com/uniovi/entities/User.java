@@ -26,6 +26,7 @@ public class User {
 	private String passwordConfirm;
 	private String role;
 	
+
 	@OneToMany(mappedBy="user", cascade = CascadeType.ALL)
 	private Set<ProductosCarrito> productosCarrito = new HashSet<ProductosCarrito>();
 
