@@ -2,19 +2,18 @@
 <html lang="en">
 <head th:replace="fragments/head" />
 <body>
-	<!-- Barra de Navegación superior -->
+	<!-- Barra de Navegaciï¿½n superior -->
 	<nav th:replace="fragments/nav" />
 	<div class="container">
 		<h2>Lista del carrito</h2>
 		<form class="navbar-form" action="/list">
 			<div class="form-group">
 				<input name="searchText" type="text" class="form-control" size="50"
-					placeholder="Buscar por nombre o descripcion del producto">
+					th:placeholder="#{listProductosSearch.message}" />
 			</div>
-			<button type="submit" class="btn btn-default">Buscar</button>
+			<button type="submit" class="btn btn-default"
+				th:text="#{listProductosSearchButton.message}"></button>
 		</form>
-		<p>Los productos que actualmente figuran en el carrito son los
-			siguientes:</p>
 		<div class="table-responsive">
 			<table class="table table-hover" th:fragment="tableCarrito"
 				id="tableCarrito">
@@ -32,9 +31,9 @@
 				</thead>
 				<tbody>
 					<tr th:each="productoComprado : carritoList">
-						<td th:text="${productoComprado.producto.nombre}">Nombre producto</td>
-						<td th:text="${productoComprado.producto.descripcion}">Descripcion producto</td>
-						<td th:text="${productoComprado.producto.precio}">Precio producto</td>	
+						<!--<td th:text="${productoComprado.producto}">Nombre producto</td>
+						<td th:text="${productoComprado.producto}">Descripcion producto</td>
+						<td th:text="${productoComprado.producto}">Precio producto</td>	
 						
 						<td><button type="button"
 								th:id="${'incrementarButton' + productoComprado.id" class="incrementar">Aumentar unidad</button></td>
@@ -90,7 +89,7 @@
 															});											
 										});
 									/*]]>*/
-									</script>
+									</script> -->
 					</tr>
 
 				</tbody>

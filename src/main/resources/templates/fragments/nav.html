@@ -18,6 +18,9 @@
 			<ul class="nav navbar-nav" sec:authorize="isAuthenticated()">
 				<li><a href="/productos" th:text="#{productos.message}"></a></li>
 			</ul>
+			<ul class="nav navbar-nav" sec:authorize="isAuthenticated()">
+				<li><a href="/carrito" th:text="#{carrito.message}"></a></li>
+			</ul>
 
 			<ul class="nav navbar-nav navbar-right">
 

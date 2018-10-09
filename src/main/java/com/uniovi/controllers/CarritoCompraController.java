@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,30 +56,29 @@ public class CarritoCompraController {
 
 		Page<ProductosCarrito> carrito = new PageImpl<ProductosCarrito>(new LinkedList<ProductosCarrito>());
 
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String email = auth.getName();
-		User usuarioSesion = usersService.getUserByEmail(email); // user sesion
+		String email = principal.getName();
+		User user = usersService.getUserByEmail(email);
 
 		if (searchText != null && !searchText.isEmpty()) {
-			carrito = productosCarritoService.searchProductosByNameAndDescription(pageable, searchText, usuarioSesion);
+			carrito = productosCarritoService.searchProductosByNameAndDescription(pageable, searchText, user);
 		} else {
-			carrito = productosCarritoService.findAllByUser(pageable, usuarioSesion);
+			carrito = productosCarritoService.findAllByUser(pageable, user);
 		}
 		model.addAttribute("carritoList", carrito.getContent());
 		model.addAttribute("page", carrito);
-		return "carrito/list";
+		return "carrito/listCarrito";
 	}
 
 	@RequestMapping("/carrito/delete/{id}")
 	public String delete(@PathVariable Long id) {
 		productosCarritoService.deleteProduct(id);
-		return "redirect:/carrito/list";
+		return "redirect:/carrito/listCarrito";
 	}
 	
 	@RequestMapping("/carrito/aumentarUnidad/{id}")
 	public String aumentarUnidad(@PathVariable Long id) {
 		productosCarritoService.aumentarUnidad(id);
-		return "redirect:/carrito/list";
+		return "redirect:/carrito/listCarrito";
 	}
 	
 	@RequestMapping("/carrito/decrementarUnidadUnidad/{id}")
