@@ -28,8 +28,7 @@
 								/*<![CDATA[*/
 									$( "#addPedidoButton[[${pedido.id}]]").click(function(){
 										var numberPage = [[${param.page}]];
-										var url = '/almacenero/add/[[${pedido.id}]]';
-										url+="/pedidos";										
+										var url = '/almacenero/add/[[${pedido.id}]]';									
 										$("#tableListPedidos").load(url);
 									});
 								/*]]>*/

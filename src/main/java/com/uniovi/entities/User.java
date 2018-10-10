@@ -29,6 +29,10 @@ public class User {
 
 	@OneToMany(mappedBy="user", cascade = CascadeType.ALL)
 	private Set<ProductosCarrito> productosCarrito = new HashSet<ProductosCarrito>();
+	
+	
+	@OneToMany(mappedBy="almacenero", cascade = CascadeType.ALL)
+	private Set<OrdenTrabajo> ordenesTrabajo = new HashSet<OrdenTrabajo>();
 
 	public User() {
 	}
@@ -89,6 +93,14 @@ public class User {
 
 	public Set<ProductosCarrito> getProductosCarrito() {
 		return new HashSet<ProductosCarrito>(productosCarrito);
+	}
+
+	public Set<OrdenTrabajo> getOrdenesTrabajo() {
+		return ordenesTrabajo;
+	}
+
+	public void addOrdenTrabajo(OrdenTrabajo ordenesTrabajo) {
+		this.ordenesTrabajo.add(ordenesTrabajo);
 	}
 
 	@Override

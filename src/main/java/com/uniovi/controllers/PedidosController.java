@@ -11,15 +11,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.uniovi.entities.Almacenero;
 import com.uniovi.entities.Pedido;
+import com.uniovi.entities.User;
 import com.uniovi.services.AlmaceneroService;
+import com.uniovi.services.UsersService;
 
 @Controller
 public class PedidosController {
 	
 	@Autowired
 	AlmaceneroService almaceneroService;
+	
+	@Autowired
+	UsersService usersService;
 	
 	@RequestMapping("/pedidos")
 	public String getListado(Model model, @RequestParam(value = "", required = false) Principal principal) {
@@ -34,7 +38,7 @@ public class PedidosController {
 	@RequestMapping("/almacenero/add/{id}")
 	public String addPedido(@PathVariable Long id,Principal principal) {
 		String email = principal.getName();
-		Almacenero almacenero = almaceneroService.getAlmaceneroByEmail(email);
+		User almacenero = usersService.getUserByEmail(email);
 		almaceneroService.addPedido(id,almacenero);
 		return "redirect:/almacenero/listPedidosNoAsignados";
 	}

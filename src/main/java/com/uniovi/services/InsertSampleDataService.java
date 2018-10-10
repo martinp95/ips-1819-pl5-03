@@ -1,10 +1,15 @@
 package com.uniovi.services;
 
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.uniovi.entities.Pedido;
 import com.uniovi.entities.Producto;
 import com.uniovi.entities.User;
 
@@ -18,6 +23,9 @@ public class InsertSampleDataService {
 	
 	@Autowired
 	private ProductosService productoService;
+	
+	@Autowired
+	private AlmaceneroService almaceneroService;
 	
 	@PostConstruct
 	public void init() {
@@ -68,9 +76,25 @@ public class InsertSampleDataService {
 		usersService.addUser(user10);
 		usersService.addUser(user11);
 
-		Producto producto = new Producto("Teclado", "teclado retroiluminado", 10.2, 3, 2, "derecha", 3, 2);
+		
+		
+		Producto producto = new Producto("Teclado", "teclado retroiluminado", 10.2, 3, 2, "derecha", 3, 2);		
 		productoService.addProducto(producto);
 		Producto producto2 = new Producto("Teclado", "teclado mecanico", 10.2, 3, 2, "derecha", 3, 2);
 		productoService.addProducto(producto2);
+		
+
+		
+		User almacenero1 = new User("almacenero1@example.com", "Paco");
+		almacenero1.setPassword("123456");
+		almacenero1.setRole(roleService.getRoles()[2]);
+		usersService.addUser(almacenero1);		
+		
+		
+		Pedido pedido = new Pedido();
+//		pedido.addProducto(producto);
+//		pedido.addProducto(producto2);
+		almaceneroService.addPedido(pedido);
+		
 	}
 }

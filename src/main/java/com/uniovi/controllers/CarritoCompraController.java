@@ -70,20 +70,26 @@ public class CarritoCompraController {
 	}
 
 	@RequestMapping("/carrito/delete/{id}")
-	public String delete(@PathVariable Long id) {
-		productosCarritoService.deleteProduct(id);
+	public String delete(@PathVariable Long idProducto,Principal principal) {
+		String email = principal.getName();
+		User userSesion = usersService.getUserByEmail(email);
+		productosCarritoService.deleteProduct(userSesion,idProducto);
 		return "redirect:/carrito/listCarrito";
 	}
 	
 	@RequestMapping("/carrito/aumentarUnidad/{id}")
-	public String aumentarUnidad(@PathVariable Long id) {
-		productosCarritoService.aumentarUnidad(id);
+	public String aumentarUnidad(@PathVariable Long idProducto,Principal principal) {
+		String email = principal.getName();
+		User userSesion = usersService.getUserByEmail(email);
+		productosCarritoService.aumentarUnidad(userSesion,idProducto);
 		return "redirect:/carrito/listCarrito";
 	}
 	
 	@RequestMapping("/carrito/decrementarUnidadUnidad/{id}")
-	public String decrementarUnidad(@PathVariable Long id) {
-		productosCarritoService.decrementarUnidad(id);
+	public String decrementarUnidad(@PathVariable Long idProducto ,Principal principal) {
+		String email = principal.getName();
+		User userSesion = usersService.getUserByEmail(email);
+		productosCarritoService.decrementarUnidad(userSesion,idProducto);
 		return "redirect:/carrito/list";
 	}
 

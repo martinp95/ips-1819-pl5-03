@@ -42,23 +42,31 @@ public class ProductosCarritoService {
 		carrito = productosCarritoRepository.findProductsByUser(pageable, usuarioCarrito);
 		return carrito;
 	}
-
-	public void deleteProduct(Long id) {
-		productosCarritoRepository.delete(id);		
-	}
-
-	public void aumentarUnidad(Long id) {
-		productosCarritoRepository.aumentarUnidad(id);	
-		
-	}
-
-	public void decrementarUnidad(Long id) {
-		productosCarritoRepository.decrementarUnidad(id);	
-		
-	}
 	
 	public void addProductosCarrito(ProductosCarrito producto) {
 		productosCarritoRepository.save(producto);
 	}
+
+	public void deleteProduct(User userSesion, Long idProducto) {
+		ProductosCarrito pc = productosCarritoRepository.findByIdProductoIdUser(idProducto, userSesion.getId());
+		productosCarritoRepository.delete(pc);
+		
+	}
+
+	public void aumentarUnidad(User userSesion, Long idProducto) {
+		ProductosCarrito pc = productosCarritoRepository.findByIdProductoIdUser(idProducto, userSesion.getId());
+		pc.setCantidad(pc.getCantidad()+1);
+		productosCarritoRepository.save(pc);
+		
+	}
+
+	public void decrementarUnidad(User userSesion, Long idProducto) {
+		ProductosCarrito pc = productosCarritoRepository.findByIdProductoIdUser(idProducto, userSesion.getId());
+		pc.setCantidad(pc.getCantidad()-1);
+		productosCarritoRepository.save(pc);		
+	}
+	
+	
+	
 
 }
