@@ -5,18 +5,14 @@
 	<!-- Barra de Navegaci�n superior -->
 	<nav th:replace="fragments/nav" />
 	<div class="container">
-		<h2>Lista del carrito</h2>
-		<form class="navbar-form" action="/list">
+		<h2>Carrito</h2>
+		<form class="navbar-form" action="/carrito">
 			<div class="form-group">
 				<input name="searchText" type="text" class="form-control" size="50"
 					placeholder="Introduzca nombre o descripcion del producto" />
 			</div>
 			<button type="submit" class="btn btn-default">Buscar</button>
 		</form>
-		<h2>Lista del carrito</h2>		
-		
-		<p>Los productos que actualmente figuran en el carrito son los
-			siguientes:</p>
 		<div class="table-responsive">
 			<table class="table table-hover" th:fragment="tableCarrito"
 				id="tableCarrito">
@@ -26,11 +22,9 @@
 						<th>Descripcion</th>
 						<th>Cantidad</th>
 						<th>Precio</th>
-						<th class="col-md-1"></th>
-						<th class="col-md-1"></th>
-						<th class="col-md-1"></th>
-						<th class="col-md-1"></th>
-						<th class="col-md-1"></th>
+						<th>Aumentar Unidad</th>
+						<th>Decrementar Unidad</th>
+						<th>Borrar</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -56,7 +50,7 @@
 										$( "#incrementarButton[[${productosCarrito.producto.id}]]" ).click(function() {
 											$.get( "/carrito/aumentarUnidad/[[${productosCarrito.producto.id}]]", function( data ) {
 												var numberPage = [[${param.page}]];
-												var urlUpdate = '/carrito/list/';
+												var urlUpdate = '/carrito';
 												if ( numberPage != null ){
 													urlUpdate += "?page="+numberPage[0];
 													}
@@ -71,7 +65,7 @@
 										$( "#decrementarButton[[${productosCarrito.producto.id}]]" ).click(function() {
 											$.get( "/carrito/decrementarUnidad/[[${productosCarrito.producto.id}]]", function( data ) {
 												var numberPage = [[${param.page}]];
-												var urlUpdate = '/carrito/list/';
+												var urlUpdate = '/carrito';
 												if ( numberPage != null ){
 													urlUpdate += "?page="+numberPage[0];
 													}
@@ -86,7 +80,7 @@
 										$( "#eliminarButton[[${productosCarrito.producto.id}]]" ).click(function() {
 											$.get( "/carrito/delete/[[${productosCarrito.producto.id}]]", function( data ) {
 												var numberPage = [[${param.page}]];
-												var urlUpdate = '/carrito/list/';
+												var urlUpdate = '/carrito';
 												if ( numberPage != null ){
 													urlUpdate += "?page="+numberPage[0];
 													}

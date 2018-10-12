@@ -14,59 +14,44 @@ import com.uniovi.repositories.ProductosCarritoRepository;
 
 @Service
 public class ProductosCarritoService {
-	
+
 	@Autowired
 	private ProductosCarritoRepository productosCarritoRepository;
 
 	public void addProductoCarrito(ProductosCarrito productosCarrito) {
 		productosCarritoRepository.save(productosCarrito);
 	}
-	
-	public Page<ProductosCarrito> searchProductosByNameAndDescription(Pageable pageable, String searchText,User usuarioCarrito) {
+
+	public Page<ProductosCarrito> searchProductosByNameAndDescription(Pageable pageable, String searchText,
+			User usuarioCarrito) {
 		Page<ProductosCarrito> carrito = new PageImpl<ProductosCarrito>(new LinkedList<ProductosCarrito>());
 		searchText = "%" + searchText + "%";
-		carrito = productosCarritoRepository.searchProductosByNameAndDescription(pageable, searchText,usuarioCarrito);
+		carrito = productosCarritoRepository.searchProductosByNameAndDescription(pageable, searchText, usuarioCarrito);
 		return carrito;
-	}
-
-	public Page<ProductosCarrito> findAll(Pageable pageable) {
-		return productosCarritoRepository.findAll(pageable);
-	}
-
-	public void addProducto(ProductosCarrito producto) {
-		productosCarritoRepository.save(producto);
 	}
 
 	public Page<ProductosCarrito> findAllByUser(Pageable pageable, User usuarioCarrito) {
-		Page<ProductosCarrito> carrito = new PageImpl<ProductosCarrito>(new LinkedList<ProductosCarrito>());		
+		Page<ProductosCarrito> carrito = new PageImpl<ProductosCarrito>(new LinkedList<ProductosCarrito>());
 		carrito = productosCarritoRepository.findProductsByUser(pageable, usuarioCarrito);
 		return carrito;
 	}
-	
-	public void addProductosCarrito(ProductosCarrito producto) {
-		productosCarritoRepository.save(producto);
+
+	public void deleteProduct(ProductosCarrito productoCarrito) {
+		productosCarritoRepository.delete(productoCarrito);
+
 	}
 
-	public void deleteProduct(User userSesion, Long idProducto) {
-		ProductosCarrito pc = productosCarritoRepository.findByIdProductoIdUser(idProducto, userSesion.getId());
-		productosCarritoRepository.delete(pc);
-		
+	public void aumentarUnidad(ProductosCarrito productoCarrito) {
+		ProductosCarrito productoCarritoPersist = productosCarritoRepository.findProductoCarrito(productoCarrito);
+		productoCarritoPersist.setCantidad(productoCarritoPersist.getCantidad() + 1);
+		productoCarritoPersist.calcularPrecioProductoCantidad();
+		productosCarritoRepository.save(productoCarritoPersist);
 	}
 
-	public void aumentarUnidad(User userSesion, Long idProducto) {
-		ProductosCarrito pc = productosCarritoRepository.findByIdProductoIdUser(idProducto, userSesion.getId());
-		pc.setCantidad(pc.getCantidad()+1);
-		productosCarritoRepository.save(pc);
-		
+	public void decrementarUnidad(ProductosCarrito productoCarrito) {
+		ProductosCarrito productoCarritoPersist = productosCarritoRepository.findProductoCarrito(productoCarrito);
+		productoCarritoPersist.setCantidad(productoCarritoPersist.getCantidad() - 1);
+		productoCarritoPersist.calcularPrecioProductoCantidad();
+		productosCarritoRepository.save(productoCarritoPersist);
 	}
-
-	public void decrementarUnidad(User userSesion, Long idProducto) {
-		ProductosCarrito pc = productosCarritoRepository.findByIdProductoIdUser(idProducto, userSesion.getId());
-		pc.setCantidad(pc.getCantidad()-1);
-		productosCarritoRepository.save(pc);		
-	}
-	
-	
-	
-
 }

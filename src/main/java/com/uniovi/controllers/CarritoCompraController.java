@@ -70,26 +70,32 @@ public class CarritoCompraController {
 	}
 
 	@RequestMapping("/carrito/delete/{id}")
-	public String delete(@PathVariable Long idProducto,Principal principal) {
+	public String delete(@PathVariable Long id,Principal principal) {
 		String email = principal.getName();
-		User userSesion = usersService.getUserByEmail(email);
-		productosCarritoService.deleteProduct(userSesion,idProducto);
+		User user = usersService.getUserByEmail(email);
+		Producto producto = productosService.getProducto(id);
+		ProductosCarrito productoCarrito = new ProductosCarrito(user, producto, 0);
+		productosCarritoService.deleteProduct(productoCarrito);
 		return "redirect:/carrito/listCarrito";
 	}
 	
 	@RequestMapping("/carrito/aumentarUnidad/{id}")
-	public String aumentarUnidad(@PathVariable Long idProducto,Principal principal) {
+	public String aumentarUnidad(@PathVariable Long id,Principal principal) {
 		String email = principal.getName();
-		User userSesion = usersService.getUserByEmail(email);
-		productosCarritoService.aumentarUnidad(userSesion,idProducto);
+		User user = usersService.getUserByEmail(email);
+		Producto producto = productosService.getProducto(id);
+		ProductosCarrito productoCarrito = new ProductosCarrito(user, producto, 0);
+		productosCarritoService.aumentarUnidad(productoCarrito);
 		return "redirect:/carrito/listCarrito";
 	}
 	
-	@RequestMapping("/carrito/decrementarUnidadUnidad/{id}")
-	public String decrementarUnidad(@PathVariable Long idProducto ,Principal principal) {
+	@RequestMapping("/carrito/decrementarUnidad/{id}")
+	public String decrementarUnidad(@PathVariable Long id ,Principal principal) {
 		String email = principal.getName();
-		User userSesion = usersService.getUserByEmail(email);
-		productosCarritoService.decrementarUnidad(userSesion,idProducto);
+		User user = usersService.getUserByEmail(email);
+		Producto producto = productosService.getProducto(id);
+		ProductosCarrito productoCarrito = new ProductosCarrito(user, producto, 0);
+		productosCarritoService.decrementarUnidad(productoCarrito);
 		return "redirect:/carrito/list";
 	}
 
