@@ -24,6 +24,7 @@
 					<tr>
 						<th>Nombre</th>
 						<th>Descripcion</th>
+						<th>Cantidad</th>
 						<th>Precio</th>
 						<th class="col-md-1"></th>
 						<th class="col-md-1"></th>
@@ -36,7 +37,8 @@
 					<tr th:each="productosCarrito : ${carritoList}">
 						<td th:text="${productosCarrito.producto.name}"></td>
 						<td th:text="${productosCarrito.producto.description}"></td>
-						<td th:text="${productosCarrito.producto.precio}"></td>
+						<td th:text="${productosCarrito.cantidad}"></td>
+						<td th:text="${productosCarrito.precioProductoCantidad}"></td>
 												
 						<td><button type="button"
 								th:id="${'incrementarButton' + productosCarrito.producto.id}" class="incrementar">Aumentar unidad</button></td>

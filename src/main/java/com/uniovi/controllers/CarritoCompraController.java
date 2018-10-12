@@ -39,7 +39,7 @@ public class CarritoCompraController {
 		ProductosCarrito productosCarrito = new ProductosCarrito(user, producto, cantidad);
 		
 		if (user.getProductosCarrito().contains(productosCarrito)) {
-			model.addAttribute("error", user.getId());
+			model.addAttribute("error", producto.getId());
 		} else {
 			productosCarritoService.addProductoCarrito(productosCarrito);
 		}
