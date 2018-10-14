@@ -22,12 +22,17 @@ public class ProductosPedido {
 	@JoinColumn(name = "PRODUCTO_ID")
 	private Producto producto;
 	
+	private int cantidad;
+	private double precioUnidad;
+	
 	public ProductosPedido() {
 	}
 	
-	public ProductosPedido(Pedido pedido,Producto producto) {
+	public ProductosPedido(Pedido pedido,Producto producto, int cantidad, double precioUnidad) {
 		this.pedido = pedido;
 		this.producto = producto;
+		this.setCantidad(cantidad);
+		this.setPrecioUnidad(precioUnidad);
 	}
 
 	@Override
@@ -75,6 +80,22 @@ public class ProductosPedido {
 
 	public void setProducto(Producto producto) {
 		this.producto = producto;
+	}
+
+	public double getPrecioUnidad() {
+		return precioUnidad;
+	}
+
+	public void setPrecioUnidad(double precioUnidad) {
+		this.precioUnidad = precioUnidad;
+	}
+
+	public int getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
 	}
 
 }

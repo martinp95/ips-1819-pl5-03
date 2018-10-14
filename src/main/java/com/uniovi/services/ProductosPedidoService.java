@@ -18,7 +18,8 @@ public class ProductosPedidoService {
 
 	public void addProductosPedido(Pedido pedido, Set<ProductosCarrito> productosCarrito) {
 		for (ProductosCarrito productosCarro : productosCarrito) {
-			productosPedidoRepository.save(new ProductosPedido(pedido, productosCarro.getProducto()));
+			productosPedidoRepository.save(new ProductosPedido(pedido, productosCarro.getProducto(),
+					productosCarro.getCantidad(), productosCarro.getProducto().getPrecio()));
 		}
 	}
 
