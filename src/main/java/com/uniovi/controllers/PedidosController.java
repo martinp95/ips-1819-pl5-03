@@ -32,6 +32,7 @@ public class PedidosController {
 			Pedido pedido = new Pedido(user, user.getProductosCarrito().size());
 			pedidosService.addPedido(pedido);
 			productosPedidoService.addProductosPedido(pedido, user.getProductosCarrito());
+			//borrar carrito.
 		} else {
 			// devolver algun error o mandarlo a la vista directamente.
 		}
