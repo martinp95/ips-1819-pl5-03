@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -24,13 +23,13 @@ public class Producto {
 	private int pasillo;
 	private String posicion;
 	private int numEstanteria;
-	private int numFila;	
-	
-	@ManyToOne
-	private Pedido pedido;
+	private int numFila;
 
 	@OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
 	private Set<ProductosCarrito> productosCarrito = new HashSet<ProductosCarrito>();
+
+	@OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
+	private Set<ProductosPedido> productosPedido = new HashSet<ProductosPedido>();
 
 	public Producto() {
 	}
@@ -115,21 +114,21 @@ public class Producto {
 	public Long getId() {
 		return id;
 	}
-	
+
 	Set<ProductosCarrito> _getProductosCarrito() {
 		return productosCarrito;
 	}
 
 	public Set<ProductosCarrito> getProductosCarrito() {
 		return new HashSet<ProductosCarrito>(productosCarrito);
-	}	
-
-	public Pedido getPedido() {
-		return pedido;
 	}
 
-	public void setPedido(Pedido pedido) {
-		this.pedido = pedido;
+	Set<ProductosPedido> _getProductosPedido() {
+		return productosPedido;
+	}
+
+	public Set<ProductosPedido> getProductosPedido() {
+		return new HashSet<ProductosPedido>(productosPedido);
 	}
 
 	@Override

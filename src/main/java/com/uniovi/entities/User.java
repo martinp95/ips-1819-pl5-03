@@ -25,14 +25,12 @@ public class User {
 	@Transient
 	private String passwordConfirm;
 	private String role;
-	
 
-	@OneToMany(mappedBy="user", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<ProductosCarrito> productosCarrito = new HashSet<ProductosCarrito>();
-	
-	
-	@OneToMany(mappedBy="almacenero", cascade = CascadeType.ALL)
-	private Set<OrdenTrabajo> ordenesTrabajo = new HashSet<OrdenTrabajo>();
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private Set<Pedido> pedidos = new HashSet<Pedido>();
 
 	public User() {
 	}
@@ -95,12 +93,16 @@ public class User {
 		return new HashSet<ProductosCarrito>(productosCarrito);
 	}
 
-	public Set<OrdenTrabajo> getOrdenesTrabajo() {
-		return ordenesTrabajo;
+	Set<Pedido> _getPedidos() {
+		return pedidos;
 	}
 
-	public void addOrdenTrabajo(OrdenTrabajo ordenesTrabajo) {
-		this.ordenesTrabajo.add(ordenesTrabajo);
+	public Set<Pedido> getPedidos() {
+		return new HashSet<Pedido>(pedidos);
+	}
+
+	public void setPedidos(Set<Pedido> pedidos) {
+		this.pedidos = pedidos;
 	}
 
 	@Override

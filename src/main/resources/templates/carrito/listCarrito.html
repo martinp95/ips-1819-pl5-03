@@ -89,8 +89,9 @@
 				</tbody>
 			</table>
 
-			<button th:if="${#lists.size(carritoList) > 0 }" type="button"
-				id="ConfirmarPedido" class="btn btn-info">Confirmar pedido</button>
+			<a th:if="${#lists.size(carritoList) > 0 }" id="confirmarPedido"
+				href="/pedido/add" class="btn btn-info">Confirmar pedido</a>
+
 
 		</div>
 		<footer th:replace="fragments/pagination" />

@@ -77,7 +77,7 @@ public class CarritoCompraController {
 		Producto producto = productosService.getProducto(id);
 		ProductosCarrito productoCarrito = new ProductosCarrito(user, producto, 0);
 		productosCarritoService.deleteProduct(productoCarrito);
-		
+
 		Page<ProductosCarrito> carrito = productosCarritoService.findAllByUser(pageable, user);
 		model.addAttribute("carritoList", carrito.getContent());
 		model.addAttribute("page", carrito);
