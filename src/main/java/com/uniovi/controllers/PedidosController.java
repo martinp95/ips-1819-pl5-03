@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.uniovi.entities.Pedido;
 import com.uniovi.entities.User;
 import com.uniovi.services.PedidosService;
+<<<<<<< HEAD
+=======
+import com.uniovi.services.ProductosCarritoService;
+>>>>>>> branch 'master' of https://martinp95@bitbucket.org/martinp95/ips-1819-pl5-03.git
 import com.uniovi.services.ProductosPedidoService;
 import com.uniovi.services.UsersService;
 
@@ -22,6 +26,11 @@ public class PedidosController {
 	private PedidosService pedidosService;
 	@Autowired
 	private ProductosPedidoService productosPedidoService;
+<<<<<<< HEAD
+=======
+	@Autowired
+	private ProductosCarritoService productosCarritoService;
+>>>>>>> branch 'master' of https://martinp95@bitbucket.org/martinp95/ips-1819-pl5-03.git
 
 	@RequestMapping(value = "/pedido/add")
 	public String addProductoCarrito(Model model, Pageable pageable, Principal principal) {
@@ -32,7 +41,11 @@ public class PedidosController {
 			Pedido pedido = new Pedido(user, user.getProductosCarrito().size());
 			pedidosService.addPedido(pedido);
 			productosPedidoService.addProductosPedido(pedido, user.getProductosCarrito());
+<<<<<<< HEAD
 			// borrar el carrito
+=======
+			productosCarritoService.deleteCarrito(user.getProductosCarrito());
+>>>>>>> branch 'master' of https://martinp95@bitbucket.org/martinp95/ips-1819-pl5-03.git
 		} else {
 			// devolver algun error o mandarlo a la vista directamente.
 		}
