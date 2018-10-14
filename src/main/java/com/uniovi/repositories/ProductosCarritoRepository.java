@@ -20,6 +20,4 @@ public interface ProductosCarritoRepository extends CrudRepository<ProductosCarr
 	
 	@Query("SELECT p FROM ProductosCarrito p where p = ?1")
 	ProductosCarrito findProductoCarrito(ProductosCarrito productoCarrito);
-	
-	
 }

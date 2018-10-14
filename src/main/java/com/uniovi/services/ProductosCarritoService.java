@@ -38,7 +38,6 @@ public class ProductosCarritoService {
 
 	public void deleteProduct(ProductosCarrito productoCarrito) {
 		productosCarritoRepository.delete(productoCarrito);
-
 	}
 
 	public void aumentarUnidad(ProductosCarrito productoCarrito) {
@@ -50,8 +49,12 @@ public class ProductosCarritoService {
 
 	public void decrementarUnidad(ProductosCarrito productoCarrito) {
 		ProductosCarrito productoCarritoPersist = productosCarritoRepository.findProductoCarrito(productoCarrito);
-		productoCarritoPersist.setCantidad(productoCarritoPersist.getCantidad() - 1);
-		productoCarritoPersist.calcularPrecioProductoCantidad();
-		productosCarritoRepository.save(productoCarritoPersist);
+		if (productoCarritoPersist.getCantidad() <= 1) {
+			productosCarritoRepository.delete(productoCarrito);
+		} else {
+			productoCarritoPersist.setCantidad(productoCarritoPersist.getCantidad() - 1);
+			productoCarritoPersist.calcularPrecioProductoCantidad();
+			productosCarritoRepository.save(productoCarritoPersist);
+		}
 	}
 }
