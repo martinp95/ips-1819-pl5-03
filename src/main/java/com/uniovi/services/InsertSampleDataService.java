@@ -1,15 +1,10 @@
 package com.uniovi.services;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.uniovi.entities.Pedido;
 import com.uniovi.entities.Producto;
 import com.uniovi.entities.User;
 
@@ -20,13 +15,10 @@ public class InsertSampleDataService {
 
 	@Autowired
 	private RoleService roleService;
-	
+
 	@Autowired
 	private ProductosService productoService;
-	
-	@Autowired
-	private AlmaceneroService almaceneroService;
-	
+
 	@PostConstruct
 	public void init() {
 		User user1 = new User("email1@example.com", "Pedro");
@@ -62,6 +54,9 @@ public class InsertSampleDataService {
 		User user11 = new User("email11@example.com", "Marina");
 		user11.setPassword("123456");
 		user11.setRole(roleService.getRoles()[1]);
+		User almacenero1 = new User("almacenero1@example.com", "Paco");
+		almacenero1.setPassword("123456");
+		almacenero1.setRole(roleService.getRoles()[2]);
 
 		usersService.addUser(user1);
 		usersService.addUser(user2);
@@ -75,26 +70,12 @@ public class InsertSampleDataService {
 		usersService.addUser(user9);
 		usersService.addUser(user10);
 		usersService.addUser(user11);
+		usersService.addUser(almacenero1);
 
-		
-		
-		Producto producto = new Producto("Teclado", "teclado retroiluminado", 10.2, 3, 2, "derecha", 3, 2);		
+		Producto producto = new Producto("Teclado", "teclado retroiluminado", 10.2, 3, 2, "derecha", 3, 2);
 		productoService.addProducto(producto);
 		Producto producto2 = new Producto("Teclado", "teclado mecanico", 10.2, 3, 2, "derecha", 3, 2);
 		productoService.addProducto(producto2);
-		
 
-		
-		User almacenero1 = new User("almacenero1@example.com", "Paco");
-		almacenero1.setPassword("123456");
-		almacenero1.setRole(roleService.getRoles()[2]);
-		usersService.addUser(almacenero1);		
-		
-		
-		Pedido pedido = new Pedido();
-//		pedido.addProducto(producto);
-//		pedido.addProducto(producto2);
-		almaceneroService.addPedido(pedido);
-		
 	}
 }
