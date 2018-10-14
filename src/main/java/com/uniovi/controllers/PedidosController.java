@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.uniovi.entities.Pedido;
 import com.uniovi.entities.User;
 import com.uniovi.services.PedidosService;
+import com.uniovi.services.ProductosCarritoService;
 import com.uniovi.services.ProductosPedidoService;
 import com.uniovi.services.UsersService;
 
@@ -22,6 +23,8 @@ public class PedidosController {
 	private PedidosService pedidosService;
 	@Autowired
 	private ProductosPedidoService productosPedidoService;
+	@Autowired
+	private ProductosCarritoService productosCarritoService;
 
 	@RequestMapping(value = "/pedido/add")
 	public String addProductoCarrito(Model model, Pageable pageable, Principal principal) {
@@ -32,12 +35,11 @@ public class PedidosController {
 			Pedido pedido = new Pedido(user, user.getProductosCarrito().size());
 			pedidosService.addPedido(pedido);
 			productosPedidoService.addProductosPedido(pedido, user.getProductosCarrito());
-			//borrar carrito.
+			productosCarritoService.deleteCarrito(user);
 		} else {
-			// devolver algun error o mandarlo a la vista directamente.
+			return "redirect:/carrito";
 		}
-
-		return "home";
+		return "redirect:/productos";
 	}
 
 //	@RequestMapping("/pedidos")
