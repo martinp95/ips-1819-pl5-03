@@ -22,15 +22,18 @@
 						<td th:text="${pedido.size}">Tamaño pedido</td>						
 
 						<td sec:authorize="hasRole('ROLE_ALMACENERO')">
-							<button type="button" th:id="${'addPedidoButton' + pedido.id}"
+							<button type="button" th:id="${'asignarPedidoButton' + pedido.id}"
 								class="btn btn-info">Asignarse pedido</button> <script
 								th:inline="javascript">
 								/*<![CDATA[*/
-									$( "#addPedidoButton[[${pedido.id}]]").click(function(){
+									$( "#asignarPedidoButton[[${pedido.id}]]").click(function(){
 										var numberPage = [[${param.page}]];
-										var url = '/almacenero/add/[[${pedido.id}]]';									
-										$("#tableListPedidos").load(url);
-									});
+										var urlUpdate = '/almacenero/asignar/[[${pedido.id}]]';
+										if ( numberPage != null ){
+											urlUpdate += "?page="+numberPage[0];
+											}
+										$("#tableListPedidos").load(urlUpdate);										
+								});		
 								/*]]>*/
 							</script>
 						</td>					
