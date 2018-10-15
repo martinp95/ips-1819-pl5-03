@@ -1,6 +1,7 @@
 package com.uniovi.services;
 
 import java.util.LinkedList;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -60,5 +61,13 @@ public class ProductosCarritoService {
 
 	public void deleteCarrito(User user) {
 		productosCarritoRepository.deleteCarritoByUser(user);
+	}
+
+	public double sumPrecioProductosCarrito(Set<ProductosCarrito> carrito) {
+		double total = 0;
+		for (ProductosCarrito productosCarrito : carrito) {
+			total += productosCarrito.getPrecioProductoCantidad();
+		}
+		return total;
 	}
 }
