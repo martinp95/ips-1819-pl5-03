@@ -1,5 +1,7 @@
 package com.uniovi.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +34,11 @@ public class AlmaceneroService {
 		pedidosRepository.save(pedidoPersist);
 		ordenTrabajoRepository.save(otPersist);
 		userRepository.save(almacenero);
+	}
+
+	public List<OrdenTrabajo> findOrdenTrabajoByUser(User almacenero) {
+	
+		return ordenTrabajoRepository.findByAlmacenero(almacenero);
 	}
 
 	
