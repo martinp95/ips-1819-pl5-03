@@ -9,37 +9,20 @@ import com.uniovi.entities.OrdenTrabajo;
 import com.uniovi.entities.Pedido;
 import com.uniovi.entities.User;
 import com.uniovi.repositories.OrdenTrabajoRepository;
-import com.uniovi.repositories.PedidosRepository;
-import com.uniovi.repositories.UsersRepository;
-
-
 
 @Service
 public class AlmaceneroService {
-	
-	@Autowired
-	private PedidosRepository pedidosRepository;
-	
+
 	@Autowired
 	private OrdenTrabajoRepository ordenTrabajoRepository;
-	
-	@Autowired
-	private UsersRepository userRepository;
 
-	public void asignarPedido(Long idPedido, User almacenero) {
-		Pedido pedidoPersist = pedidosRepository.findById(idPedido);
-		OrdenTrabajo otPersist = new OrdenTrabajo(pedidoPersist,almacenero);
-		pedidoPersist.addOrdenTrabajo(otPersist);
-		almacenero.addOrdenTrabajo(otPersist);		
-		pedidosRepository.save(pedidoPersist);
+	public void asignarPedido(Pedido pedido, User almacenero) {
+		OrdenTrabajo otPersist = new OrdenTrabajo(pedido, almacenero);
 		ordenTrabajoRepository.save(otPersist);
-		userRepository.save(almacenero);
 	}
 
 	public List<OrdenTrabajo> findOrdenTrabajoByUser(User almacenero) {
-	
+
 		return ordenTrabajoRepository.findByAlmacenero(almacenero);
 	}
-
-	
 }

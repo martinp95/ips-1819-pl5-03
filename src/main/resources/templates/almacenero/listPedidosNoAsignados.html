@@ -12,14 +12,14 @@
 				<thead>
 					<tr>
 						<th>Fecha</th>
-						<th>Tamaño</th>					
+						<th>TamaÃ±o</th>					
 						<th class="col-md-1"></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="pedido : ${pedidosList}">
 						<td th:text="${pedido.fecha}">Fecha pedido</td>
-						<td th:text="${pedido.size}">Tamaño pedido</td>						
+						<td th:text="${pedido.size}">TamaÃ±o pedido</td>						
 
 						<td sec:authorize="hasRole('ROLE_ALMACENERO')">
 							<button type="button" th:id="${'asignarPedidoButton' + pedido.id}"
