@@ -12,13 +12,19 @@ import com.uniovi.repositories.OrdenTrabajoRepository;
 
 @Service
 public class AlmaceneroService {
+	
+	@Autowired
+	private PedidosService pedidosService;
 
 	@Autowired
 	private OrdenTrabajoRepository ordenTrabajoRepository;
 
-	public void asignarPedido(Pedido pedido, User almacenero) {
-		OrdenTrabajo otPersist = new OrdenTrabajo(pedido, almacenero);
-		ordenTrabajoRepository.save(otPersist);
+	public void asignarPedidos(User almacenero, String... idPedido) {
+		for (String id : idPedido) {
+			Pedido pedido = pedidosService.findById(Long.parseLong(id));
+			OrdenTrabajo otPersist = new OrdenTrabajo(pedido, almacenero);
+			ordenTrabajoRepository.save(otPersist);
+		}
 	}
 
 	public List<OrdenTrabajo> findOrdenTrabajoByUser(User almacenero) {

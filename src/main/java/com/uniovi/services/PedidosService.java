@@ -19,13 +19,6 @@ public class PedidosService {
 	}
 
 	public List<Pedido> findNoAsignadosOrderByFecha() {
-//		List<Pedido> pedidosAsignados = ordenTrabajoRepository.findPedidosAsignados();
-//		List<Pedido> pedidosTotales = pedidosRepository.findPedidosOrderByFecha();
-//		List<Pedido> pedidosNoAsignados = new ArrayList<Pedido>();
-//		for(Pedido p : pedidosTotales) {
-//			if(!pedidosAsignados.contains(p))
-//				pedidosNoAsignados.add(p);
-//		}
 		List<Pedido> pedidosNoAsignados = pedidosRepository.findPedidosNoAsignadosOrderByFecha();
 		return pedidosNoAsignados;
 	}

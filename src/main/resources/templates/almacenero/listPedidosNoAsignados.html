@@ -7,43 +7,25 @@
 		<h2>Lista de pedidos no asignados</h2>
 		
 		<div class="table-responsive">
-		<form class="form-horizontal" method="post" th:object="${publication}" action="/almacenero/asignar">
-			<table class="table table-hover">
-			</table>
-		</form>
-			<table class="table table-hover" th:fragment="tableListPedidos"	id="tableListPedidos">
+		<form class="form-horizontal" method="post" action="/almacenero/asignar">
+			<table class="table table-hover" id="tableListPedidos">
 				<thead>
 					<tr>
-						<th class="col-md-1"></th>
+						<th>Asignar</th>
 						<th>Fecha</th>
 						<th>Size</th>
 					</tr>
+					<tbody>
+						<tr th:each="pedido : ${pedidosList}">
+							<td><input type="checkbox" th:value="${pedido.id}" name="pedidoID" /></td>
+							<td th:text="${pedido.fecha}">Fecha pedido</td>
+							<td th:text="${pedido.size}">Tamaño pedido</td>
+						</tr>
+					</tbody>
 				</thead>
-				<tbody>
-					<tr th:each="pedido : ${pedidosList}">
-						<td th:text="${pedido.fecha}">Fecha pedido</td>
-						<td th:text="${pedido.size}">Tamaño pedido</td>						
-
-						<td sec:authorize="hasRole('ROLE_ALMACENERO')">
-							<button type="button" th:id="${'asignarPedidoButton' + pedido.id}"
-								class="btn btn-info">Asignarse pedido</button> <script
-								th:inline="javascript">
-								/*<![CDATA[*/
-									$( "#asignarPedidoButton[[${pedido.id}]]").click(function(){
-										var numberPage = [[${param.page}]];
-										var urlUpdate = '/almacenero/asignar/[[${pedido.id}]]';
-										if ( numberPage != null ){
-											urlUpdate += "?page="+numberPage[0];
-											}
-										$("#tableListPedidos").load(urlUpdate);										
-								});		
-								/*]]>*/
-							</script>
-						</td>					
-					</tr>
-				</tbody>
 			</table>
-			<hr />
+			<input type="Submit"/>
+		</form>
 		</div>
 	</div>
 	<footer th:replace="fragments/footer" />
