@@ -73,11 +73,40 @@ public class InsertSampleDataService {
 		usersService.addUser(almacenero1);
 
 		Producto producto = new Producto("Teclado", "teclado retroiluminado", 10.2, 3, 2, "derecha", 3, 2);
-		productoService.addProducto(producto);
-		Producto producto2 = new Producto("Teclado", "teclado mecanico", 10.2, 3, 2, "derecha", 3, 2);
-		productoService.addProducto(producto2);
-		
-		
+		Producto producto2 = new Producto("Teclado", "teclado mecanico", 10.2, 3, 2, "derecha", 2, 2);
+		Producto producto3 = new Producto("Ratón", "ratón retroiluminado", 10.2, 3, 2, "izquierda", 3, 2);
+		Producto producto4 = new Producto("Ratón", "ratón mecanico", 10.2, 3, 2, "izquierda", 3, 2);
+		Producto producto5 = new Producto("Procesador", "Procesador intell i7", 250, 2, 1, "izquierda", 1, 1);
+		Producto producto6 = new Producto("Procesador", "Procesador intell i5", 250, 2, 1, "derecha", 1, 1);
+		Producto producto7 = new Producto("Procesador", "Procesador intell i3", 250, 2, 1, "izquierda", 1, 2);
+		Producto producto8 = new Producto("Procesador", "Procesador intell pentium", 250, 2, 1, "derecha", 1, 2);
+		Producto producto9 = new Producto("Procesador", "Procesador intell xeon", 250, 2, 1, "izquierda", 1, 3);
 
+		Producto producto10 = new Producto("Pantalla", "Pantalla  xeon", 25, 2, 1, "izquierda", 1, 4);
+		Producto producto11 = new Producto("Pantalla", "Pantalla  xeon", 25, 2, 1, "izquierda", 1, 5);
+		Producto producto12 = new Producto("Pantalla", "Pantalla  xeon", 25, 2, 1, "izquierda", 1, 6);
+		Producto producto13 = new Producto("Pantalla", "Pantalla  xeon", 25, 2, 1, "izquierda", 1, 7);
+		Producto producto14 = new Producto("Pantalla", "Pantalla  xeon", 25, 2, 1, "izquierda", 1, 8);
+		Producto producto15 = new Producto("Pantalla", "Pantalla  xeon", 25, 2, 1, "izquierda", 1, 9);
+		Producto producto16 = new Producto("Pantalla", "Pantalla  xeon", 25, 2, 1, "izquierda", 1, 10);
+		Producto producto17 = new Producto("Pantalla", "Pantalla  xeon", 25, 2, 1, "izquierda", 1, 11);
+
+		productoService.addProducto(producto);
+		productoService.addProducto(producto2);
+		productoService.addProducto(producto3);
+		productoService.addProducto(producto4);
+		productoService.addProducto(producto5);
+		productoService.addProducto(producto6);
+		productoService.addProducto(producto7);
+		productoService.addProducto(producto8);
+		productoService.addProducto(producto9);
+		productoService.addProducto(producto10);
+		productoService.addProducto(producto11);
+		productoService.addProducto(producto12);
+		productoService.addProducto(producto13);
+		productoService.addProducto(producto14);
+		productoService.addProducto(producto15);
+		productoService.addProducto(producto16);
+		productoService.addProducto(producto17);
 	}
 }
