@@ -7,13 +7,16 @@
 		<h2>Lista de pedidos no asignados</h2>
 		
 		<div class="table-responsive">
-			<table class="table table-hover" th:fragment="tableListPedidos"
-				id="tableListPedidos">
+		<form class="form-horizontal" method="post" th:object="${publication}" action="/almacenero/asignar">
+			<table class="table table-hover">
+			</table>
+		</form>
+			<table class="table table-hover" th:fragment="tableListPedidos"	id="tableListPedidos">
 				<thead>
 					<tr>
-						<th>Fecha</th>
-						<th>Size</th>					
 						<th class="col-md-1"></th>
+						<th>Fecha</th>
+						<th>Size</th>
 					</tr>
 				</thead>
 				<tbody>
