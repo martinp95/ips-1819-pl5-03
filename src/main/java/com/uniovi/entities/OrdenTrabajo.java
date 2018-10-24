@@ -1,42 +1,42 @@
 package com.uniovi.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-import com.uniovi.types.OrdenTrabajoKey;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
-@IdClass(OrdenTrabajoKey.class)
 public class OrdenTrabajo {
 	
 	@Id
-	@ManyToOne
-	@JoinColumn(name = "PEDIDO_ID")
-	private Pedido pedido;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
-	
-	@Id
 	@ManyToOne
-	@JoinColumn(name = "ALMACENERO_ID")
 	private User almacenero;
 	
-	OrdenTrabajo(){}
-
-	public OrdenTrabajo(Pedido pedido, User almacenero) {
-		super();
-		this.pedido = pedido;
-		this.almacenero = almacenero;
+	@OneToMany(mappedBy = "ordenTrabajo", cascade = CascadeType.ALL)
+	private Set<PedidosOrdenTrabajo> pedidoOrdenesTrabajo = new HashSet<PedidosOrdenTrabajo>();	
+	
+	private Date fecha;
+	
+	public OrdenTrabajo() {
+	}
+	
+	public OrdenTrabajo(User user) {
+		this.almacenero = user;
+		this.setFecha(new Date());
 	}
 
-	public Pedido getPedido() {
-		return pedido;
-	}
-
-	public void setPedido(Pedido pedido) {
-		this.pedido = pedido;
+	public Long getId() {
+		return id;
 	}
 
 	public User getAlmacenero() {
@@ -46,7 +46,50 @@ public class OrdenTrabajo {
 	public void setAlmacenero(User almacenero) {
 		this.almacenero = almacenero;
 	}
+
+	Set<PedidosOrdenTrabajo> _getPedidoOrdenesTrabajo() {
+		return pedidoOrdenesTrabajo;
+	}
 	
-	
+	public Set<PedidosOrdenTrabajo> getPedidoOrdenesTrabajo() {
+		return new HashSet<PedidosOrdenTrabajo>(pedidoOrdenesTrabajo);
+	}
+
+	public void addPedidoOrdenTrabajo(PedidosOrdenTrabajo pedidosOrdenesTrabajo) {
+		this.pedidoOrdenesTrabajo.add(pedidosOrdenesTrabajo);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		OrdenTrabajo other = (OrdenTrabajo) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+
+	public Date getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
 
 }

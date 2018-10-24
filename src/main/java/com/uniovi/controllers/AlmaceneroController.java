@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uniovi.entities.OrdenTrabajo;
 import com.uniovi.entities.Pedido;
+import com.uniovi.entities.PedidosOrdenTrabajo;
 import com.uniovi.entities.User;
 import com.uniovi.services.AlmaceneroService;
+import com.uniovi.services.OrdenTrabajoService;
+import com.uniovi.services.PedidoOrdenTrabajoService;
 import com.uniovi.services.PedidosService;
 import com.uniovi.services.UsersService;
 
@@ -26,6 +29,10 @@ public class AlmaceneroController {
 	private AlmaceneroService almaceneroService;
 	@Autowired
 	private PedidosService pedidoService;
+	@Autowired
+	private OrdenTrabajoService ordenTrabajoService;
+	@Autowired
+	private PedidoOrdenTrabajoService pedidoOrdenTrabajoService;
 
 	@RequestMapping(value = "/almacenero/asignar", method = RequestMethod.POST)
 	public String addPedido(Principal principal, Model model,
@@ -34,7 +41,10 @@ public class AlmaceneroController {
 		if (pedidoID != null) {
 			String email = principal.getName();
 			User almacenero = usersService.getUserByEmail(email);
-			almaceneroService.asignarPedidos(almacenero, pedidoID);
+			OrdenTrabajo ordenTrabajo = new OrdenTrabajo(almacenero);
+			ordenTrabajoService.addOrdenTrabajo(ordenTrabajo);
+			PedidosOrdenTrabajo pedidoOrdenTrabajo = new PedidosOrdenTrabajo(pedidoService.findById(Long.parseLong(pedidoID)), ordenTrabajo);			
+			pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
 		}
 		return "redirect:/pedidos";
 

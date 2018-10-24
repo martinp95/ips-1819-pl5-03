@@ -28,6 +28,9 @@ public class User {
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<ProductosCarrito> productosCarrito = new HashSet<ProductosCarrito>();
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private Set<Pedido> pedidos = new HashSet<Pedido>();
 
 	@OneToMany(mappedBy = "almacenero", cascade = CascadeType.ALL)
 	private Set<OrdenTrabajo> ordenesTrabajo = new HashSet<OrdenTrabajo>();

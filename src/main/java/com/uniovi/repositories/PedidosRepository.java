@@ -11,9 +11,6 @@ public interface PedidosRepository extends CrudRepository<Pedido, Long> {
 
 	Pedido findById(Long idPedido);
 
-	@Query("Select p from Pedido p order by p.fecha")
-	List<Pedido> findPedidosOrderByFecha();
-
-	@Query("select p from Pedido p where p.ordenesTrabajo IS EMPTY order by p.fecha")
+	@Query("select p from Pedido p where p.pedidoOrdenesTrabajo IS EMPTY order by p.fecha")
 	List<Pedido> findPedidosNoAsignadosOrderByFecha();
 }

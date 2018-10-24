@@ -28,7 +28,7 @@ public class Pedido {
 	private Set<ProductosPedido> productosPedido = new HashSet<ProductosPedido>();	
 	
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
-	private Set<OrdenTrabajo> ordenesTrabajo = new HashSet<OrdenTrabajo>();	
+	private Set<PedidosOrdenTrabajo> pedidoOrdenesTrabajo = new HashSet<PedidosOrdenTrabajo>();	
 
 
 	public Pedido() {
@@ -72,16 +72,16 @@ public class Pedido {
 		return new HashSet<ProductosPedido>(productosPedido);
 	}	
 
-	Set<OrdenTrabajo> _getOrdenesTrabajo() {
-		return ordenesTrabajo;
+	Set<PedidosOrdenTrabajo> _getPedidoOrdenesTrabajo() {
+		return pedidoOrdenesTrabajo;
 	}
 	
-	public Set<OrdenTrabajo> getOrdenesTrabajo() {
-		return new HashSet<OrdenTrabajo>(ordenesTrabajo);
+	public Set<PedidosOrdenTrabajo> getPedidoOrdenesTrabajo() {
+		return new HashSet<PedidosOrdenTrabajo>(pedidoOrdenesTrabajo);
 	}
 
-	public void addOrdenTrabajo(OrdenTrabajo ordenTrabajo) {
-		this.ordenesTrabajo.add(ordenTrabajo);
+	public void addPedidoOrdenTrabajo(PedidosOrdenTrabajo pedidosOrdenesTrabajo) {
+		this.pedidoOrdenesTrabajo.add(pedidosOrdenesTrabajo);
 	}
 
 	public Long getId() {

@@ -30,7 +30,7 @@ public class PedidosController {
 	private ProductosCarritoService productosCarritoService;
 
 	@RequestMapping(value = "/pedido/add")
-	public String addProductoCarrito(Model model, Pageable pageable, Principal principal) {
+	public String addPedido(Model model, Pageable pageable, Principal principal) {
 		String email = principal.getName();
 		User user = usersService.getUserByEmail(email);
 

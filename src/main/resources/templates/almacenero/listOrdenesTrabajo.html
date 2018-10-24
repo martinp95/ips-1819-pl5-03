@@ -11,16 +11,14 @@
 				<table class="table table-hover" id="tableListOrdenes">
 					<thead>
 						<tr>
-							<th class="col-md-1"></th>
 							<th>Fecha</th>
-							<th>Size</th>
+							<th>ID</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="ot : ${ordenTrabajoList}">
-							<td><input type="radio" th:value="${ot.pedido.id}" name="pedidoID" /></td>
-							<td th:text="${ot.pedido.fecha}">Fecha pedido</td>
-							<td th:text="${ot.pedido.size}">Tamaño pedido</td>
+							<td th:text="${ot.fecha}"></td>
+							<td th:text="${ot.id}"></td>
 						</tr>
 					</tbody>
 				</table>
