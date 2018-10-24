@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uniovi.entities.OrdenTrabajo;
-import com.uniovi.entities.Pedido;
 import com.uniovi.entities.PedidosOrdenTrabajo;
 import com.uniovi.entities.User;
 import com.uniovi.services.AlmaceneroService;
@@ -63,7 +62,7 @@ public class AlmaceneroController {
 	public String getProductosOrdenTrabajo(Principal principal, Model model,
 			@RequestParam(value = "pedidoID", required = false) String pedidoID) {
 		if (pedidoID != null) {
-			Pedido pedido = pedidoService.findById(Long.parseLong(pedidoID));
+			//Pedido pedido = pedidoService.findById(Long.parseLong(pedidoID));
 		}
 		return "redirect:/ordenesTrabajo";
 	}
