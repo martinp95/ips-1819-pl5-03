@@ -26,7 +26,6 @@ public class AlmaceneroService {
 	}
 
 	public List<OrdenTrabajo> findOrdenTrabajoByUser(User almacenero) {
-
 		return ordenTrabajoRepository.findByAlmacenero(almacenero);
 	}
 }
