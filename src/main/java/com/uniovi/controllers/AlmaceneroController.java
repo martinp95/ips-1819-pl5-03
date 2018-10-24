@@ -25,12 +25,12 @@ public class AlmaceneroController {
 
 	@RequestMapping(value = "/almacenero/asignar", method = RequestMethod.POST)
 	public String addPedido(Principal principal, Model model,
-			@RequestParam(value = "pedidoID", required = false) String[] pedidoIDs) {
+			@RequestParam(value = "pedidoID", required = false) String pedidoID) {
 		
-		if (pedidoIDs != null) {
+		if (pedidoID != null) {
 			String email = principal.getName();
 			User almacenero = usersService.getUserByEmail(email);
-			almaceneroService.asignarPedidos(almacenero, pedidoIDs);
+			almaceneroService.asignarPedidos(almacenero, pedidoID);
 		}
 		return "redirect:/pedidos";
 
