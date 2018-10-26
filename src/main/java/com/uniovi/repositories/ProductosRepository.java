@@ -19,7 +19,8 @@ public interface ProductosRepository extends CrudRepository<Producto, Long> {
 	Page<Producto> findAll(Pageable pageable);
 
 	@Query(value = "SELECT * FROM PRODUCTO  p where p.id in (SELECT producto_id FROM PRODUCTOS_PEDIDO "
-			+ "where pedido_id in (SELECT PEDIDO_ID FROM PEDIDOS_ORDEN_TRABAJO WHERE ORDENTRABAJO_ID=?1))", nativeQuery = true)
+			+ "where pedido_id in (SELECT PEDIDO_ID FROM PEDIDOS_ORDEN_TRABAJO WHERE ORDENTRABAJO_ID=?1))"
+			+ " order by p.pasillo , p.posicion , p.num_estanteria , p.num_fila", nativeQuery = true)
 	List<Producto> findProductosByOtOrderByPosicionAlmacen(OrdenTrabajo ordenTrabajo);
 
 }
