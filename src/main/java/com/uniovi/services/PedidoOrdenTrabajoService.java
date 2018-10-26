@@ -3,7 +3,6 @@ package com.uniovi.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.uniovi.entities.OrdenTrabajo;
 import com.uniovi.entities.PedidosOrdenTrabajo;
 import com.uniovi.repositories.PedidoOrdenTrabajoRepository;
 

@@ -50,7 +50,7 @@ public class AlmaceneroController {
 					pedidoService.findById(Long.parseLong(pedidoID)), ordenTrabajo);
 			pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
 		}
-		return "redirect:/pedidos";
+		return "redirect:/ordenesTrabajo";
 
 	}
 
@@ -74,4 +74,9 @@ public class AlmaceneroController {
 		return "almacenero/listProductosOT";
 	}
 
+	@RequestMapping("/ordenTrabajo/marcarRecogido")
+	public String marcarProductosOrdenTrabajoRecogido(Principal principal, Model model,
+			@RequestParam(value = "codigoProducto", required = false) String codigoProducto) {
+		return "almacenero/listProductosOT";
+	}
 }
