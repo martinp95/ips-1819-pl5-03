@@ -9,13 +9,5 @@ import com.uniovi.entities.User;
 
 public interface OrdenTrabajoRepository  extends CrudRepository<OrdenTrabajo, Long>{
 
-	
-//	@Query("select ot.pedido from OrdenTrabajo ot")
-//	List<Pedido> findPedidosAsignados();
-
 	List<OrdenTrabajo> findByAlmacenero(User almacenero);
-
-//	@Query("select ot.pedido from OrdenTrabajo ot")
-//	List<Producto> findProductosOrderByUbicacion(OrdenTrabajo ordenTrabajo);
-
 }

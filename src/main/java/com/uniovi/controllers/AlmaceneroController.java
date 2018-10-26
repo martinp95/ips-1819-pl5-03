@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uniovi.entities.OrdenTrabajo;
 import com.uniovi.entities.PedidosOrdenTrabajo;
+import com.uniovi.entities.Producto;
 import com.uniovi.entities.User;
 import com.uniovi.services.AlmaceneroService;
 import com.uniovi.services.OrdenTrabajoService;
 import com.uniovi.services.PedidoOrdenTrabajoService;
 import com.uniovi.services.PedidosService;
+import com.uniovi.services.ProductosService;
 import com.uniovi.services.UsersService;
 
 @Controller
@@ -32,6 +34,8 @@ public class AlmaceneroController {
 	private OrdenTrabajoService ordenTrabajoService;
 	@Autowired
 	private PedidoOrdenTrabajoService pedidoOrdenTrabajoService;
+	@Autowired
+	private ProductosService productosService;
 
 	@RequestMapping(value = "/almacenero/asignar", method = RequestMethod.POST)
 	public String addPedido(Principal principal, Model model,
@@ -42,7 +46,8 @@ public class AlmaceneroController {
 			User almacenero = usersService.getUserByEmail(email);
 			OrdenTrabajo ordenTrabajo = new OrdenTrabajo(almacenero);
 			ordenTrabajoService.addOrdenTrabajo(ordenTrabajo);
-			PedidosOrdenTrabajo pedidoOrdenTrabajo = new PedidosOrdenTrabajo(pedidoService.findById(Long.parseLong(pedidoID)), ordenTrabajo);			
+			PedidosOrdenTrabajo pedidoOrdenTrabajo = new PedidosOrdenTrabajo(
+					pedidoService.findById(Long.parseLong(pedidoID)), ordenTrabajo);
 			pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
 		}
 		return "redirect:/pedidos";
@@ -60,11 +65,13 @@ public class AlmaceneroController {
 
 	@RequestMapping("/ordenesTrabajo/productos")
 	public String getProductosOrdenTrabajo(Principal principal, Model model,
-			@RequestParam(value = "pedidoID", required = false) String pedidoID) {
-		if (pedidoID != null) {
-			//Pedido pedido = pedidoService.findById(Long.parseLong(pedidoID));
+			@RequestParam(value = "otID", required = false) String otID) {
+		if (otID != null) {
+			OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));
+			List<Producto> productos = productosService.findProductosByOt(ordenTrabajo);
+			model.addAttribute("productosList", productos);
 		}
-		return "redirect:/ordenesTrabajo";
+		return "almacenero/listProductosOT";
 	}
 
 }

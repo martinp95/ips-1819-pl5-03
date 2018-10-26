@@ -1,19 +1,25 @@
 package com.uniovi.repositories;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import com.uniovi.entities.OrdenTrabajo;
 import com.uniovi.entities.Producto;
 
 public interface ProductosRepository extends CrudRepository<Producto, Long> {
 
-	@Query("SELECT p FROM Producto p WHERE (LOWER(p.name) LIKE LOWER(?1) "
-		    + "OR LOWER(p.description) LIKE LOWER(?1))")
+	@Query("SELECT p FROM Producto p WHERE (LOWER(p.name) LIKE LOWER(?1) " + "OR LOWER(p.description) LIKE LOWER(?1))")
 	Page<Producto> searchByNameAndDescription(Pageable pageable, String searchText);
 
 	@Query("SELECT p FROM Producto p")
 	Page<Producto> findAll(Pageable pageable);
+
+	@Query(value = "SELECT * FROM PRODUCTO  p where p.id in (SELECT producto_id FROM PRODUCTOS_PEDIDO "
+			+ "where pedido_id in (SELECT PEDIDO_ID FROM PEDIDOS_ORDEN_TRABAJO WHERE ORDENTRABAJO_ID=?1))", nativeQuery = true)
+	List<Producto> findProductosByOtOrderByPosicionAlmacen(OrdenTrabajo ordenTrabajo);
 
 }

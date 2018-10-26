@@ -19,4 +19,8 @@ public class OrdenTrabajoService {
 	public void addOrdenTrabajo(OrdenTrabajo ordenTrabjo) {
 		ordenTrabajoRepository.save(ordenTrabjo);
 	}
+
+	public OrdenTrabajo findById(Long id) {
+		return ordenTrabajoRepository.findOne(id);
+	}
 }
