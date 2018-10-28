@@ -74,9 +74,34 @@ public class AlmaceneroController {
 		return "almacenero/listProductosOT";
 	}
 
+
 	@RequestMapping("/ordenTrabajo/marcarRecogido")
 	public String marcarProductosOrdenTrabajoRecogido(Principal principal, Model model,
 			@RequestParam(value = "codigoProducto", required = false) String codigoProducto) {
 		return "almacenero/listProductosOT";
+	}
+	
+	@RequestMapping("/ordenesTrabajo/empaquetar/productos/")
+	public String getProductosEmpaquetarOrdenTrabajo(Principal principal, Model model,
+			@RequestParam(value = "otID", required = false) String otID) {
+		if (otID != null) {
+			OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));
+			List<Producto> productos = productosService.findProductosByOt(ordenTrabajo);
+			model.addAttribute("productosList", productos);
+		}
+		return "almacenero/listProductosEmpaquetar";
+	}
+	
+	@RequestMapping("/ordenTrabajo/empaquetar")
+	public String empaquetarOrdenTrabajo(Principal principal, Model model,
+			@RequestParam(value = "codigoProducto", required = false) String codigoProducto) {
+		if(codigoProducto!=null) {
+			Producto producto = productosService.findByCodigo(codigoProducto);
+			if(producto!=null) {
+				productosService.empaquetarProducto(producto);//empaquetar producto o producto pedido?
+				
+			}
+		}
+		return "almacenero/listProductosEmpaquetar";
 	}
 }
