@@ -70,6 +70,7 @@ public class AlmaceneroController {
 			OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));
 			List<Producto> productos = productosService.findProductosByOt(ordenTrabajo);
 			model.addAttribute("productosList", productos);
+			model.addAttribute("otID", otID);
 		}
 		return "almacenero/listProductosOT";
 	}
