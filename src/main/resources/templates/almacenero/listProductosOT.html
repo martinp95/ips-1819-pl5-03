@@ -11,7 +11,7 @@
 			<div class="form-group">
 				<input id="codigoPreducto" name="codigoProducto" type="text"
 					class="form-control" size="50"
-					placeholder="Introduzca el codigo del producto para marcarlo como recogido" />
+					placeholder="Introduzca el codigo del producto" />
 					<input type="hidden" name="otID" th:value="${otID}"/>
 			</div>
 			<button type="submit" class="btn btn-default">Enviar</button>
@@ -26,18 +26,20 @@
 						<th th:text="#{listProductosDescripcion.message}"></th>
 						<th>Pasillo</th>
 						<th>Posicion</th>
-						<th>Numero estanteria</th>
-						<th>Numero fila</th>
+						<th>Estanteria</th>
+						<th>Fila</th>
+						<th>Cantidad</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="producto : ${productosList}">
-						<td th:text="${producto.name}"></td>
-						<td th:text="${producto.description}"></td>
-						<td th:text="${producto.pasillo}"></td>
-						<td th:text="${producto.posicion}"></td>
-						<td th:text="${producto.numEstanteria}"></td>
-						<td th:text="${producto.numFila}"></td>
+						<td th:text="${producto[2]}"></td>
+						<td th:text="${producto[1]}"></td>
+						<td th:text="${producto[5]}"></td>
+						<td th:text="${producto[6]}"></td>
+						<td th:text="${producto[3]}"></td>
+						<td th:text="${producto[4]}"></td>
+						<td th:text="${producto[9]}"></td>
 					</tr>
 				</tbody>
 			</table>

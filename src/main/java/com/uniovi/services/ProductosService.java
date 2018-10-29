@@ -38,7 +38,7 @@ public class ProductosService {
 		return productosRepository.findOne(id);
 	}
 
-	public List<Producto> findProductosByOt(OrdenTrabajo ordenTrabajo) {
+	public List<Object> findProductosByOt(OrdenTrabajo ordenTrabajo) {
 		return productosRepository.findProductosByOtOrderByPosicionAlmacen(ordenTrabajo);
 	}
 

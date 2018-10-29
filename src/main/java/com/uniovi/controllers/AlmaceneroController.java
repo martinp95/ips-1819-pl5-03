@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uniovi.entities.OrdenTrabajo;
 import com.uniovi.entities.PedidosOrdenTrabajo;
-import com.uniovi.entities.Producto;
 import com.uniovi.entities.User;
 import com.uniovi.services.AlmaceneroService;
 import com.uniovi.services.OrdenTrabajoService;
@@ -68,7 +67,7 @@ public class AlmaceneroController {
 			@RequestParam(value = "otID", required = false) String otID) {
 		if (otID != null) {
 			OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));
-			List<Producto> productos = productosService.findProductosByOt(ordenTrabajo);
+			List<Object> productos = productosService.findProductosByOt(ordenTrabajo);
 			model.addAttribute("productosList", productos);
 			model.addAttribute("otID", otID);
 		}
