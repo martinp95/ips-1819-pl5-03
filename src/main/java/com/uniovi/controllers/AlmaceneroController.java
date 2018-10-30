@@ -74,9 +74,23 @@ public class AlmaceneroController {
 		return "almacenero/listProductosOT";
 	}
 
-	@RequestMapping("/ordenTrabajo/marcarRecogido")
+	@RequestMapping(value = "/ordenTrabajo/marcarRecogido", method = RequestMethod.POST)
 	public String marcarProductosOrdenTrabajoRecogido(Principal principal, Model model,
-			@RequestParam(value = "codigoProducto", required = false) String codigoProducto) {
+			@RequestParam(value = "", required = false) String codigoProducto,
+			@RequestParam(value = "", required = false) String otID) {
+		if(codigoProducto != null) {
+			//Comprobar que el id del producto esta en la ot, y que no esta recogido entero
+			if(productosService.isProductoInOT(codigoProducto, otID)) {
+				System.out.println("meti el codigo que si pertenecia a la ot");
+			}else {
+				//mandar el error de que no esta en la ot o bien ya se recogio
+				System.out.println("meti el codigo que no pertenecia a la ot");
+			}
+		}
+		OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));
+		List<Object> productos = productosService.findProductosByOt(ordenTrabajo);
+		model.addAttribute("productosList", productos);
+		model.addAttribute("otID", otID);
 		return "almacenero/listProductosOT";
 	}
 }

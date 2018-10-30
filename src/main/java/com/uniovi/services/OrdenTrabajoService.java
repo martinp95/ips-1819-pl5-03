@@ -12,10 +12,6 @@ public class OrdenTrabajoService {
 	@Autowired
 	private OrdenTrabajoRepository ordenTrabajoRepository;
 	
-//	public List<Producto> findProductosOrdenTrabajo(OrdenTrabajo ordenTrabajo){
-//		return ordenTrabajoRepository.findProductosOrderByUbicacion(ordenTrabajo);
-//	}
-	
 	public void addOrdenTrabajo(OrdenTrabajo ordenTrabjo) {
 		ordenTrabajoRepository.save(ordenTrabjo);
 	}

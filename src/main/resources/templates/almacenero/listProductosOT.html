@@ -7,12 +7,12 @@
 	<div class="container">
 		<h2>Lista producto orden trabajo</h2>
 		
-		<form class="navbar-form" action="/ordenTrabajo/marcarRecogido">
+		<form class="navbar-form" method="post" action="/ordenTrabajo/marcarRecogido">
 			<div class="form-group">
-				<input id="codigoPreducto" name="codigoProducto" type="text"
+				<input id="codigoProducto" name="codigoProducto" type="text"
 					class="form-control" size="50"
 					placeholder="Introduzca el codigo del producto" />
-					<input type="hidden" name="otID" th:value="${otID}"/>
+				<input type="hidden" name="otID" th:value="${otID}"/>
 			</div>
 			<button type="submit" class="btn btn-default">Enviar</button>
 		</form>
