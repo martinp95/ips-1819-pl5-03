@@ -33,7 +33,7 @@ public class ProductosService {
 	public void addProducto(Producto producto) {
 		productosRepository.save(producto);
 	}
-	
+
 	public Producto findById(Long id) {
 		return productosRepository.findOne(id);
 	}
@@ -41,9 +41,9 @@ public class ProductosService {
 	public List<Object> findProductosByOt(OrdenTrabajo ordenTrabajo) {
 		return productosRepository.findProductosByOtOrderByPosicionAlmacen(ordenTrabajo);
 	}
-	
-	public boolean isProductoInOT(String producto,String ordenTrabajo) {
-		List<Producto> productos = productosRepository.getProductoByProductoIDAndOtID(producto,ordenTrabajo);
+
+	public boolean isProductoInOT(String producto, String ordenTrabajo) {
+		List<Producto> productos = productosRepository.getProductoByProductoIDAndOtID(producto, ordenTrabajo);
 		return !productos.isEmpty();
 	}
 }

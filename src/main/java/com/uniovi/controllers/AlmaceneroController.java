@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uniovi.entities.OrdenTrabajo;
 import com.uniovi.entities.PedidosOrdenTrabajo;
+import com.uniovi.entities.ProductosPedido;
 import com.uniovi.entities.User;
 import com.uniovi.services.AlmaceneroService;
 import com.uniovi.services.OrdenTrabajoService;
 import com.uniovi.services.PedidoOrdenTrabajoService;
 import com.uniovi.services.PedidosService;
+import com.uniovi.services.ProductosPedidoService;
 import com.uniovi.services.ProductosService;
 import com.uniovi.services.UsersService;
 
@@ -35,6 +37,8 @@ public class AlmaceneroController {
 	private PedidoOrdenTrabajoService pedidoOrdenTrabajoService;
 	@Autowired
 	private ProductosService productosService;
+	@Autowired
+	private ProductosPedidoService productosPedidoService;
 
 	@RequestMapping(value = "/almacenero/asignar", method = RequestMethod.POST)
 	public String addPedido(Principal principal, Model model,
@@ -79,12 +83,11 @@ public class AlmaceneroController {
 			@RequestParam(value = "", required = false) String codigoProducto,
 			@RequestParam(value = "", required = false) String otID) {
 		if(codigoProducto != null) {
-			//Comprobar que el id del producto esta en la ot, y que no esta recogido entero
 			if(productosService.isProductoInOT(codigoProducto, otID)) {
-				System.out.println("meti el codigo que si pertenecia a la ot");
+				List<ProductosPedido> productoPedido = productosPedidoService.findProductoPedidoByOtAndProducto(codigoProducto, otID);
+				productosPedidoService.decrementarCantidadPorRecoger(productoPedido.get(0));
 			}else {
-				//mandar el error de que no esta en la ot o bien ya se recogio
-				System.out.println("meti el codigo que no pertenecia a la ot");
+				model.addAttribute("error","ERROR:El producto escaneado no se encuentra en la OT o ya ha sido recogido");
 			}
 		}
 		OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));

@@ -17,6 +17,8 @@
 			<button type="submit" class="btn btn-default">Enviar</button>
 		</form>
 		
+		<p th:if="${error}" th:text="${error}"></p>
+		
 		<div class="table-responsive">
 			<table class="table table-hover" th:fragment="tableListProductos"
 				id="tableListProductos">
