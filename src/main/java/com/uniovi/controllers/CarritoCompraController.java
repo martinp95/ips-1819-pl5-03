@@ -35,7 +35,7 @@ public class CarritoCompraController {
 			Principal principal) {
 		String email = principal.getName();
 		User user = usersService.getUserByEmail(email);
-		Producto producto = productosService.getProducto(id);
+		Producto producto = productosService.findById(id);
 
 		ProductosCarrito productosCarrito = new ProductosCarrito(user, producto, cantidad);
 
@@ -75,7 +75,7 @@ public class CarritoCompraController {
 	public String delete(Model model, Pageable pageable, @PathVariable Long id, Principal principal) {
 		String email = principal.getName();
 		User user = usersService.getUserByEmail(email);
-		Producto producto = productosService.getProducto(id);
+		Producto producto = productosService.findById(id);
 		ProductosCarrito productoCarrito = new ProductosCarrito(user, producto, 0);
 		productosCarritoService.deleteProduct(productoCarrito);
 
@@ -90,7 +90,7 @@ public class CarritoCompraController {
 	public String aumentarUnidad(Model model, Pageable pageable, @PathVariable Long id, Principal principal) {
 		String email = principal.getName();
 		User user = usersService.getUserByEmail(email);
-		Producto producto = productosService.getProducto(id);
+		Producto producto = productosService.findById(id);
 		ProductosCarrito productoCarrito = new ProductosCarrito(user, producto, 0);
 		productosCarritoService.aumentarUnidad(productoCarrito);
 
@@ -105,7 +105,7 @@ public class CarritoCompraController {
 	public String decrementarUnidad(Model model, Pageable pageable, @PathVariable Long id, Principal principal) {
 		String email = principal.getName();
 		User user = usersService.getUserByEmail(email);
-		Producto producto = productosService.getProducto(id);
+		Producto producto = productosService.findById(id);
 		ProductosCarrito productoCarrito = new ProductosCarrito(user, producto, 0);
 		productosCarritoService.decrementarUnidad(productoCarrito);
 

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uniovi.entities.Pedido;
+import com.uniovi.entities.ProductosCarrito;
 import com.uniovi.entities.User;
 import com.uniovi.services.PedidosService;
 import com.uniovi.services.ProductosCarritoService;
@@ -33,9 +34,12 @@ public class PedidosController {
 	public String addPedido(Model model, Pageable pageable, Principal principal) {
 		String email = principal.getName();
 		User user = usersService.getUserByEmail(email);
-
 		if (user.getProductosCarrito().size() > 0) {
-			Pedido pedido = new Pedido(user, user.getProductosCarrito().size());
+			int size = 0;
+			for (ProductosCarrito productoCarro : user.getProductosCarrito()) {
+				size += productoCarro.getCantidad();
+			}
+			Pedido pedido = new Pedido(user, size);
 			pedidosService.addPedido(pedido);
 			productosPedidoService.addProductosPedido(pedido, user.getProductosCarrito());
 			productosCarritoService.deleteCarrito(user);
@@ -54,6 +58,5 @@ public class PedidosController {
 		model.addAttribute("pedidosList", pedidos);
 		return "almacenero/listPedidosNoAsignados";
 	}
-	
 
 }

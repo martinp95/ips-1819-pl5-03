@@ -11,27 +11,29 @@ import com.uniovi.types.ProductosPedidoKey;
 @Entity
 @IdClass(ProductosPedidoKey.class)
 public class ProductosPedido {
-	
+
 	@Id
 	@ManyToOne
-	@JoinColumn(name="PEDIDO_ID")
+	@JoinColumn(name = "PEDIDO_ID")
 	private Pedido pedido;
-	
+
 	@Id
 	@ManyToOne
 	@JoinColumn(name = "PRODUCTO_ID")
 	private Producto producto;
-	
+
 	private int cantidad;
+	private int cantidadPorRecoger;
 	private double precioUnidad;
-	
+
 	public ProductosPedido() {
 	}
-	
-	public ProductosPedido(Pedido pedido,Producto producto, int cantidad, double precioUnidad) {
+
+	public ProductosPedido(Pedido pedido, Producto producto, int cantidad, double precioUnidad) {
 		this.pedido = pedido;
 		this.producto = producto;
 		this.setCantidad(cantidad);
+		this.setCantidadPorRecoger(cantidad);
 		this.setPrecioUnidad(precioUnidad);
 	}
 
@@ -96,6 +98,14 @@ public class ProductosPedido {
 
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
+	}
+
+	public int getCantidadPorRecoger() {
+		return cantidadPorRecoger;
+	}
+
+	public void setCantidadPorRecoger(int cantidadPorRecoger) {
+		this.cantidadPorRecoger = cantidadPorRecoger;
 	}
 
 }

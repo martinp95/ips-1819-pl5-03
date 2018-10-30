@@ -1,5 +1,6 @@
 package com.uniovi.services;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,15 @@ public class ProductosPedidoService {
 			productosPedidoRepository.save(new ProductosPedido(pedido, productosCarro.getProducto(),
 					productosCarro.getCantidad(), productosCarro.getProducto().getPrecio()));
 		}
+	}
+	
+	public List<ProductosPedido> findProductoPedidoByOtAndProducto(String producto, String ordenTrabajo) {
+		return productosPedidoRepository.getProductoPedidoByProductoIDAndOtID(producto, ordenTrabajo);
+	}
+	
+	public void decrementarCantidadPorRecoger(ProductosPedido productoPedido) {
+		productoPedido.setCantidadPorRecoger(productoPedido.getCantidadPorRecoger()-1);
+		productosPedidoRepository.save(productoPedido);
 	}
 
 }
