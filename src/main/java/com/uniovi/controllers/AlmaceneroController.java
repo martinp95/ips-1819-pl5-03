@@ -43,7 +43,6 @@ public class AlmaceneroController {
 	@RequestMapping(value = "/almacenero/asignar", method = RequestMethod.POST)
 	public String addPedido(Principal principal, Model model,
 			@RequestParam(value = "pedidoID", required = false) String pedidoID) {
-
 		if (pedidoID != null) {
 			String email = principal.getName();
 			User almacenero = usersService.getUserByEmail(email);
@@ -80,14 +79,21 @@ public class AlmaceneroController {
 
 	@RequestMapping(value = "/ordenTrabajo/marcarRecogido", method = RequestMethod.POST)
 	public String marcarProductosOrdenTrabajoRecogido(Principal principal, Model model,
-			@RequestParam(value = "", required = false) String codigoProducto,
-			@RequestParam(value = "", required = false) String otID) {
-		if(codigoProducto != null) {
-			if(productosService.isProductoInOT(codigoProducto, otID)) {
-				List<ProductosPedido> productoPedido = productosPedidoService.findProductoPedidoByOtAndProducto(codigoProducto, otID);
-				productosPedidoService.decrementarCantidadPorRecoger(productoPedido.get(0));
+			@RequestParam(value = "codigoProducto", required = false) String codigoProducto,
+			@RequestParam(value = "otID", required = false) String otID,
+			@RequestParam(value = "incidencia", required = false) String incidencia) {
+		if (!codigoProducto.isEmpty()) {
+			if (incidencia.isEmpty()) {
+				if (productosService.isProductoInOT(codigoProducto, otID)) {
+					List<ProductosPedido> productoPedido = productosPedidoService
+							.findProductoPedidoByOtAndProducto(codigoProducto, otID);
+					productosPedidoService.decrementarCantidadPorRecoger(productoPedido.get(0));
+				} else {
+					model.addAttribute("error",
+							"ERROR:El producto escaneado no se encuentra en la OT o ya ha sido recogido");
+				}
 			}else {
-				model.addAttribute("error","ERROR:El producto escaneado no se encuentra en la OT o ya ha sido recogido");
+				System.out.println("mierda");
 			}
 		}
 		OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));
