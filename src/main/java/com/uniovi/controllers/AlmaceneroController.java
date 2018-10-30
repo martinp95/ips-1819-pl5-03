@@ -93,7 +93,13 @@ public class AlmaceneroController {
 							"ERROR:El producto escaneado no se encuentra en la OT o ya ha sido recogido");
 				}
 			}else {
-				System.out.println("mierda");
+				List<ProductosPedido> productoPedido = productosPedidoService
+						.findProductoPedidoByOtAndProducto(codigoProducto, otID);
+				productosPedidoService.addIncidencia(productoPedido.get(0), incidencia);
+				OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));
+				ordenTrabajoService.addIncidencia(ordenTrabajo);
+				model.addAttribute("error",
+						"Se ha registrado la incidencia con exito");
 			}
 		}
 		OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));

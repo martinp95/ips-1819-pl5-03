@@ -26,6 +26,7 @@ public class OrdenTrabajo {
 	private Set<PedidosOrdenTrabajo> pedidoOrdenesTrabajo = new HashSet<PedidosOrdenTrabajo>();	
 	
 	private Date fecha;
+	private boolean incidencia;
 	
 	public OrdenTrabajo() {
 	}
@@ -90,6 +91,14 @@ public class OrdenTrabajo {
 
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
+	}
+
+	public boolean isIncidencia() {
+		return incidencia;
+	}
+
+	public void setIncidencia(boolean incidencia) {
+		this.incidencia = incidencia;
 	}
 
 }

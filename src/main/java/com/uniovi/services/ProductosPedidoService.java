@@ -33,4 +33,8 @@ public class ProductosPedidoService {
 		productosPedidoRepository.save(productoPedido);
 	}
 
+	public void addIncidencia(ProductosPedido productosPedido, String incidencia) {
+		productosPedido.setIncidencia(incidencia);
+		productosPedidoRepository.save(productosPedido);
+	}
 }

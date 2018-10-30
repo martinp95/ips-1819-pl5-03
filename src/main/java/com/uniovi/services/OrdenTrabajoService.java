@@ -11,12 +11,17 @@ public class OrdenTrabajoService {
 
 	@Autowired
 	private OrdenTrabajoRepository ordenTrabajoRepository;
-	
+
 	public void addOrdenTrabajo(OrdenTrabajo ordenTrabjo) {
 		ordenTrabajoRepository.save(ordenTrabjo);
 	}
 
 	public OrdenTrabajo findById(Long id) {
 		return ordenTrabajoRepository.findOne(id);
+	}
+
+	public void addIncidencia(OrdenTrabajo ordenTrabajo) {
+		ordenTrabajo.setIncidencia(true);
+		ordenTrabajoRepository.save(ordenTrabajo);
 	}
 }

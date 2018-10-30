@@ -25,6 +25,7 @@ public class ProductosPedido {
 	private int cantidad;
 	private int cantidadPorRecoger;
 	private double precioUnidad;
+	private String incidencia;
 
 	public ProductosPedido() {
 	}
@@ -35,6 +36,7 @@ public class ProductosPedido {
 		this.setCantidad(cantidad);
 		this.setCantidadPorRecoger(cantidad);
 		this.setPrecioUnidad(precioUnidad);
+		this.incidencia = "";
 	}
 
 	@Override
@@ -106,6 +108,14 @@ public class ProductosPedido {
 
 	public void setCantidadPorRecoger(int cantidadPorRecoger) {
 		this.cantidadPorRecoger = cantidadPorRecoger;
+	}
+
+	public String getIncidencia() {
+		return incidencia;
+	}
+
+	public void setIncidencia(String incidencia) {
+		this.incidencia = incidencia;
 	}
 
 }
