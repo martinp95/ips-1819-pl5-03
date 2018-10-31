@@ -82,6 +82,8 @@ public class AlmaceneroController {
 			@RequestParam(value = "codigoProducto", required = false) String codigoProducto,
 			@RequestParam(value = "otID", required = false) String otID,
 			@RequestParam(value = "incidencia", required = false) String incidencia) {
+
+		OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));
 		if (!codigoProducto.isEmpty()) {
 			if (incidencia.isEmpty()) {
 				if (productosService.isProductoInOT(codigoProducto, otID)) {
@@ -92,17 +94,19 @@ public class AlmaceneroController {
 					model.addAttribute("error",
 							"ERROR:El producto escaneado no se encuentra en la OT o ya ha sido recogido");
 				}
-			}else {
-				List<ProductosPedido> productoPedido = productosPedidoService
-						.findProductoPedidoByOtAndProducto(codigoProducto, otID);
-				productosPedidoService.addIncidencia(productoPedido.get(0), incidencia);
-				OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));
-				ordenTrabajoService.addIncidencia(ordenTrabajo);
-				model.addAttribute("error",
-						"Se ha registrado la incidencia con exito");
+			} else {
+				if (productosService.isProductoInOT(codigoProducto, otID)) {
+					List<ProductosPedido> productoPedido = productosPedidoService
+							.findProductoPedidoByOtAndProducto(codigoProducto, otID);
+					productosPedidoService.addIncidencia(productoPedido.get(0), incidencia);
+					ordenTrabajoService.addIncidencia(ordenTrabajo);
+					model.addAttribute("error", "Se ha registrado la incidencia con exito");
+				} else {
+					model.addAttribute("error",
+							"ERROR:El producto escaneado no se encuentra en la OT o ya ha sido recogido");
+				}
 			}
 		}
-		OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));
 		List<Object> productos = productosService.findProductosByOt(ordenTrabajo);
 		model.addAttribute("productosList", productos);
 		model.addAttribute("otID", otID);
