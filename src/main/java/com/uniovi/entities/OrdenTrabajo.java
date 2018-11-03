@@ -28,12 +28,15 @@ public class OrdenTrabajo {
 	private Date fecha;
 	private boolean incidencia;
 	
+	private boolean incidencia;
+	
 	public OrdenTrabajo() {
 	}
 	
 	public OrdenTrabajo(User user) {
 		this.almacenero = user;
 		this.setFecha(new Date());
+		this.incidencia = true;
 	}
 
 	public Long getId() {
@@ -100,5 +103,7 @@ public class OrdenTrabajo {
 	public void setIncidencia(boolean incidencia) {
 		this.incidencia = incidencia;
 	}
+	
+	
 
 }

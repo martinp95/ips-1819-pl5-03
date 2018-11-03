@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head" />
+<body>	
+	<nav th:replace="fragments/nav" />
+	<div class="container">
+		<h2>Lista de pedidos no pagados</h2>
+		
+		<div class="table-responsive">
+		<form class="form-horizontal" method="post" action="/pedido/pagar/transferencia">
+			<table class="table table-hover" id="tableListPedidos">
+				<thead>
+					<tr>
+						<th>Pagar</th>
+						<th>Fecha</th>
+						<th>Size</th>
+					</tr>
+					<tbody>
+						<tr th:each="pedido : ${pedidosList}">
+							<td><input type="radio" th:value="${pedido.id}" name="pedidoID" /></td>
+							<td th:text="${pedido.fecha}">Fecha pedido</td>
+							<td th:text="${pedido.size}">Size pedido</td>
+						</tr>
+					</tbody>
+				</thead>
+			</table>
+			<input type="Submit"/>
+		</form>
+		</div>
+	</div>
+	<footer th:replace="fragments/footer" />
+</body>
+</html>

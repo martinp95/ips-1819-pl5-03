@@ -4,10 +4,10 @@
 <body>
 	<nav th:replace="fragments/nav" />
 	<div class="container">
-		<h2>Lista de ordenes de trabajo</h2>
+		<h2>Lista de ordenes de trabajo listas para empaquetar</h2>
 
 		<div class="table-responsive">
-			<form class="form-horizontal" method="post"	action="/ordenesTrabajo/productos">
+			<form class="form-horizontal" method="post"	action="/ordenesTrabajo/empaquetar/productos">
 				<table class="table table-hover" id="tableListOrdenes">
 					<thead>
 						<tr>
@@ -17,11 +17,12 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="ot : ${ordenTrabajoList}">
-							<td><input type="radio" th:value="${ot.id}" name="otID" /></td>
-																				
-							<td th:text="${ot.fecha}"></td>
-							<td th:text="${ot.id}"></td>
+						<tr th:each="ot : ${ordenTrabajoList}">							
+							<div th:if="${!ot.incidencia}">
+								<td><input type="radio" th:value="${ot.id}" name="otID" /></td>		
+								<td th:text="${ot.fecha}"></td>
+								<td th:text="${ot.id}"></td>
+							</div>
 						</tr>
 					</tbody>
 				</table>
