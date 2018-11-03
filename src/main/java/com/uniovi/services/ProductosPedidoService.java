@@ -33,4 +33,14 @@ public class ProductosPedidoService {
 		productosPedidoRepository.save(productoPedido);
 	}
 
+	public ProductosPedido findByCodigo(String codigoProducto) {
+		return productosPedidoRepository.findByCodigo(codigoProducto);
+	}
+
+	public void empaquetarProducto(ProductosPedido producto) {
+		producto.setEmpaquetado(true);
+		productosPedidoRepository.save(producto);
+		
+	}
+
 }

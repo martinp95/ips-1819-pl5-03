@@ -25,6 +25,8 @@ public class ProductosPedido {
 	private int cantidad;
 	private int cantidadPorRecoger;
 	private double precioUnidad;
+	
+	private boolean empaquetado;
 
 	public ProductosPedido() {
 	}
@@ -35,6 +37,7 @@ public class ProductosPedido {
 		this.setCantidad(cantidad);
 		this.setCantidadPorRecoger(cantidad);
 		this.setPrecioUnidad(precioUnidad);
+		this.empaquetado = false;
 	}
 
 	@Override
@@ -107,5 +110,15 @@ public class ProductosPedido {
 	public void setCantidadPorRecoger(int cantidadPorRecoger) {
 		this.cantidadPorRecoger = cantidadPorRecoger;
 	}
+
+	public boolean isEmpaquetado() {
+		return empaquetado;
+	}
+
+	public void setEmpaquetado(boolean empaquetado) {
+		this.empaquetado = empaquetado;
+	}
+	
+	
 
 }

@@ -102,7 +102,7 @@ public class AlmaceneroController {
 			@RequestParam(value = "otID", required = false) String otID) {
 		if (otID != null) {
 			OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));
-			List<Producto> productos = productosService.findProductosByOt(ordenTrabajo);
+			List<Object> productos = productosService.findProductosByOt(ordenTrabajo);
 			model.addAttribute("productosList", productos);
 		}
 		return "almacenero/listProductosEmpaquetar";
@@ -112,9 +112,9 @@ public class AlmaceneroController {
 	public String empaquetarOrdenTrabajo(Principal principal, Model model,
 			@RequestParam(value = "codigoProducto", required = false) String codigoProducto) {
 		if(codigoProducto!=null) {
-			Producto producto = productosService.findByCodigo(codigoProducto);
+			ProductosPedido producto = productosPedidoService.findByCodigo(codigoProducto);
 			if(producto!=null) {
-				productosService.empaquetarProducto(producto);//empaquetar producto o producto pedido?
+				productosPedidoService.empaquetarProducto(producto);//empaquetar producto o producto pedido?
 				
 			}
 		}

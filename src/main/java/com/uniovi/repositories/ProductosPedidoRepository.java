@@ -14,4 +14,9 @@ public interface ProductosPedidoRepository extends CrudRepository<ProductosPedid
 			+ "WHERE po.ORDENTRABAJO_ID=?2)) AND pp.CANTIDAD_POR_RECOGER > 0", nativeQuery = true)
 	List<ProductosPedido> getProductoPedidoByProductoIDAndOtID(String producto, String ordenTrabajo);
 
+	
+	@Query("select p from ProductosPedido p where p.producto.codigo = ?1")
+	ProductosPedido findByCodigo(String codigoProducto);
+
+
 }
