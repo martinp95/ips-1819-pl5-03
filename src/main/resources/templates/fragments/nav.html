@@ -29,6 +29,10 @@
 			<ul class="nav navbar-nav" sec:authorize="hasRole('ROLE_ALMACENERO')">
 				<li><a href="/ordenesTrabajo" th:text="#{ordenesTrabajo.message}"></a></li>
 			</ul>
+			
+			<ul class="nav navbar-nav" sec:authorize="hasRole('ROLE_ALMACENERO')">
+				<li><a href="/ordenesTrabajo/noIncidence" text="OT Sin Incidencia"></a></li>
+			</ul>
 
 			<ul class="nav navbar-nav navbar-right">
 

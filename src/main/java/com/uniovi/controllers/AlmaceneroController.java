@@ -97,6 +97,15 @@ public class AlmaceneroController {
 		return "almacenero/listProductosOT";
 	}
 	
+	@RequestMapping("/ordenesTrabajo/noIncidence")
+	public String getOTSinIncidencia(Model model, Principal principal) {
+		String email = principal.getName();
+		User almacenero = usersService.getUserByEmail(email);
+		List<OrdenTrabajo> ordenesTrabajo = almaceneroService.findOrdenTrabajoByUser(almacenero);
+		model.addAttribute("ordenTrabajoList", ordenesTrabajo);
+		return "almacenero/listOTSinIncidencias";
+	}
+	
 	@RequestMapping("/ordenesTrabajo/empaquetar/productos/")
 	public String getProductosEmpaquetarOrdenTrabajo(Principal principal, Model model,
 			@RequestParam(value = "otID", required = false) String otID) {
