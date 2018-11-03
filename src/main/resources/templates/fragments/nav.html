@@ -31,11 +31,11 @@
 			</ul>
 			
 			<ul class="nav navbar-nav" sec:authorize="hasRole('ROLE_ALMACENERO')">
-				<li><a href="/ordenesTrabajo/noIncidence" text="OT Sin Incidencia"></a></li>
+				<li><a href="/ordenesTrabajo/noIncidence" th:text="#{ordenesTrabajoParaEmpaquetar.message}"></a></li>
 			</ul>
 			
-			<ul class="nav navbar-nav" sec:authorize="hasRole('ROLE_USER')">
-				<li><a href="/pedidos/noPagados" text="Pedidos No Pagados"></a></li>
+			<ul class="nav navbar-nav" sec:authorize="hasRole('ROLE_USER') and hasRole('ROLE_PARTICULAR')">
+				<li><a href="/pedidos/noPagados" th:text="#{pedidosNoPagados.message}"></a></li>
 			</ul>
 
 			<ul class="nav navbar-nav navbar-right">

@@ -88,11 +88,13 @@
 					</tr>
 				</tbody>
 			</table>
-			<a th:if="${#lists.size(carritoList) > 0 }" sec:authorize="hasRole('ROLE_EMPRESA')" id="confirmarPedido"
-				href="/pedido/add" class="btn btn-info">Confirmar pedido</a>
-				
-			<a th:if="${#lists.size(carritoList) > 0 }" sec:authorize="hasRole('ROLE_USER')" id="confirmarPedido"
-				href="/pedido/metodosPago" class="btn btn-info">Pagar pedido</a>
+			<a th:if="${#lists.size(carritoList) > 0 }"
+				sec:authorize="hasRole('ROLE_EMPRESA')" id="confirmarPedido"
+				href="/pedido/add" class="btn btn-info">Confirmar pedido</a> <a
+				th:if="${#lists.size(carritoList) > 0 }"
+				sec:authorize="hasRole('ROLE_USER') and hasRole('ROLE_PARTICULAR')"
+				id="confirmarPedido" href="/pedido/metodosPago" class="btn btn-info">Pagar
+				pedido</a>
 
 
 		</div>

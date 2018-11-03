@@ -1,5 +1,6 @@
 package com.uniovi.entities;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,14 +25,14 @@ public class User {
 	private String password;
 	@Transient
 	private String passwordConfirm;
-	private String role;
+	private ArrayList<String> role = new ArrayList<String>();
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<ProductosCarrito> productosCarrito = new HashSet<ProductosCarrito>();
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<Pedido> pedidos = new HashSet<Pedido>();
-
+	
 	@OneToMany(mappedBy = "almacenero", cascade = CascadeType.ALL)
 	private Set<OrdenTrabajo> ordenesTrabajo = new HashSet<OrdenTrabajo>();
 
@@ -44,12 +45,12 @@ public class User {
 		this.name = name;
 	}
 
-	public String getRole() {
+	public ArrayList<String> getRole() {
 		return role;
 	}
 
 	public void setRole(String role) {
-		this.role = role;
+		this.role.add(role);
 	}
 
 	public String getEmail() {

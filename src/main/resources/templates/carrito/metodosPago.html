@@ -9,6 +9,7 @@
 
 
 		<div class="table-responsive">
+		<form class="form-horizontal" method="post"	action="/pedido/pagar">
 			<table class="table table-hover" id="tableMetodosPago">
 				<thead>
 					<tr>
@@ -29,9 +30,8 @@
 				</tbody>
 			</table>
 
-			<a id="confirmarMetodoPago" href="/pedido/pagar" class="btn btn-info">Confirmar
-				metodo pago</a>
-
+			<input type="Submit" />
+			</form>
 		</div>
 	</div>
 	<footer th:replace="fragments/footer" />

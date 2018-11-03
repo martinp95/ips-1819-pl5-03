@@ -107,10 +107,10 @@ public class PedidosController {
 			@RequestParam(value = "pedidoID", required = false) String pedidoID) {
 
 		if (pedidoID != null) {		
-			Pedido pedido = pedidosService.findById(Long.parseLong(pedidoID));
-			pedido.setPagado(true);
+			pedidosService.pagarPedido(pedidoID);
+			
 		}
-		return "redirect:/carrito/pagarTransferencias";
+		return "redirect:/pedidos/noPagados";
 
 	}
 	

@@ -19,7 +19,7 @@
 						<tr th:each="pedido : ${pedidosList}">
 							<td><input type="radio" th:value="${pedido.id}" name="pedidoID" /></td>
 							<td th:text="${pedido.fecha}">Fecha pedido</td>
-							<td th:text="${pedido.size}">Tamaño pedido</td>
+							<td th:text="${pedido.size}">Size pedido</td>
 						</tr>
 					</tbody>
 				</thead>
