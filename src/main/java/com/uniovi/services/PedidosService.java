@@ -27,4 +27,9 @@ public class PedidosService {
 		return pedidosRepository.findById(id);
 	}
 
+	public List<Pedido> findNoPagadosOrderByFecha() {
+		List<Pedido> pedidosNoPagados = pedidosRepository.findPedidosNoPagadosOrderByFecha();
+		return pedidosNoPagados;
+	}
+
 }

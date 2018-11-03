@@ -9,9 +9,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.uniovi.entities.OrdenTrabajo;
 import com.uniovi.entities.Pedido;
+import com.uniovi.entities.PedidosOrdenTrabajo;
 import com.uniovi.entities.ProductosCarrito;
 import com.uniovi.entities.User;
 import com.uniovi.services.PedidosService;
@@ -58,5 +61,59 @@ public class PedidosController {
 		model.addAttribute("pedidosList", pedidos);
 		return "almacenero/listPedidosNoAsignados";
 	}
+
+	@RequestMapping("/pedido/metodosPago")
+	public String getMetodosPago(Model model, @RequestParam(value = "", required = false) Principal principal) {
+		return "carrito/metodosPago";
+	}
+
+	@RequestMapping("/pedido/pagar")
+	public String getPagar(Model model, Principal principal,
+			@RequestParam(value = "metodoPago", required = false) String metodoPago) {
+
+		
+		String email = principal.getName();
+		User user = usersService.getUserByEmail(email);
+		if (user.getProductosCarrito().size() > 0) {
+			int size = 0;
+			for (ProductosCarrito productoCarro : user.getProductosCarrito()) {
+				size += productoCarro.getCantidad();
+			}
+			Pedido pedido = new Pedido(user, size);
+			if(metodoPago.equals("Tarjeta")||metodoPago.equals("Contrareembolso"))
+				pedido.setPagado(true);
+			pedidosService.addPedido(pedido);
+			productosPedidoService.addProductosPedido(pedido, user.getProductosCarrito());
+			productosCarritoService.deleteCarrito(user);
+		} else {
+			return "redirect:/carrito";
+		}
+		return "redirect:/productos";
+		
+	}
+	
+	@RequestMapping("/pedidos/noPagados")
+	public String getPedidosNoPagados(Model model, @RequestParam(value = "", required = false) Principal principal) {
+
+		List<Pedido> pedidos = new ArrayList<Pedido>();
+		pedidos = pedidosService.findNoPagadosOrderByFecha();
+
+		model.addAttribute("pedidosList", pedidos);
+		return "carrito/pagarTransferencias";
+	}
+	
+	@RequestMapping("/pedido/pagar/transferencia")
+	public String pagarPedidoTransferencia(Principal principal, Model model,
+			@RequestParam(value = "pedidoID", required = false) String pedidoID) {
+
+		if (pedidoID != null) {		
+			Pedido pedido = pedidosService.findById(Long.parseLong(pedidoID));
+			pedido.setPagado(true);
+		}
+		return "redirect:/carrito/pagarTransferencias";
+
+	}
+	
+	
 
 }
