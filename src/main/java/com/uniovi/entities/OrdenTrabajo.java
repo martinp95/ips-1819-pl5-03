@@ -27,8 +27,7 @@ public class OrdenTrabajo {
 	
 	private Date fecha;
 	private boolean incidencia;
-	
-	private boolean incidencia;
+
 	
 	public OrdenTrabajo() {
 	}
