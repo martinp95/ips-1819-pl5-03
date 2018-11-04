@@ -24,7 +24,7 @@ public class Producto {
 	private String posicion;
 	private int numEstanteria;
 	private int numFila;
-	private String codigo;
+	
 
 	@OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
 	private Set<ProductosCarrito> productosCarrito = new HashSet<ProductosCarrito>();
@@ -130,14 +130,6 @@ public class Producto {
 
 	public Set<ProductosPedido> getProductosPedido() {
 		return new HashSet<ProductosPedido>(productosPedido);
-	}	
-
-	public String getCodigo() {
-		return codigo;
-	}
-
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
 	}
 
 	@Override

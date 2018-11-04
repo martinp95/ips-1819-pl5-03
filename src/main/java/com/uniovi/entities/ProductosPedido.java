@@ -27,7 +27,8 @@ public class ProductosPedido {
 	private double precioUnidad;
 	private String incidencia;
 	
-	private boolean empaquetado;
+	@ManyToOne
+	private Paquete paquete;
 
 	public ProductosPedido() {
 	}
@@ -39,7 +40,6 @@ public class ProductosPedido {
 		this.setCantidadPorRecoger(cantidad);
 		this.setPrecioUnidad(precioUnidad);
 		this.incidencia = "";
-		this.empaquetado = false;
 	}
 
 	@Override
@@ -121,13 +121,15 @@ public class ProductosPedido {
 		this.incidencia = incidencia;
 	}
 
-	public boolean isEmpaquetado() {
-		return empaquetado;
+	public Paquete getPaquete() {
+		return paquete;
 	}
 
-	public void setEmpaquetado(boolean empaquetado) {
-		this.empaquetado = empaquetado;
+	public void setPaquete(Paquete paquete) {
+		this.paquete = paquete;
 	}
+	
+	
 	
 	
 

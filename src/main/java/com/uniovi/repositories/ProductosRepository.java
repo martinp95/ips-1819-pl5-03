@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.uniovi.entities.OrdenTrabajo;
 import com.uniovi.entities.Producto;
+import com.uniovi.entities.ProductosPedido;
 
 public interface ProductosRepository extends CrudRepository<Producto, Long> {
 
@@ -25,4 +26,17 @@ public interface ProductosRepository extends CrudRepository<Producto, Long> {
 			+ "and pp.PEDIDO_ID IN (SELECT pe.ID FROM PEDIDO pe WHERE pe.ID IN(SELECT po.PEDIDO_ID FROM PEDIDOS_ORDEN_TRABAJO po "
 			+ "WHERE po.ORDENTRABAJO_ID=?2)) AND pp.CANTIDAD_POR_RECOGER > 0", nativeQuery = true)
 	List<Producto> getProductoByProductoIDAndOtID(String producto, String ordenTrabajo);
+	
+	/*
+	 * Seleccionar los productosPedido que sean de una orden de trabajo dada que  no tenga incidencia
+	 * y no esten empaquetados ordenados por los pasillos, etc
+	 */
+	
+//	@Query("SELECT pp from ProductosPedido pp WHERE ?1 IN pp.pedido.pedidoOrdenesTrabajo.ordenTrabajo "
+//			+ "and pp.pedido.pedidoOrdenesTrabajo.ordenTrabajo.incidencia = False and pp.paquete is null"
+//			+ " order by pp.producto.pasillo , pp.producto.posicion , pp.producto.num_estanteria , pp.producto.num_fila")
+	
+	//consulta para que pueda ejecutarse
+	@Query("select pp from ProductosPedido pp")
+	List<ProductosPedido> findProductoByOtNoincidenciaNoEmpaquetado(OrdenTrabajo ordenTrabajo);
 }
