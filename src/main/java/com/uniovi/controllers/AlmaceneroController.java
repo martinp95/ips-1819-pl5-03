@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uniovi.entities.OrdenTrabajo;
+import com.uniovi.entities.Pedido;
 import com.uniovi.entities.PedidosOrdenTrabajo;
 import com.uniovi.entities.ProductosPedido;
 import com.uniovi.entities.User;
@@ -40,6 +41,8 @@ public class AlmaceneroController {
 	@Autowired
 	private ProductosPedidoService productosPedidoService;
 
+	private final int NUM_MIN_PEDIDO = 5;
+
 	@RequestMapping(value = "/almacenero/asignar", method = RequestMethod.POST)
 	public String addPedido(Principal principal, Model model,
 			@RequestParam(value = "pedidoID", required = false) String pedidoID) {
@@ -48,12 +51,35 @@ public class AlmaceneroController {
 			User almacenero = usersService.getUserByEmail(email);
 			OrdenTrabajo ordenTrabajo = new OrdenTrabajo(almacenero);
 			ordenTrabajoService.addOrdenTrabajo(ordenTrabajo);
-			PedidosOrdenTrabajo pedidoOrdenTrabajo = new PedidosOrdenTrabajo(
+			PedidosOrdenTrabajo pedidoOrdenTrabajo;
+			
+			//tamaño pedido
+			int tam = pedidoService.findById(Long.parseLong(pedidoID)).getSize();
+			
+			//if tamaño menor que NUM_MIN_PEDIDO
+			if (tam < NUM_MIN_PEDIDO) {
+				//añade pedido a la orden de trabajo
+				pedidoOrdenTrabajo = new PedidosOrdenTrabajo(
+						pedidoService.findById(Long.parseLong(pedidoID)), ordenTrabajo);
+				pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
+				//saca la lista del resto de pedidos
+				List<Pedido> pedidosNoAsignados = pedidoService.findNoAsignadosOrderByFecha();
+				//los va asignando si caben a la orden de trabajo exitente
+				for (Pedido p: pedidosNoAsignados) {
+					if(p.getSize() + tam <= NUM_MIN_PEDIDO)
+					pedidoOrdenTrabajo = new PedidosOrdenTrabajo(p, ordenTrabajo);
+					pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
+					tam += p.getSize();
+				}
+				return "redirect:/ordenesTrabajo";
+			}
+
+			pedidoOrdenTrabajo = new PedidosOrdenTrabajo(
 					pedidoService.findById(Long.parseLong(pedidoID)), ordenTrabajo);
 			pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
+
 		}
 		return "redirect:/ordenesTrabajo";
-
 	}
 
 	@RequestMapping("/ordenesTrabajo")
