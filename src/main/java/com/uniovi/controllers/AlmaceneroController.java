@@ -55,32 +55,27 @@ public class AlmaceneroController {
 			OrdenTrabajo ordenTrabajo = new OrdenTrabajo(almacenero);
 			ordenTrabajoService.addOrdenTrabajo(ordenTrabajo);
 			PedidosOrdenTrabajo pedidoOrdenTrabajo;
-			
-			//tamaño pedido
+
+			// tamaño pedido
 			int tam = pedidoService.findById(Long.parseLong(pedidoID)).getSize();
-			
-			//if tamaño menor que NUM_MIN_PEDIDO
+
+			// if tamaño menor que NUM_MIN_PEDIDO
 			if (tam < NUM_MIN_PEDIDO) {
-				//añade pedido a la orden de trabajo
-				pedidoOrdenTrabajo = new PedidosOrdenTrabajo(
-						pedidoService.findById(Long.parseLong(pedidoID)), ordenTrabajo);
+				// añade pedido a la orden de trabajo
+				pedidoOrdenTrabajo = new PedidosOrdenTrabajo(pedidoService.findById(Long.parseLong(pedidoID)),
+						ordenTrabajo);
 				pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
-				//saca la lista del resto de pedidos
+				// saca la lista del resto de pedidos
 				List<Pedido> pedidosNoAsignados = pedidoService.findNoAsignadosOrderByFecha();
-				//los va asignando si caben a la orden de trabajo exitente
-				for (Pedido p: pedidosNoAsignados) {
-					if(p.getSize() + tam <= NUM_MIN_PEDIDO)
-					pedidoOrdenTrabajo = new PedidosOrdenTrabajo(p, ordenTrabajo);
+				// los va asignando si caben a la orden de trabajo exitente
+				for (Pedido p : pedidosNoAsignados) {
+					if (p.getSize() + tam <= NUM_MIN_PEDIDO)
+						pedidoOrdenTrabajo = new PedidosOrdenTrabajo(p, ordenTrabajo);
 					pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
 					tam += p.getSize();
 				}
 				return "redirect:/ordenesTrabajo";
 			}
-
-			pedidoOrdenTrabajo = new PedidosOrdenTrabajo(
-					pedidoService.findById(Long.parseLong(pedidoID)), ordenTrabajo);
-			pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
-
 		}
 		return "redirect:/ordenesTrabajo";
 	}
@@ -141,7 +136,7 @@ public class AlmaceneroController {
 		model.addAttribute("otID", otID);
 		return "almacenero/listProductosOT";
 	}
-	
+
 	@RequestMapping("/ordenesTrabajo/noIncidence")
 	public String getOTSinIncidencia(Model model, Principal principal) {
 		String email = principal.getName();
@@ -150,7 +145,7 @@ public class AlmaceneroController {
 		model.addAttribute("ordenTrabajoList", ordenesTrabajo);
 		return "almacenero/listOTSinIncidencias";
 	}
-	
+
 	@RequestMapping("/ordenesTrabajo/empaquetar/productos/")
 	public String getProductosEmpaquetarOrdenTrabajo(Principal principal, Model model,
 			@RequestParam(value = "otID", required = false) String otID) {
@@ -161,15 +156,15 @@ public class AlmaceneroController {
 		}
 		return "almacenero/listProductosEmpaquetar";
 	}
-	
+
 	@RequestMapping("/ordenTrabajo/empaquetar")
 	public String empaquetarOrdenTrabajo(Principal principal, Model model,
 			@RequestParam(value = "idProducto", required = false) String id) {
-		if(id!=null) {
+		if (id != null) {
 			ProductosPedido producto = productosPedidoService.findByProductoId(id);
-			if(producto!=null) {
+			if (producto != null) {
 				paqueteService.empaquetarProducto(producto);
-				
+
 			}
 		}
 		return "almacenero/listProductosEmpaquetar";

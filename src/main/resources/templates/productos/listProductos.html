@@ -17,8 +17,7 @@
 		</form>
 		<div class="row">
 			<div class="col-sm-6">
-				<table class="table table-hover" th:fragment="tableListProductos"
-					id="tableListProductos">
+				<table class="table table-hover" id="tableListProductos">
 					<thead>
 						<tr>
 							<th th:text="#{listProductosName.message}"></th>
@@ -53,8 +52,13 @@
 										var url = '/carrito/add/[[${producto.id}]]';
 										var cantidad = document.getElementById("cantidad[[${producto.id}]]").value;
 										url+="/"+ cantidad;
-										$("#tableListProductos").load(url);
+										$(window).load(url);										
+										var delayInMilliseconds = 150;
+										setTimeout(function() {
+											location.reload(true);
+										}, delayInMilliseconds);
 									});
+									
 								/*]]>*/
 							</script>
 							</td>
@@ -66,8 +70,7 @@
 				<hr />
 			</div>
 			<div class="col-sm-6">
-				<table class="table table-hover" id="tableCarrito"
-					th:fragment="tableCarrito">
+				<table class="table table-hover" id="tableCarrito">
 					<thead>
 						<tr>
 							<th>Nombre</th>
