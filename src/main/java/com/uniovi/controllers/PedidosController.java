@@ -60,8 +60,14 @@ public class PedidosController {
 	}
 
 	@RequestMapping("/pedido/metodosPago")
-	public String getMetodosPago(Model model, @RequestParam(value = "", required = false) Principal principal) {
-		return "carrito/metodosPago";
+	public String getMetodosPago(Model model, Principal principal) {
+		String email = principal.getName();
+		User user = usersService.getUserByEmail(email);
+		if (user.getProductosCarrito().size() > 0) {
+			return "carrito/metodosPago";
+		}
+		else
+			return "redirect:/productos";
 	}
 
 	@RequestMapping("/pedido/pagar")
