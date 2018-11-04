@@ -1,12 +1,8 @@
 package com.uniovi.services;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.uniovi.entities.OrdenTrabajo;
@@ -19,15 +15,14 @@ public class ProductosService {
 	@Autowired
 	private ProductosRepository productosRepository;
 
-	public Page<Producto> searchProductosByNameAndDescription(Pageable pageable, String searchText) {
-		Page<Producto> productos = new PageImpl<Producto>(new LinkedList<Producto>());
+	public List<Producto> searchProductosByNameAndDescription(String searchText) {
 		searchText = "%" + searchText + "%";
-		productos = productosRepository.searchByNameAndDescription(pageable, searchText);
+		List<Producto> productos  = productosRepository.searchByNameAndDescription(searchText);
 		return productos;
 	}
 
-	public Page<Producto> findAll(Pageable pageable) {
-		return productosRepository.findAll(pageable);
+	public List<Producto> findAll() {
+		return productosRepository.findAll();
 	}
 
 	public void addProducto(Producto producto) {

@@ -6,13 +6,6 @@
 	<nav th:replace="fragments/nav" />
 	<div class="container">
 		<h2>Carrito</h2>
-		<form class="navbar-form" action="/carrito">
-			<div class="form-group">
-				<input name="searchText" type="text" class="form-control" size="50"
-					placeholder="Introduzca nombre o descripcion del producto" />
-			</div>
-			<button type="submit" class="btn btn-default">Buscar</button>
-		</form>
 		<div class="table-responsive">
 			<table class="table table-hover" id="tableCarrito"
 				th:fragment="tableCarrito">
@@ -44,7 +37,7 @@
 
 						<td><button type="button"
 								th:id="${'eliminarButton' + productosCarrito.producto.id}"
-								class="btn btn-info">Borrar de carrito</button></td>
+								class="btn btn-danger">Borrar de carrito</button></td>
 
 
 						<script th:inline="javascript">
@@ -88,12 +81,16 @@
 					</tr>
 				</tbody>
 			</table>
-			<a th:if="${#lists.size(carritoList) > 0 }" id="confirmarPedido"
-				href="/pedido/add" class="btn btn-info">Confirmar pedido</a>
+			<a th:if="${#lists.size(carritoList) > 0 }"
+				sec:authorize="hasRole('ROLE_EMPRESA')" id="confirmarPedido"
+				href="/pedido/add" class="btn btn-success">Confirmar pedido</a>
+			<a	th:if="${#lists.size(carritoList) > 0 }"
+				sec:authorize="hasRole('ROLE_USER') and hasRole('ROLE_PARTICULAR')"
+				id="confirmarPedido" href="/pedido/metodosPago"
+				class="btn btn-success">Pagar pedido</a>
 
 
 		</div>
-		<footer th:replace="fragments/pagination" />
 	</div>
 
 	<footer th:replace="fragments/footer" />

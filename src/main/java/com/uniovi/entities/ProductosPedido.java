@@ -26,6 +26,8 @@ public class ProductosPedido {
 	private int cantidadPorRecoger;
 	private double precioUnidad;
 	private String incidencia;
+	
+	private boolean empaquetado;
 
 	public ProductosPedido() {
 	}
@@ -37,6 +39,7 @@ public class ProductosPedido {
 		this.setCantidadPorRecoger(cantidad);
 		this.setPrecioUnidad(precioUnidad);
 		this.incidencia = "";
+		this.empaquetado = false;
 	}
 
 	@Override
@@ -117,5 +120,15 @@ public class ProductosPedido {
 	public void setIncidencia(String incidencia) {
 		this.incidencia = incidencia;
 	}
+
+	public boolean isEmpaquetado() {
+		return empaquetado;
+	}
+
+	public void setEmpaquetado(boolean empaquetado) {
+		this.empaquetado = empaquetado;
+	}
+	
+	
 
 }

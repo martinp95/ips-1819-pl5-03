@@ -27,4 +27,16 @@ public class PedidosService {
 		return pedidosRepository.findById(id);
 	}
 
+	public List<Pedido> findNoPagadosOrderByFecha() {
+		List<Pedido> pedidosNoPagados = pedidosRepository.findPedidosNoPagadosOrderByFecha();
+		return pedidosNoPagados;
+	}
+
+	public void pagarPedido(String pedidoID) {
+		Pedido pedido = pedidosRepository.findById(Long.parseLong(pedidoID));
+		pedido.setPagado(true);
+		pedidosRepository.save(pedido);
+		
+	}
+
 }

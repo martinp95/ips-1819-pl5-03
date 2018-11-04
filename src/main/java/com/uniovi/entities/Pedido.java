@@ -29,6 +29,8 @@ public class Pedido {
 	
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
 	private Set<PedidosOrdenTrabajo> pedidoOrdenesTrabajo = new HashSet<PedidosOrdenTrabajo>();	
+	
+	private boolean pagado;
 
 
 	public Pedido() {
@@ -38,6 +40,7 @@ public class Pedido {
 		this.user = user;
 		this.setFecha(new Date());
 		this.setSize(size);
+		this.pagado = false;
 	}
 
 	public Date getFecha() {
@@ -86,6 +89,14 @@ public class Pedido {
 
 	public Long getId() {
 		return id;
+	}
+	
+	public boolean isPagado() {
+		return pagado;
+	}
+
+	public void setPagado(boolean pagado) {
+		this.pagado = pagado;
 	}
 
 	@Override
