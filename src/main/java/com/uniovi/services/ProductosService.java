@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.uniovi.entities.OrdenTrabajo;
 import com.uniovi.entities.Producto;
+import com.uniovi.entities.ProductosPedido;
 import com.uniovi.repositories.ProductosRepository;
 
 @Service
@@ -45,5 +46,9 @@ public class ProductosService {
 	public boolean isProductoInOT(String producto, String ordenTrabajo) {
 		List<Producto> productos = productosRepository.getProductoByProductoIDAndOtID(producto, ordenTrabajo);
 		return !productos.isEmpty();
+	}
+
+	public List<ProductosPedido> findProductosByOtNoIncidenciaNoEmpaquetado(OrdenTrabajo ordenTrabajo) {
+		return productosRepository.findProductoByOtNoincidenciaNoEmpaquetado(ordenTrabajo);
 	}
 }

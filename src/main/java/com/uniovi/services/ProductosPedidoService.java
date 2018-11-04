@@ -37,14 +37,9 @@ public class ProductosPedidoService {
 		productosPedido.setIncidencia(incidencia);
 		productosPedidoRepository.save(productosPedido);
 	}
-	public ProductosPedido findByCodigo(String codigoProducto) {
-		return productosPedidoRepository.findByCodigo(codigoProducto);
-	}
 
-	public void empaquetarProducto(ProductosPedido producto) {
-		producto.setEmpaquetado(true);
-		productosPedidoRepository.save(producto);
-		
+	public ProductosPedido findByProductoId(String id) {
+		return productosPedidoRepository.findByProductoId(id);
 	}
 
 }

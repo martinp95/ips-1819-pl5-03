@@ -16,6 +16,7 @@ import com.uniovi.entities.ProductosPedido;
 import com.uniovi.entities.User;
 import com.uniovi.services.AlmaceneroService;
 import com.uniovi.services.OrdenTrabajoService;
+import com.uniovi.services.PaqueteService;
 import com.uniovi.services.PedidoOrdenTrabajoService;
 import com.uniovi.services.PedidosService;
 import com.uniovi.services.ProductosPedidoService;
@@ -39,6 +40,8 @@ public class AlmaceneroController {
 	private ProductosService productosService;
 	@Autowired
 	private ProductosPedidoService productosPedidoService;
+	@Autowired
+	private PaqueteService paqueteService;
 
 	@RequestMapping(value = "/almacenero/asignar", method = RequestMethod.POST)
 	public String addPedido(Principal principal, Model model,
@@ -127,7 +130,7 @@ public class AlmaceneroController {
 			@RequestParam(value = "otID", required = false) String otID) {
 		if (otID != null) {
 			OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));
-			List<Object> productos = productosService.findProductosByOt(ordenTrabajo);
+			List<ProductosPedido> productos = productosService.findProductosByOtNoIncidenciaNoEmpaquetado(ordenTrabajo);
 			model.addAttribute("productosList", productos);
 		}
 		return "almacenero/listProductosEmpaquetar";
@@ -135,11 +138,11 @@ public class AlmaceneroController {
 	
 	@RequestMapping("/ordenTrabajo/empaquetar")
 	public String empaquetarOrdenTrabajo(Principal principal, Model model,
-			@RequestParam(value = "codigoProducto", required = false) String codigoProducto) {
-		if(codigoProducto!=null) {
-			ProductosPedido producto = productosPedidoService.findByCodigo(codigoProducto);
+			@RequestParam(value = "idProducto", required = false) String id) {
+		if(id!=null) {
+			ProductosPedido producto = productosPedidoService.findByProductoId(id);
 			if(producto!=null) {
-				productosPedidoService.empaquetarProducto(producto);//empaquetar producto o producto pedido?
+				paqueteService.empaquetarProducto(producto);
 				
 			}
 		}
