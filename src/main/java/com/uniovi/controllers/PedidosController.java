@@ -9,12 +9,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.uniovi.entities.OrdenTrabajo;
 import com.uniovi.entities.Pedido;
-import com.uniovi.entities.PedidosOrdenTrabajo;
 import com.uniovi.entities.ProductosCarrito;
 import com.uniovi.entities.User;
 import com.uniovi.services.PedidosService;
@@ -71,7 +68,6 @@ public class PedidosController {
 	public String getPagar(Model model, Principal principal,
 			@RequestParam(value = "metodoPago", required = false) String metodoPago) {
 
-		
 		String email = principal.getName();
 		User user = usersService.getUserByEmail(email);
 		if (user.getProductosCarrito().size() > 0) {
@@ -80,7 +76,7 @@ public class PedidosController {
 				size += productoCarro.getCantidad();
 			}
 			Pedido pedido = new Pedido(user, size);
-			if(metodoPago.equals("Tarjeta")||metodoPago.equals("Contrareembolso"))
+			if (metodoPago.equals("Tarjeta") || metodoPago.equals("Contrareembolso"))
 				pedido.setPagado(true);
 			pedidosService.addPedido(pedido);
 			productosPedidoService.addProductosPedido(pedido, user.getProductosCarrito());
@@ -89,31 +85,22 @@ public class PedidosController {
 			return "redirect:/carrito";
 		}
 		return "redirect:/productos";
-		
 	}
-	
+
 	@RequestMapping("/pedidos/noPagados")
 	public String getPedidosNoPagados(Model model, @RequestParam(value = "", required = false) Principal principal) {
-
 		List<Pedido> pedidos = new ArrayList<Pedido>();
 		pedidos = pedidosService.findNoPagadosOrderByFecha();
-
 		model.addAttribute("pedidosList", pedidos);
 		return "carrito/pagarTransferencias";
 	}
-	
+
 	@RequestMapping("/pedido/pagar/transferencia")
 	public String pagarPedidoTransferencia(Principal principal, Model model,
 			@RequestParam(value = "pedidoID", required = false) String pedidoID) {
-
-		if (pedidoID != null) {		
+		if (pedidoID != null) {
 			pedidosService.pagarPedido(pedidoID);
-			
 		}
 		return "redirect:/pedidos/noPagados";
-
 	}
-	
-	
-
 }
