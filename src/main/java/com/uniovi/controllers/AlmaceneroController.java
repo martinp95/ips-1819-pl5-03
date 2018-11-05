@@ -69,13 +69,18 @@ public class AlmaceneroController {
 				List<Pedido> pedidosNoAsignados = pedidoService.findNoAsignadosOrderByFecha();
 				// los va asignando si caben a la orden de trabajo exitente
 				for (Pedido p : pedidosNoAsignados) {
-					if (p.getSize() + tam <= NUM_MIN_PEDIDO)
+					if (p.getSize() + tam <= NUM_MIN_PEDIDO) {
 						pedidoOrdenTrabajo = new PedidosOrdenTrabajo(p, ordenTrabajo);
-					pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
-					tam += p.getSize();
+						pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
+						tam += p.getSize();
+					}
 				}
 				return "redirect:/ordenesTrabajo";
 			}
+			// para pedidos de 5 o mas productos
+			pedidoOrdenTrabajo = new PedidosOrdenTrabajo(pedidoService.findById(Long.parseLong(pedidoID)),
+					ordenTrabajo);
+			pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
 		}
 		return "redirect:/ordenesTrabajo";
 	}
