@@ -47,20 +47,26 @@
 									th:id="${'addCarritoButton' + producto.id}"
 									class="btn btn-info" th:text="#{addCarrito.message}"></button>
 								<script th:inline="javascript">
-								/*<![CDATA[*/
-									$( "#addCarritoButton[[${producto.id}]]").click(function(){
-										var url = '/carrito/add/[[${producto.id}]]';
-										var cantidad = document.getElementById("cantidad[[${producto.id}]]").value;
-										url+="/"+ cantidad;
-										$(window).load(url);										
-										var delayInMilliseconds = 150;
-										setTimeout(function() {
-											location.reload(true);
-										}, delayInMilliseconds);
-									});
-									
-								/*]]>*/
-							</script>
+									/*<![CDATA[*/
+									$("#addCarritoButton[[${producto.id}]]")
+											.click(
+													function() {
+														var url = '/carrito/add/[[${producto.id}]]';
+														var cantidad = document
+																.getElementById("cantidad[[${producto.id}]]").value;
+														url += "/" + cantidad;
+														$(window).load(url);
+														var delayInMilliseconds = 50;
+														setTimeout(
+																function() {
+																	location
+																			.reload(true);
+																},
+																delayInMilliseconds);
+													});
+
+									/*]]>*/
+								</script>
 							</td>
 							<td th:if="${error == producto.id}"
 								th:text="#{alreadySend.message}"></td>
@@ -103,40 +109,63 @@
 
 
 							<script th:inline="javascript">
-									/*<![CDATA[*/
-										$( "#incrementarButton[[${productosCarrito.producto.id}]]" ).click(function() {
-												
-												var urlUpdate = '/carrito/aumentarUnidad/[[${productosCarrito.producto.id}]]';
-												
-												$("#tableCarrito").load(urlUpdate);										
-										});
-									/*]]>*/
-									</script>
+								/*<![CDATA[*/
+								$(
+										"#incrementarButton[[${productosCarrito.producto.id}]]")
+										.click(
+												function() {
+
+													var urlUpdate = '/carrito/aumentarUnidad/[[${productosCarrito.producto.id}]]';
+
+													$(window).load(urlUpdate);
+													var delayInMilliseconds = 50;
+													setTimeout(function() {
+														location.reload(true);
+													}, delayInMilliseconds);
+												});
+								/*]]>*/
+							</script>
 
 							<script th:inline="javascript">
-									/*<![CDATA[*/
-										$( "#decrementarButton[[${productosCarrito.producto.id}]]" ).click(function() {
-												
-												var urlUpdate = '/carrito/decrementarUnidad/[[${productosCarrito.producto.id}]]';
-												
-												$("#tableCarrito").load(urlUpdate);										
-										});
-									/*]]>*/
-									</script>
+								/*<![CDATA[*/
+								$(
+										"#decrementarButton[[${productosCarrito.producto.id}]]")
+										.click(
+												function() {
+
+													var urlUpdate = '/carrito/decrementarUnidad/[[${productosCarrito.producto.id}]]';
+
+													$(window).load(urlUpdate);
+													var delayInMilliseconds = 50;
+													setTimeout(function() {
+														location.reload(true);
+													}, delayInMilliseconds);
+												});
+								/*]]>*/
+							</script>
 
 							<script th:inline="javascript">
-									/*<![CDATA[*/
-										$( "#eliminarButton[[${productosCarrito.producto.id}]]" ).click(function() {
-												
-												var url = '/carrito/delete/[[${productosCarrito.producto.id}]]';
-												
-												$("#tableCarrito").load(url);										
-										});
-									/*]]>*/
-									</script>
+								/*<![CDATA[*/
+								$(
+										"#eliminarButton[[${productosCarrito.producto.id}]]")
+										.click(
+												function() {
+
+													var url = '/carrito/delete/[[${productosCarrito.producto.id}]]';
+
+													$(window).load(url);
+													var delayInMilliseconds = 50;
+													setTimeout(function() {
+														location.reload(true);
+													}, delayInMilliseconds);
+												});
+								/*]]>*/
+							</script>
 						</tr>
 					</tbody>
 				</table>
+				<p th:text="'Total a pagar: ' + ${total} + '€'"></p>
+
 				<a th:if="${#lists.size(carritoList) > 0 }"
 					sec:authorize="hasRole('ROLE_EMPRESA')" id="confirmarPedido"
 					href="/pedido/add" class="btn btn-success">Confirmar pedido</a> <a

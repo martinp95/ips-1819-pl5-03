@@ -42,8 +42,13 @@ public class ProductosController {
 		String email = principal.getName();
 		User user = usersService.getUserByEmail(email);
 		carrito = productosCarritoService.findAllByUser(user);
+		double precioTotal = 0.0;
+		for (ProductosCarrito productosCarrito : carrito) {
+			precioTotal += productosCarrito.getPrecioProductoCantidad();
+		}
 		model.addAttribute("carritoList", carrito);
 		model.addAttribute("productosList", productos);
+		model.addAttribute("total", precioTotal);
 		return "productos/listProductos";
 	}
 }
