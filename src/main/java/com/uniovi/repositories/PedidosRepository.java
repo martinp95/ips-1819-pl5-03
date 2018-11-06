@@ -17,4 +17,7 @@ public interface PedidosRepository extends CrudRepository<Pedido, Long> {
 	
 	@Query("select p from Pedido p where p.pagado = False order by p.fecha")
 	List<Pedido> findPedidosNoPagadosOrderByFecha();
+	
+	@Query("select p from Pedido p where p.id = ?1 ") //and p.ProductosPedido row_num = ?2")
+	Pedido findPrimerosProductosPedido(Long idPedido, int NUM_MAX_PEDIDO);
 }

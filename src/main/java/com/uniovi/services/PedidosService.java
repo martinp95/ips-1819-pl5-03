@@ -39,4 +39,9 @@ public class PedidosService {
 		
 	}
 
+	public Pedido findPrimerosProductosPedido(long id, int NUM_MAX_PEDIDO) {
+		//return null;
+		return pedidosRepository.findPrimerosProductosPedido(id, NUM_MAX_PEDIDO);
+	}
+
 }
