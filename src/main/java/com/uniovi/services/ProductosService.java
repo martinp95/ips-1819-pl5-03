@@ -48,6 +48,6 @@ public class ProductosService {
 	}
 
 	public List<Object> findProductosByOtAndNoEmpaquetado(OrdenTrabajo ordenTrabajo) {
-		return productosRepository.findProductosByOtCantidadRecogerIgualCeroAndNoEmpaquetado(ordenTrabajo);
+		return productosRepository.findProductosByOtAndNoEmpaquetado(ordenTrabajo);
 	}
 }

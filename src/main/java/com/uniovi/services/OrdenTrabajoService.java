@@ -29,4 +29,13 @@ public class OrdenTrabajoService {
 		ordenTrabajo.setIncidencia(false);
 		ordenTrabajoRepository.save(ordenTrabajo);
 	}
+
+	public void cambiarEmpaquetada(OrdenTrabajo ordenTrabajo) {
+		ordenTrabajo.setEmpaquetada(true);
+		ordenTrabajoRepository.save(ordenTrabajo);
+	}
+
+	public String generarAlbaran(OrdenTrabajo ordenTrabajo) {
+		return null;
+	}
 }

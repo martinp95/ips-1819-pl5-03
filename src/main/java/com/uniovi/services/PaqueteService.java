@@ -34,13 +34,9 @@ public class PaqueteService {
 		if (paquete == null) {
 			paquete = new Paquete();
 			paquete.setOrdenTrabajo(ordenTrabajo);
+			ordenTrabajo.setPaquete(paquete);
 		}
 		paqueteRepository.save(paquete);
-	}
-
-	public void generarAlbaran(OrdenTrabajo ordenTrabajo) {
-		Paquete paquete = paqueteRepository.findByOrdenTrabajo(ordenTrabajo);
-		paquete.generarAlbaran();
-		paqueteRepository.save(paquete);
+		ordenTrabajoRepository.save(ordenTrabajo);
 	}
 }

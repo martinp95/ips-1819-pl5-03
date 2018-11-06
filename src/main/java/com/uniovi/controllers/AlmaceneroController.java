@@ -184,10 +184,29 @@ public class AlmaceneroController {
 		OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));
 		List<Object> productos = productosService.findProductosByOtAndNoEmpaquetado(ordenTrabajo);
 		if (productos.isEmpty()) {
-			paqueteService.generarAlbaran(ordenTrabajo);
+			ordenTrabajoService.cambiarEmpaquetada(ordenTrabajo);
 		}
 		model.addAttribute("productosList", productos);
 		model.addAttribute("otID", otID);
 		return "almacenero/listProductosEmpaquetar";
+	}
+
+	@RequestMapping("/ordenesTrabajo/empaquetadas")
+	public String getOtsEmpaquetadas(Principal principal, Model model) {
+		String email = principal.getName();
+		User almacenero = usersService.getUserByEmail(email);
+		List<OrdenTrabajo> ordenesTrabajo = almaceneroService.findOrdenTabajoByUserAndEmpaquetada(almacenero);
+		model.addAttribute("ordenTrabajoList", ordenesTrabajo);
+		return "almacenero/listOTEmpaquetadas";
+	}
+
+	@RequestMapping("/ordenesTrabajo/albaran")
+	public String generarAlbaran(Principal principal, Model model,
+			@RequestParam(value = "otID", required = false) String otID) {
+		if (otID != null) {
+			OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));
+			String albaran = ordenTrabajoService.generarAlbaran(ordenTrabajo);
+		}
+		return "";
 	}
 }

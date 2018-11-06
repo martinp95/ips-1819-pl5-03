@@ -28,6 +28,7 @@ public class OrdenTrabajo {
 	
 	private Date fecha;
 	private boolean incidencia;
+	private boolean empaquetada;
 	
 	@OneToOne
 	private Paquete paquete;
@@ -113,6 +114,14 @@ public class OrdenTrabajo {
 
 	public void setIncidencia(boolean incidencia) {
 		this.incidencia = incidencia;
+	}
+
+	public boolean isEmpaquetada() {
+		return empaquetada;
+	}
+
+	public void setEmpaquetada(boolean empaquetada) {
+		this.empaquetada = empaquetada;
 	}
 	
 	
