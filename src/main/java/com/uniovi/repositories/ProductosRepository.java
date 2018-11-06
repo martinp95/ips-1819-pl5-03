@@ -31,9 +31,14 @@ public interface ProductosRepository extends CrudRepository<Producto, Long> {
 	 * Seleccionar los productosPedido que sean de una orden de trabajo dada que  no tenga incidencia
 	 * y no esten empaquetados
 	 */	
-	@Query(value = "SELECT pp.* FROM PRODUCTO p, PRODUCTOS_PEDIDO pp WHERE pp.PRODUCTO_ID = p.ID "
+	@Query(value = "SELECT pp FROM PRODUCTO p, PRODUCTOS_PEDIDO pp WHERE pp.PRODUCTO_ID = p.ID "
 			+ "and pp.PEDIDO_ID IN (SELECT pe.ID FROM PEDIDO pe WHERE pe.ID IN(SELECT po.PEDIDO_ID FROM PEDIDOS_ORDEN_TRABAJO po,"
 			+ " ORDEN_TRABAJO ot WHERE po.ORDENTRABAJO_ID=?1 AND ot.ID = po.ORDENTRABAJO_ID AND"
-			+ " ot.INCIDENCIA = False)) AND pp.PAQUETE_ID IS NULL  ", nativeQuery = true)
+			+ " ot.INCIDENCIA = False)) AND pp.PAQUETE_ID IS NULL ", nativeQuery = true)
 	List<ProductosPedido> findProductoByOtNoincidenciaNoEmpaquetado(OrdenTrabajo ordenTrabajo);
+
+	@Query(value = "SELECT p.* FROM PRODUCTO p, PRODUCTOS_PEDIDO pp WHERE pp.PRODUCTO_ID = p.ID "
+			+ "and pp.PEDIDO_ID IN (SELECT pe.ID FROM PEDIDO pe WHERE pe.ID IN(SELECT po.PEDIDO_ID FROM PEDIDOS_ORDEN_TRABAJO po "
+			+ "WHERE po.ORDENTRABAJO_ID=?1)) and pp.PAQUETE_ID IS NULL", nativeQuery = true)
+	List<Object> findProductosByOtCantidadRecogerIgualCeroAndNoEmpaquetado(OrdenTrabajo ordenTrabajo);
 }

@@ -46,4 +46,8 @@ public class ProductosService {
 	public List<ProductosPedido> findProductosByOtNoIncidenciaNoEmpaquetado(OrdenTrabajo ordenTrabajo) {
 		return productosRepository.findProductoByOtNoincidenciaNoEmpaquetado(ordenTrabajo);
 	}
+
+	public List<Object> findProductosByOtAndNoEmpaquetado(OrdenTrabajo ordenTrabajo) {
+		return productosRepository.findProductosByOtCantidadRecogerIgualCeroAndNoEmpaquetado(ordenTrabajo);
+	}
 }

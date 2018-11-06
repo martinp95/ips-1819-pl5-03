@@ -45,4 +45,9 @@ public class ProductosPedidoService {
 		return productosPedidoRepository.findByProductoId(id);
 	}
 
+	public List<ProductosPedido> findProductoPedidoByOtAndProductoAndNoEmpaquetado(String idProducto, String otID) {
+		// TODO Auto-generated method stub
+		return productosPedidoRepository.getProductoPedidoByProductoIDAndOtIDAndNoEmpaquetado(idProducto,otID);
+	}
+
 }

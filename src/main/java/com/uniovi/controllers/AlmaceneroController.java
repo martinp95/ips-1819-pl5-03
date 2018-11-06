@@ -153,27 +153,30 @@ public class AlmaceneroController {
 		model.addAttribute("ordenTrabajoList", ordenesTrabajo);
 		return "almacenero/listOTSinIncidencias";
 	}
-
-	//si existe paquete para ot nada, sino lo crea
+	
 	@RequestMapping("/ordenesTrabajo/empaquetar/productos")
 	public String getProductosEmpaquetarOrdenTrabajo(Principal principal, Model model,
 			@RequestParam(value = "otID", required = false) String otID) {
 		if (otID != null) {
 			OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));
-			List<ProductosPedido> productos = productosService.findProductosByOtNoIncidenciaNoEmpaquetado(ordenTrabajo);
+			List<Object> productos = productosService.findProductosByOtAndNoEmpaquetado(ordenTrabajo);
 			paqueteService.crearPaqueteDeOT(ordenTrabajo);
 			model.addAttribute("productosList", productos);
+			model.addAttribute("otID", otID);
 		}
 		return "almacenero/listProductosEmpaquetar";
 	}
 
 	@RequestMapping("/ordenTrabajo/empaquetar")
 	public String empaquetarOrdenTrabajo(Principal principal, Model model,
-			@RequestParam(value = "idProducto", required = false) String id) {
-		if (id != null) {
-			ProductosPedido producto = productosPedidoService.findByProductoId(id);
-			if (producto != null) {
-				paqueteService.empaquetarProducto(producto);
+			@RequestParam(value = "idProducto", required = false) String idProducto,
+			@RequestParam(value = "otID", required = false) String otID) {
+		if (!idProducto.isEmpty()) {
+			List<ProductosPedido> productosPedido = productosPedidoService.findProductoPedidoByOtAndProductoAndNoEmpaquetado(idProducto,
+					otID);
+			ProductosPedido productoPedido = productosPedido.get(0);
+			if (productoPedido != null) {
+				paqueteService.empaquetarProducto(productoPedido, Long.parseLong(otID));
 			}
 		}
 		return "almacenero/listProductosEmpaquetar";

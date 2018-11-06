@@ -18,16 +18,16 @@ public interface ProductosPedidoRepository extends CrudRepository<ProductosPedid
 	@Query("SELECT pp from ProductosPedido pp where pp.producto.id = ?1")
 	ProductosPedido findByProductoId(String id);
 
-	
 	/*
 	 * Metodo que encuentra una ot dado un productoPedido
 	 */
-	//Query que no funciona
+	// Query que no funciona
 	@Query("select ot from OrdenTrabajo ot where ot.id = 1")
 	OrdenTrabajo findOtByProductoPedido(ProductosPedido producto);
 
-	
-
-
+	@Query(value = "SELECT pp.* FROM PRODUCTO p, PRODUCTOS_PEDIDO pp WHERE pp.PRODUCTO_ID = p.ID and p.ID = ?1 "
+			+ "and pp.PEDIDO_ID IN (SELECT pe.ID FROM PEDIDO pe WHERE pe.ID IN(SELECT po.PEDIDO_ID FROM PEDIDOS_ORDEN_TRABAJO po "
+			+ "WHERE po.ORDENTRABAJO_ID=?2)) AND pp.PAQUETE_ID IS NULL", nativeQuery = true)
+	List<ProductosPedido> getProductoPedidoByProductoIDAndOtIDAndNoEmpaquetado(String idProducto, String otID);
 
 }
