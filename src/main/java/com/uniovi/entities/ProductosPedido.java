@@ -26,7 +26,8 @@ public class ProductosPedido {
 	private int cantidadPorRecoger;
 	private double precioUnidad;
 	private String incidencia;
-	
+	private boolean tieneIncidencia;
+
 	@ManyToOne
 	private Paquete paquete;
 
@@ -128,9 +129,12 @@ public class ProductosPedido {
 	public void setPaquete(Paquete paquete) {
 		this.paquete = paquete;
 	}
-	
-	
-	
-	
 
+	public boolean isTieneIncidencia() {
+		return tieneIncidencia;
+	}
+
+	public void setTieneIncidencia(boolean tieneIncidencia) {
+		this.tieneIncidencia = tieneIncidencia;
+	}
 }

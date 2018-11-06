@@ -137,6 +137,9 @@ public class AlmaceneroController {
 			}
 		}
 		List<Object> productos = productosService.findProductosByOt(ordenTrabajo);
+		if (productos.isEmpty()) {
+			ordenTrabajoService.eliminarIncidencia(ordenTrabajo);
+		}
 		model.addAttribute("productosList", productos);
 		model.addAttribute("otID", otID);
 		return "almacenero/listProductosOT";
@@ -169,7 +172,6 @@ public class AlmaceneroController {
 			ProductosPedido producto = productosPedidoService.findByProductoId(id);
 			if (producto != null) {
 				paqueteService.empaquetarProducto(producto);
-
 			}
 		}
 		return "almacenero/listProductosEmpaquetar";
