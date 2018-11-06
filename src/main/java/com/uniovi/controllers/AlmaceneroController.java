@@ -45,6 +45,7 @@ public class AlmaceneroController {
 	private PaqueteService paqueteService;
 
 	private final int NUM_MIN_PEDIDO = 5;
+	private final int NUM_MAX_PEDIDO = 5;
 
 	@RequestMapping(value = "/almacenero/asignar", method = RequestMethod.POST)
 	public String addPedido(Principal principal, Model model,
@@ -52,7 +53,7 @@ public class AlmaceneroController {
 		if (pedidoID != null) {
 			String email = principal.getName();
 			User almacenero = usersService.getUserByEmail(email);
-			OrdenTrabajo ordenTrabajo = new OrdenTrabajo(almacenero);
+			OrdenTrabajo ordenTrabajo  = new OrdenTrabajo(almacenero);
 			ordenTrabajoService.addOrdenTrabajo(ordenTrabajo);
 			PedidosOrdenTrabajo pedidoOrdenTrabajo;
 
@@ -67,7 +68,7 @@ public class AlmaceneroController {
 				pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
 				// saca la lista del resto de pedidos
 				List<Pedido> pedidosNoAsignados = pedidoService.findNoAsignadosOrderByFecha();
-				// los va asignando si caben a la orden de trabajo exitente
+				// los va asignando si caben a la orden de trabajo existente
 				for (Pedido p : pedidosNoAsignados) {
 					if (p.getSize() + tam <= NUM_MIN_PEDIDO) {
 						pedidoOrdenTrabajo = new PedidosOrdenTrabajo(p, ordenTrabajo);
@@ -77,7 +78,34 @@ public class AlmaceneroController {
 				}
 				return "redirect:/ordenesTrabajo";
 			}
-			// para pedidos de 5 o mas productos
+
+			// if tamaño mayor que NUM_MAX_PEDIDO
+			if (tam > NUM_MAX_PEDIDO) {
+				// variable auixliar con el tamaño para controlar los productos que faltan
+				int tamaux = tam;
+				// creo la variable porque solo interviene 1 pedido aqui
+				Pedido pFinal = pedidoService.findById(Long.parseLong(pedidoID));
+				// saco los 5 primeros productos del pedido y los añado
+				//pedidoService.findPrimerosProductosPedido(Long.parseLong(pedidoID), NUM_MAX_PEDIDO);
+				pedidoOrdenTrabajo = new PedidosOrdenTrabajo(pFinal, ordenTrabajo);
+				pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
+				tamaux -= NUM_MAX_PEDIDO;
+				do {
+					// creo la OT nueva pero esta vez sin almacenero asignado
+					ordenTrabajo = new OrdenTrabajo(null);
+					ordenTrabajoService.addOrdenTrabajo(ordenTrabajo);
+					// busco la siguiente remesa de productos
+					//p1 = ... ;
+					// añadir pedido con productos que no esten en OT a otra OT
+					pedidoOrdenTrabajo = new PedidosOrdenTrabajo(pFinal, ordenTrabajo);
+					pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
+					tamaux -= NUM_MAX_PEDIDO;
+				}
+				while (tamaux > 0);
+				return "redirect:/ordenesTrabajo";
+			}
+
+			// para pedidos de 5 productos (funcionaria como en el sprint 1)
 			pedidoOrdenTrabajo = new PedidosOrdenTrabajo(pedidoService.findById(Long.parseLong(pedidoID)),
 					ordenTrabajo);
 			pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
