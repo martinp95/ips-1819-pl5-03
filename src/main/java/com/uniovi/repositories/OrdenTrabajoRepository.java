@@ -10,4 +10,6 @@ import com.uniovi.entities.User;
 public interface OrdenTrabajoRepository  extends CrudRepository<OrdenTrabajo, Long>{
 
 	List<OrdenTrabajo> findByAlmacenero(User almacenero);
+
+	OrdenTrabajo findById(Long otID);
 }

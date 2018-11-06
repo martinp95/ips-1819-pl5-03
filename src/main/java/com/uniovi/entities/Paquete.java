@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Paquete {
@@ -20,7 +21,11 @@ public class Paquete {
 	@OneToMany(mappedBy = "paquete", cascade = CascadeType.ALL)
 	private Set<ProductosPedido> productos = new HashSet<ProductosPedido>();
 	
+	@OneToOne
+	private OrdenTrabajo ot;
+	
 	public Paquete(){}
+	
 
 	public Set<ProductosPedido> getProductos() {
 		return productos;
@@ -29,6 +34,17 @@ public class Paquete {
 	public void addProducto(ProductosPedido pp) {
 		productos.add(pp);
 	}
+
+
+	public OrdenTrabajo getOt() {
+		return ot;
+	}
+
+
+	public void setOt(OrdenTrabajo ot) {
+		this.ot = ot;
+	}
+
 
 	@Override
 	public int hashCode() {

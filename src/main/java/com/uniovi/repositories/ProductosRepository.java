@@ -29,14 +29,11 @@ public interface ProductosRepository extends CrudRepository<Producto, Long> {
 	
 	/*
 	 * Seleccionar los productosPedido que sean de una orden de trabajo dada que  no tenga incidencia
-	 * y no esten empaquetados ordenados por los pasillos, etc
-	 */
-	
-//	@Query("SELECT pp from ProductosPedido pp WHERE ?1 IN pp.pedido.pedidoOrdenesTrabajo.ordenTrabajo "
-//			+ "and pp.pedido.pedidoOrdenesTrabajo.ordenTrabajo.incidencia = False and pp.paquete is null"
-//			+ " order by pp.producto.pasillo , pp.producto.posicion , pp.producto.num_estanteria , pp.producto.num_fila")
-	
-	//consulta para que pueda ejecutarse
-	@Query("select pp from ProductosPedido pp")
+	 * y no esten empaquetados
+	 */	
+	@Query(value = "SELECT pp.* FROM PRODUCTO p, PRODUCTOS_PEDIDO pp WHERE pp.PRODUCTO_ID = p.ID "
+			+ "and pp.PEDIDO_ID IN (SELECT pe.ID FROM PEDIDO pe WHERE pe.ID IN(SELECT po.PEDIDO_ID FROM PEDIDOS_ORDEN_TRABAJO po,"
+			+ " ORDEN_TRABAJO ot WHERE po.ORDENTRABAJO_ID=?1 AND ot.ID = po.ORDENTRABAJO_ID AND"
+			+ " ot.INCIDENCIA = False)) AND pp.PAQUETE_ID IS NULL  ", nativeQuery = true)
 	List<ProductosPedido> findProductoByOtNoincidenciaNoEmpaquetado(OrdenTrabajo ordenTrabajo);
 }

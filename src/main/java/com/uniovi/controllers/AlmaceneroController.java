@@ -154,12 +154,14 @@ public class AlmaceneroController {
 		return "almacenero/listOTSinIncidencias";
 	}
 
-	@RequestMapping("/ordenesTrabajo/empaquetar/productos/")
+	//si existe paquete para ot nada, sino lo crea
+	@RequestMapping("/ordenesTrabajo/empaquetar/productos")
 	public String getProductosEmpaquetarOrdenTrabajo(Principal principal, Model model,
 			@RequestParam(value = "otID", required = false) String otID) {
 		if (otID != null) {
 			OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));
 			List<ProductosPedido> productos = productosService.findProductosByOtNoIncidenciaNoEmpaquetado(ordenTrabajo);
+			paqueteService.crearPaqueteDeOT(ordenTrabajo);
 			model.addAttribute("productosList", productos);
 		}
 		return "almacenero/listProductosEmpaquetar";

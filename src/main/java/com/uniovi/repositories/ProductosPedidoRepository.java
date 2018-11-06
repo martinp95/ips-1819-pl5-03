@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import com.uniovi.entities.OrdenTrabajo;
 import com.uniovi.entities.ProductosPedido;
 
 public interface ProductosPedidoRepository extends CrudRepository<ProductosPedido, Long> {
@@ -16,6 +17,14 @@ public interface ProductosPedidoRepository extends CrudRepository<ProductosPedid
 
 	@Query("SELECT pp from ProductosPedido pp where pp.producto.id = ?1")
 	ProductosPedido findByProductoId(String id);
+
+	
+	/*
+	 * Metodo que encuentra una ot dado un productoPedido
+	 */
+	//Query que no funciona
+	@Query("select ot from OrdenTrabajo ot where ot.id = 1")
+	OrdenTrabajo findOtByProductoPedido(ProductosPedido producto);
 
 	
 
