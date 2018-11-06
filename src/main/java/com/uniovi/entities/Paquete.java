@@ -23,6 +23,8 @@ public class Paquete {
 
 	@OneToOne
 	private OrdenTrabajo ordenTrabajo;
+	
+	private String albaran;
 
 	public Paquete() {
 	}
@@ -41,6 +43,18 @@ public class Paquete {
 
 	public void setOrdenTrabajo(OrdenTrabajo ordenTrabajo) {
 		this.ordenTrabajo = ordenTrabajo;
+	}
+	
+	public String getAlbaran() {
+		return albaran;
+	}
+
+	public void setAlbaran(String albaran) {
+		this.albaran = albaran;
+	}
+
+	public void generarAlbaran() {
+		this.albaran ="Albaran de paquete";
 	}
 
 	@Override
@@ -70,6 +84,9 @@ public class Paquete {
 
 	@Override
 	public String toString() {
-		return "Paquete [id=" + id + ", productosPedido=" + productosPedido + ", ordenTrabajo=" + ordenTrabajo + "]";
-	}
+		return "Paquete [productosPedido=" + productosPedido + "]";
+	}	
+	
+	
+
 }

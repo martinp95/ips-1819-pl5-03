@@ -174,13 +174,18 @@ public class AlmaceneroController {
 		if (!idProducto.isEmpty()) {
 			List<ProductosPedido> productosPedido = productosPedidoService
 					.findProductoPedidoByOtAndProductoAndNoEmpaquetado(idProducto, otID);
-			ProductosPedido productoPedido = productosPedido.get(0);
-			if (productoPedido != null) {
-				paqueteService.empaquetarProducto(productoPedido, Long.parseLong(otID));
+			if (!productosPedido.isEmpty()) {
+				ProductosPedido productoPedido = productosPedido.get(0);
+				if (productoPedido != null) {
+					paqueteService.empaquetarProducto(productoPedido, Long.parseLong(otID));
+				}
 			}
 		}
 		OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));
 		List<Object> productos = productosService.findProductosByOtAndNoEmpaquetado(ordenTrabajo);
+		if (productos.isEmpty()) {
+			paqueteService.generarAlbaran(ordenTrabajo);
+		}
 		model.addAttribute("productosList", productos);
 		model.addAttribute("otID", otID);
 		return "almacenero/listProductosEmpaquetar";

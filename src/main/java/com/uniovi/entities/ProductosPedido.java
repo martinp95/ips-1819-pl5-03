@@ -30,6 +30,8 @@ public class ProductosPedido {
 
 	@ManyToOne
 	private Paquete paquete;
+	
+	
 
 	public ProductosPedido() {
 	}
@@ -137,4 +139,13 @@ public class ProductosPedido {
 	public void setTieneIncidencia(boolean tieneIncidencia) {
 		this.tieneIncidencia = tieneIncidencia;
 	}
+	
+
+
+	@Override
+	public String toString() {
+		return "ProductosPedido [pedido=" + pedido + ", producto=" + producto + ", cantidad=" + cantidad + "]";
+	}
+	
+	
 }

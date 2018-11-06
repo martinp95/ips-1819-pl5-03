@@ -37,4 +37,10 @@ public class PaqueteService {
 		}
 		paqueteRepository.save(paquete);
 	}
+
+	public void generarAlbaran(OrdenTrabajo ordenTrabajo) {
+		Paquete paquete = paqueteRepository.findByOrdenTrabajo(ordenTrabajo);
+		paquete.generarAlbaran();
+		paqueteRepository.save(paquete);
+	}
 }
