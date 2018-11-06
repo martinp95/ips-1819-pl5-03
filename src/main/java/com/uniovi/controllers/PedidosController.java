@@ -40,6 +40,7 @@ public class PedidosController {
 				size += productoCarro.getCantidad();
 			}
 			Pedido pedido = new Pedido(user, size);
+			pedido.setPagado(true);
 			pedidosService.addPedido(pedido);
 			productosPedidoService.addProductosPedido(pedido, user.getProductosCarrito());
 			productosCarritoService.deleteCarrito(user);

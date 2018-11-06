@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class OrdenTrabajo {
@@ -27,6 +28,9 @@ public class OrdenTrabajo {
 	
 	private Date fecha;
 	private boolean incidencia;
+	
+	@OneToOne
+	private Paquete paquete;
 
 	
 	public OrdenTrabajo() {
@@ -60,6 +64,14 @@ public class OrdenTrabajo {
 
 	public void addPedidoOrdenTrabajo(PedidosOrdenTrabajo pedidosOrdenesTrabajo) {
 		this.pedidoOrdenesTrabajo.add(pedidosOrdenesTrabajo);
+	}
+	
+	public Paquete getPaquete() {
+		return paquete;
+	}
+
+	public void setPaquete(Paquete paquete) {
+		this.paquete = paquete;
 	}
 
 	@Override

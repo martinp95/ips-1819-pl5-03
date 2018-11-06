@@ -24,4 +24,9 @@ public class OrdenTrabajoService {
 		ordenTrabajo.setIncidencia(true);
 		ordenTrabajoRepository.save(ordenTrabajo);
 	}
+
+	public void eliminarIncidencia(OrdenTrabajo ordenTrabajo) {
+		ordenTrabajo.setIncidencia(false);
+		ordenTrabajoRepository.save(ordenTrabajo);
+	}
 }

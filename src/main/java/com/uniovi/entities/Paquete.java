@@ -9,25 +9,52 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Paquete {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@OneToMany(mappedBy = "paquete", cascade = CascadeType.ALL)
-	private Set<ProductosPedido> productos = new HashSet<ProductosPedido>();
-	
-	public Paquete(){}
 
-	public Set<ProductosPedido> getProductos() {
-		return productos;
+	@OneToMany(mappedBy = "paquete", cascade = CascadeType.ALL)
+	private Set<ProductosPedido> productosPedido = new HashSet<ProductosPedido>();
+
+	@OneToOne
+	private OrdenTrabajo ordenTrabajo;
+	
+	private String albaran;
+
+	public Paquete() {
+	}
+
+	public Set<ProductosPedido> getProductosPedido() {
+		return productosPedido;
+	}
+
+	public void setProductosPedido(Set<ProductosPedido> productosPedido) {
+		this.productosPedido = productosPedido;
+	}
+
+	public OrdenTrabajo getOrdenTrabajo() {
+		return ordenTrabajo;
+	}
+
+	public void setOrdenTrabajo(OrdenTrabajo ordenTrabajo) {
+		this.ordenTrabajo = ordenTrabajo;
 	}
 	
-	public void addProducto(ProductosPedido pp) {
-		productos.add(pp);
+	public String getAlbaran() {
+		return albaran;
+	}
+
+	public void setAlbaran(String albaran) {
+		this.albaran = albaran;
+	}
+
+	public void generarAlbaran() {
+		this.albaran ="Albaran de paquete";
 	}
 
 	@Override
@@ -57,12 +84,8 @@ public class Paquete {
 
 	@Override
 	public String toString() {
-		return "Paquete [productos=" + productos + "]";
-	}
-
-	
-
-
+		return "Paquete [productosPedido=" + productosPedido + "]";
+	}	
 	
 	
 

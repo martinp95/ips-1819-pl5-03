@@ -165,6 +165,9 @@ public class AlmaceneroController {
 			}
 		}
 		List<Object> productos = productosService.findProductosByOt(ordenTrabajo);
+		if (productos.isEmpty()) {
+			ordenTrabajoService.eliminarIncidencia(ordenTrabajo);
+		}
 		model.addAttribute("productosList", productos);
 		model.addAttribute("otID", otID);
 		return "almacenero/listProductosOT";
@@ -179,27 +182,40 @@ public class AlmaceneroController {
 		return "almacenero/listOTSinIncidencias";
 	}
 
-	@RequestMapping("/ordenesTrabajo/empaquetar/productos/")
+	@RequestMapping("/ordenesTrabajo/empaquetar/productos")
 	public String getProductosEmpaquetarOrdenTrabajo(Principal principal, Model model,
 			@RequestParam(value = "otID", required = false) String otID) {
 		if (otID != null) {
 			OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));
-			List<ProductosPedido> productos = productosService.findProductosByOtNoIncidenciaNoEmpaquetado(ordenTrabajo);
+			List<Object> productos = productosService.findProductosByOtAndNoEmpaquetado(ordenTrabajo);
+			paqueteService.crearPaqueteDeOT(ordenTrabajo);
 			model.addAttribute("productosList", productos);
+			model.addAttribute("otID", otID);
 		}
 		return "almacenero/listProductosEmpaquetar";
 	}
 
 	@RequestMapping("/ordenTrabajo/empaquetar")
 	public String empaquetarOrdenTrabajo(Principal principal, Model model,
-			@RequestParam(value = "idProducto", required = false) String id) {
-		if (id != null) {
-			ProductosPedido producto = productosPedidoService.findByProductoId(id);
-			if (producto != null) {
-				paqueteService.empaquetarProducto(producto);
-
+			@RequestParam(value = "idProducto", required = false) String idProducto,
+			@RequestParam(value = "otID", required = false) String otID) {
+		if (!idProducto.isEmpty()) {
+			List<ProductosPedido> productosPedido = productosPedidoService
+					.findProductoPedidoByOtAndProductoAndNoEmpaquetado(idProducto, otID);
+			if (!productosPedido.isEmpty()) {
+				ProductosPedido productoPedido = productosPedido.get(0);
+				if (productoPedido != null) {
+					paqueteService.empaquetarProducto(productoPedido, Long.parseLong(otID));
+				}
 			}
 		}
+		OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));
+		List<Object> productos = productosService.findProductosByOtAndNoEmpaquetado(ordenTrabajo);
+		if (productos.isEmpty()) {
+			paqueteService.generarAlbaran(ordenTrabajo);
+		}
+		model.addAttribute("productosList", productos);
+		model.addAttribute("otID", otID);
 		return "almacenero/listProductosEmpaquetar";
 	}
 }
