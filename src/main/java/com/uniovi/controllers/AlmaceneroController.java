@@ -85,14 +85,8 @@ public class AlmaceneroController {
 				int tamaux = tam;
 				// creo la variable porque solo interviene 1 pedido aqui
 				Pedido pFinal = pedidoService.findById(Long.parseLong(pedidoID));
-
-				/*for(ProductosPedido pp: pFinal.getProductosPedido()) {
-					pp.getCantidad();
-				}
 				// saco los 5 primeros productos del pedido y los añado
 				//pedidoService.findPrimerosProductosPedido(Long.parseLong(pedidoID), NUM_MAX_PEDIDO);
-				 */
-
 				pedidoOrdenTrabajo = new PedidosOrdenTrabajo(pFinal, ordenTrabajo);
 				pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
 				tamaux -= NUM_MAX_PEDIDO;
@@ -101,7 +95,7 @@ public class AlmaceneroController {
 					ordenTrabajo = new OrdenTrabajo(null);
 					ordenTrabajoService.addOrdenTrabajo(ordenTrabajo);
 					// busco la siguiente remesa de productos
-					//p1 = ..... ;
+					//p1 = ... ;
 					// añadir pedido con productos que no esten en OT a otra OT
 					pedidoOrdenTrabajo = new PedidosOrdenTrabajo(pFinal, ordenTrabajo);
 					pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
