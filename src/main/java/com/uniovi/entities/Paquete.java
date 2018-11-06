@@ -13,38 +13,35 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class Paquete {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@OneToMany(mappedBy = "paquete", cascade = CascadeType.ALL)
-	private Set<ProductosPedido> productos = new HashSet<ProductosPedido>();
-	
+	private Set<ProductosPedido> productosPedido = new HashSet<ProductosPedido>();
+
 	@OneToOne
-	private OrdenTrabajo ot;
-	
-	public Paquete(){}
-	
+	private OrdenTrabajo ordenTrabajo;
 
-	public Set<ProductosPedido> getProductos() {
-		return productos;
-	}
-	
-	public void addProducto(ProductosPedido pp) {
-		productos.add(pp);
+	public Paquete() {
 	}
 
-
-	public OrdenTrabajo getOt() {
-		return ot;
+	public Set<ProductosPedido> getProductosPedido() {
+		return productosPedido;
 	}
 
-
-	public void setOt(OrdenTrabajo ot) {
-		this.ot = ot;
+	public void setProductosPedido(Set<ProductosPedido> productosPedido) {
+		this.productosPedido = productosPedido;
 	}
 
+	public OrdenTrabajo getOrdenTrabajo() {
+		return ordenTrabajo;
+	}
+
+	public void setOrdenTrabajo(OrdenTrabajo ordenTrabajo) {
+		this.ordenTrabajo = ordenTrabajo;
+	}
 
 	@Override
 	public int hashCode() {
@@ -73,13 +70,6 @@ public class Paquete {
 
 	@Override
 	public String toString() {
-		return "Paquete [productos=" + productos + "]";
+		return "Paquete [id=" + id + ", productosPedido=" + productosPedido + ", ordenTrabajo=" + ordenTrabajo + "]";
 	}
-
-	
-
-
-	
-	
-
 }

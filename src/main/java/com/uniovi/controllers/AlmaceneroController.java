@@ -153,7 +153,7 @@ public class AlmaceneroController {
 		model.addAttribute("ordenTrabajoList", ordenesTrabajo);
 		return "almacenero/listOTSinIncidencias";
 	}
-	
+
 	@RequestMapping("/ordenesTrabajo/empaquetar/productos")
 	public String getProductosEmpaquetarOrdenTrabajo(Principal principal, Model model,
 			@RequestParam(value = "otID", required = false) String otID) {
@@ -172,13 +172,17 @@ public class AlmaceneroController {
 			@RequestParam(value = "idProducto", required = false) String idProducto,
 			@RequestParam(value = "otID", required = false) String otID) {
 		if (!idProducto.isEmpty()) {
-			List<ProductosPedido> productosPedido = productosPedidoService.findProductoPedidoByOtAndProductoAndNoEmpaquetado(idProducto,
-					otID);
+			List<ProductosPedido> productosPedido = productosPedidoService
+					.findProductoPedidoByOtAndProductoAndNoEmpaquetado(idProducto, otID);
 			ProductosPedido productoPedido = productosPedido.get(0);
 			if (productoPedido != null) {
 				paqueteService.empaquetarProducto(productoPedido, Long.parseLong(otID));
 			}
 		}
+		OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));
+		List<Object> productos = productosService.findProductosByOtAndNoEmpaquetado(ordenTrabajo);
+		model.addAttribute("productosList", productos);
+		model.addAttribute("otID", otID);
 		return "almacenero/listProductosEmpaquetar";
 	}
 }

@@ -8,7 +8,7 @@ import com.uniovi.entities.Paquete;
 public interface PaqueteRepository  extends CrudRepository<Paquete, Long>{
 
 	
-	Paquete findByOt(OrdenTrabajo ordenTrabajo);
+	Paquete findByOrdenTrabajo(OrdenTrabajo ordenTrabajo);
 	
 
 }
