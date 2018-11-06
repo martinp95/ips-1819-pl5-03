@@ -71,8 +71,9 @@ public class Paquete {
 	@Override
 	public String toString() {
 		return "Paquete [productosPedido=" + productosPedido + "]";
-	}	
-	
-	
+	}
 
+	public Long getId() {
+		return id;
+	}
 }

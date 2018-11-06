@@ -206,7 +206,8 @@ public class AlmaceneroController {
 		if (otID != null) {
 			OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));
 			String albaran = ordenTrabajoService.generarAlbaran(ordenTrabajo);
+			model.addAttribute("albaran", albaran);
 		}
-		return "";
+		return "almacenero/albaran";
 	}
 }

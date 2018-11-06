@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import com.uniovi.entities.OrdenTrabajo;
+import com.uniovi.entities.Pedido;
+import com.uniovi.entities.Producto;
 import com.uniovi.entities.ProductosPedido;
 
 public interface ProductosPedidoRepository extends CrudRepository<ProductosPedido, Long> {
@@ -29,5 +31,8 @@ public interface ProductosPedidoRepository extends CrudRepository<ProductosPedid
 			+ "and pp.PEDIDO_ID IN (SELECT pe.ID FROM PEDIDO pe WHERE pe.ID IN(SELECT po.PEDIDO_ID FROM PEDIDOS_ORDEN_TRABAJO po "
 			+ "WHERE po.ORDENTRABAJO_ID=?2)) AND pp.PAQUETE_ID IS NULL", nativeQuery = true)
 	List<ProductosPedido> getProductoPedidoByProductoIDAndOtIDAndNoEmpaquetado(String idProducto, String otID);
+
+	@Query(value = "select pp.* from productos_pedido pp where pp.pedido_id=?1 and pp.producto_id=?2", nativeQuery = true)
+	ProductosPedido findProductoPedidoByPedidoAndProducto(Pedido pedido, Producto producto);
 
 }
