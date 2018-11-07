@@ -34,12 +34,12 @@ public interface ProductosRepository extends CrudRepository<Producto, Long> {
 			+ " ot.INCIDENCIA = False)) AND pp.PAQUETE_ID IS NULL ", nativeQuery = true)
 	List<ProductosPedido> findProductoByOtNoincidenciaNoEmpaquetado(OrdenTrabajo ordenTrabajo);
 
-	@Query(value = "SELECT p.* FROM PRODUCTO p, PRODUCTOS_PEDIDO pp WHERE pp.PRODUCTO_ID = p.ID "
+	@Query(value = "SELECT top 5 p.* FROM PRODUCTO p, PRODUCTOS_PEDIDO pp WHERE pp.PRODUCTO_ID = p.ID "
 			+ "and pp.PEDIDO_ID IN (SELECT pe.ID FROM PEDIDO pe WHERE pe.ID IN(SELECT po.PEDIDO_ID FROM PEDIDOS_ORDEN_TRABAJO po "
 			+ "WHERE po.ORDENTRABAJO_ID=?1)) and pp.PAQUETE_ID IS NULL", nativeQuery = true)
 	List<Object> findProductosByOtAndNoEmpaquetado(OrdenTrabajo ordenTrabajo);
 
-	@Query(value = "SELECT p.* FROM PRODUCTO p, PRODUCTOS_PEDIDO pp WHERE pp.PRODUCTO_ID = p.ID "
+	@Query(value = "SELECT top 5 p.* FROM PRODUCTO p, PRODUCTOS_PEDIDO pp WHERE pp.PRODUCTO_ID = p.ID "
 			+ "and pp.PEDIDO_ID=?1", nativeQuery = true)
 	List<Producto> findProductosByPedido(Pedido pedido);
 }
