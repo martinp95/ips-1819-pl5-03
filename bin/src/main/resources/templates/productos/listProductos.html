@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head" />
+<body>
+	<!-- Barra de NavegaciÃ³n superior -->
+	<nav th:replace="fragments/nav" />
+	<div class="container-fluid">
+		<h2 th:text="#{listProductos.message}"></h2>
+		<form class="navbar-form" action="/productos">
+			<div class="form-group">
+				<input th:id="searchProductos" name="searchText" type="text"
+					class="form-control" size="50"
+					th:placeholder="#{listProductosSearch.message}" />
+			</div>
+			<button type="submit" class="btn btn-default"
+				th:text="#{listProductosSearchButton.message}"></button>
+		</form>
+		<div class="row">
+			<div class="col-sm-6">
+				<table class="table table-hover" id="tableListProductos">
+					<thead>
+						<tr>
+							<th th:text="#{listProductosName.message}"></th>
+							<th th:text="#{listProductosDescripcion.message}"></th>
+							<th th:text="#{listProductosStock.message}"></th>
+							<th th:text="#{listProductosCantidadComprar.message}"></th>
+							<th th:text="#{listProductosPrecio.message}"></th>
+							<th class="col-md-1"></th>
+							<th class="col-md-1"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="producto : ${productosList}">
+							<td th:text="${producto.name}"></td>
+							<td th:text="${producto.description}"></td>
+							<td th:text="${producto.stock}"></td>
+
+							<td><input th:id="${'cantidad' + producto.id}" type="number"
+								oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+								step="1" class="form-control" name="cantidad" value="1" min="1"
+								th:max="${producto.stock}" /></td>
+
+							<td th:text="${producto.precio} + €"></td>
+
+							<td sec:authorize="hasRole('ROLE_USER')">
+								<button type="button"
+									th:id="${'addCarritoButton' + producto.id}"
+									class="btn btn-info" th:text="#{addCarrito.message}"></button>
+								<script th:inline="javascript">
+									/*<![CDATA[*/
+									$("#addCarritoButton[[${producto.id}]]")
+											.click(
+													function() {
+														var url = '/carrito/add/[[${producto.id}]]';
+														var cantidad = document
+																.getElementById("cantidad[[${producto.id}]]").value;
+														url += "/" + cantidad;
+														$(window).load(url);
+														var delayInMilliseconds = 50;
+														setTimeout(
+																function() {
+																	location
+																			.reload(true);
+																},
+																delayInMilliseconds);
+													});
+
+									/*]]>*/
+								</script>
+							</td>
+							<td th:if="${error == producto.id}"
+								th:text="#{alreadySend.message}"></td>
+						</tr>
+					</tbody>
+				</table>
+				<hr />
+			</div>
+			<div class="col-sm-6">
+				<table class="table table-hover" id="tableCarrito">
+					<thead>
+						<tr>
+							<th>Nombre</th>
+							<th>Descripcion</th>
+							<th>Cantidad</th>
+							<th>Precio</th>
+							<th>Aumentar Unidad</th>
+							<th>Decrementar Unidad</th>
+							<th>Borrar</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="productosCarrito : ${carritoList}">
+							<td th:text="${productosCarrito.producto.name}"></td>
+							<td th:text="${productosCarrito.producto.description}"></td>
+							<td th:text="${productosCarrito.cantidad}"></td>
+							<td th:text="${productosCarrito.precioProductoCantidad} + €"></td>
+
+							<td><button type="button"
+									th:id="${'incrementarButton' + productosCarrito.producto.id}"
+									class="btn btn-info">Aumentar unidad</button></td>
+
+							<td><button type="button"
+									th:id="${'decrementarButton' + productosCarrito.producto.id}"
+									class="btn btn-info">Decrementar unidad</button></td>
+
+							<td><button type="button"
+									th:id="${'eliminarButton' + productosCarrito.producto.id}"
+									class="btn btn-danger">Borrar de carrito</button></td>
+
+
+							<script th:inline="javascript">
+								/*<![CDATA[*/
+								$(
+										"#incrementarButton[[${productosCarrito.producto.id}]]")
+										.click(
+												function() {
+
+													var urlUpdate = '/carrito/aumentarUnidad/[[${productosCarrito.producto.id}]]';
+
+													$(window).load(urlUpdate);
+													var delayInMilliseconds = 50;
+													setTimeout(function() {
+														location.reload(true);
+													}, delayInMilliseconds);
+												});
+								/*]]>*/
+							</script>
+
+							<script th:inline="javascript">
+								/*<![CDATA[*/
+								$(
+										"#decrementarButton[[${productosCarrito.producto.id}]]")
+										.click(
+												function() {
+
+													var urlUpdate = '/carrito/decrementarUnidad/[[${productosCarrito.producto.id}]]';
+
+													$(window).load(urlUpdate);
+													var delayInMilliseconds = 50;
+													setTimeout(function() {
+														location.reload(true);
+													}, delayInMilliseconds);
+												});
+								/*]]>*/
+							</script>
+
+							<script th:inline="javascript">
+								/*<![CDATA[*/
+								$(
+										"#eliminarButton[[${productosCarrito.producto.id}]]")
+										.click(
+												function() {
+
+													var url = '/carrito/delete/[[${productosCarrito.producto.id}]]';
+
+													$(window).load(url);
+													var delayInMilliseconds = 50;
+													setTimeout(function() {
+														location.reload(true);
+													}, delayInMilliseconds);
+												});
+								/*]]>*/
+							</script>
+						</tr>
+					</tbody>
+				</table>
+				<p th:text="'Total a pagar: ' + ${total} + '€'"></p>
+
+				<a th:if="${#lists.size(carritoList) > 0 }"
+					sec:authorize="hasRole('ROLE_EMPRESA')" id="confirmarPedido"
+					href="/pedido/add" class="btn btn-success">Confirmar pedido</a> <a
+					th:if="${#lists.size(carritoList) > 0 }"
+					sec:authorize="hasRole('ROLE_USER') and hasRole('ROLE_PARTICULAR')"
+					id="confirmarPedido" href="/pedido/metodosPago"
+					class="btn btn-success">Pagar pedido</a>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="fragments/footer" />
+</body>
+</html>

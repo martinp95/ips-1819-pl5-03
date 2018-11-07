@@ -1,0 +1,59 @@
+
+<!-- nav.html -->
+<nav class="navbar navbar-inverse">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target="#myNavbar">
+				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<img src="/img/almacen.png" alt="logo" />
+		</div>
+
+		<div class="collapse navbar-collapse" id="myNavbar">
+			<ul class="nav navbar-nav" sec:authorize="isAuthenticated()">
+				<li><a href="/home" th:text="#{home.message}"></a></li>
+			</ul>
+			<ul class="nav navbar-nav" sec:authorize="hasRole('ROLE_USER')">
+				<li><a href="/productos" th:text="#{productos.message}"></a></li>
+			</ul>
+			
+			<ul class="nav navbar-nav" sec:authorize="hasRole('ROLE_ALMACENERO')">
+				<li><a href="/pedidos" th:text="#{pedidos.message}"></a></li>
+			</ul>
+			
+			<ul class="nav navbar-nav" sec:authorize="hasRole('ROLE_ALMACENERO')">
+				<li><a href="/ordenesTrabajo" th:text="#{ordenesTrabajo.message}"></a></li>
+			</ul>
+			
+			<ul class="nav navbar-nav" sec:authorize="hasRole('ROLE_ALMACENERO')">
+				<li><a href="/ordenesTrabajo/noIncidence" th:text="#{ordenesTrabajoParaEmpaquetar.message}"></a></li>
+			</ul>
+			
+			<ul class="nav navbar-nav" sec:authorize="hasRole('ROLE_ALMACENERO')">
+				<li><a href="/ordenesTrabajo/empaquetadas" th:text="#{ordenesTrabajoEmpaquetada.message}"></a></li>
+			</ul>
+			
+			<ul class="nav navbar-nav" sec:authorize="hasRole('ROLE_USER') and hasRole('ROLE_PARTICULAR')">
+				<li><a href="/pedidos/noPagados" th:text="#{pedidosNoPagados.message}"></a></li>
+			</ul>
+
+			<ul class="nav navbar-nav navbar-right">
+
+				<li sec:authorize="!isAuthenticated()"><a href="/signup"
+					th:id="botonSignup" th:text="#{signup.message}"> <span
+						class="glyphicon glyphicon-user"></span>
+				</a></li>
+				<li sec:authorize="!isAuthenticated()"><a href="/login"
+					th:text="#{login.message}"> <span
+						class="glyphicon glyphicon-log-in"></span>
+				</a></li>
+				<li sec:authorize="isAuthenticated()"><a href="/logout"
+					th:text="#{logout.message}"> <span
+						class="glyphicon glyphicon-log-out"></span>
+				</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>

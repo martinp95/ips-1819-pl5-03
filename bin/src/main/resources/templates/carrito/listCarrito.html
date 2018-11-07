@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head" />
+<body>
+	<!-- Barra de Navegaci�n superior -->
+	<nav th:replace="fragments/nav" />
+	<div class="container">
+		<h2>Carrito</h2>
+		<div class="table-responsive">
+			<table class="table table-hover" id="tableCarrito"
+				th:fragment="tableCarrito">
+				<thead>
+					<tr>
+						<th>Nombre</th>
+						<th>Descripcion</th>
+						<th>Cantidad</th>
+						<th>Precio</th>
+						<th>Aumentar Unidad</th>
+						<th>Decrementar Unidad</th>
+						<th>Borrar</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="productosCarrito : ${carritoList}">
+						<td th:text="${productosCarrito.producto.name}"></td>
+						<td th:text="${productosCarrito.producto.description}"></td>
+						<td th:text="${productosCarrito.cantidad}"></td>
+						<td th:text="${productosCarrito.precioProductoCantidad} + €"></td>
+
+						<td><button type="button"
+								th:id="${'incrementarButton' + productosCarrito.producto.id}"
+								class="btn btn-info">Aumentar unidad</button></td>
+
+						<td><button type="button"
+								th:id="${'decrementarButton' + productosCarrito.producto.id}"
+								class="btn btn-info">Decrementar unidad</button></td>
+
+						<td><button type="button"
+								th:id="${'eliminarButton' + productosCarrito.producto.id}"
+								class="btn btn-danger">Borrar de carrito</button></td>
+
+
+						<script th:inline="javascript">
+									/*<![CDATA[*/
+										$( "#incrementarButton[[${productosCarrito.producto.id}]]" ).click(function() {
+												var numberPage = [[${param.page}]];
+												var urlUpdate = '/carrito/aumentarUnidad/[[${productosCarrito.producto.id}]]';
+												if ( numberPage != null ){
+													urlUpdate += "?page="+numberPage[0];
+													}
+												$("#tableCarrito").load(urlUpdate);										
+										});
+									/*]]>*/
+									</script>
+
+						<script th:inline="javascript">
+									/*<![CDATA[*/
+										$( "#decrementarButton[[${productosCarrito.producto.id}]]" ).click(function() {
+												var numberPage = [[${param.page}]];
+												var urlUpdate = '/carrito/decrementarUnidad/[[${productosCarrito.producto.id}]]';
+												if ( numberPage != null ){
+													urlUpdate += "?page="+numberPage[0];
+													}
+												$("#tableCarrito").load(urlUpdate);										
+										});
+									/*]]>*/
+									</script>
+
+						<script th:inline="javascript">
+									/*<![CDATA[*/
+										$( "#eliminarButton[[${productosCarrito.producto.id}]]" ).click(function() {
+												var numberPage = [[${param.page}]];
+												var url = '/carrito/delete/[[${productosCarrito.producto.id}]]';
+												if ( numberPage != null ){
+													urlUpdate += "?page="+numberPage[0];
+													}
+												$("#tableCarrito").load(url);										
+										});
+									/*]]>*/
+									</script>
+					</tr>
+				</tbody>
+			</table>
+			<a th:if="${#lists.size(carritoList) > 0 }"
+				sec:authorize="hasRole('ROLE_EMPRESA')" id="confirmarPedido"
+				href="/pedido/add" class="btn btn-success">Confirmar pedido</a>
+			<a	th:if="${#lists.size(carritoList) > 0 }"
+				sec:authorize="hasRole('ROLE_USER') and hasRole('ROLE_PARTICULAR')"
+				id="confirmarPedido" href="/pedido/metodosPago"
+				class="btn btn-success">Pagar pedido</a>
+
+
+		</div>
+	</div>
+
+	<footer th:replace="fragments/footer" />
+</body>
+</html>
