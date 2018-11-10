@@ -29,26 +29,31 @@ public class ProductosController {
 	@RequestMapping("/productos")
 	public String getListado(Model model, @RequestParam(value = "", required = false) String searchText,
 			Principal principal) {
-
-		List<Producto> productos;
-
-		if (searchText != null && !searchText.isEmpty()) {
-			productos = productosService.searchProductosByNameAndDescription(searchText);
-		} else {
-			productos = productosService.findAll();
-		}
-		List<ProductosCarrito> carrito;
-
 		String email = principal.getName();
 		User user = usersService.getUserByEmail(email);
-		carrito = productosCarritoService.findAllByUser(user);
-		double precioTotal = 0.0;
-		for (ProductosCarrito productosCarrito : carrito) {
-			precioTotal += productosCarrito.getPrecioProductoCantidad();
+
+		if (user.getRole().contains("ROLE_ALMACENERO")) {
+			return "redirect:/home";
+		} else {
+
+			List<Producto> productos;
+
+			if (searchText != null && !searchText.isEmpty()) {
+				productos = productosService.searchProductosByNameAndDescription(searchText);
+			} else {
+				productos = productosService.findAll();
+			}
+			List<ProductosCarrito> carrito;
+
+			carrito = productosCarritoService.findAllByUser(user);
+			double precioTotal = 0.0;
+			for (ProductosCarrito productosCarrito : carrito) {
+				precioTotal += productosCarrito.getPrecioProductoCantidad();
+			}
+			model.addAttribute("carritoList", carrito);
+			model.addAttribute("productosList", productos);
+			model.addAttribute("total", precioTotal);
+			return "productos/listProductos";
 		}
-		model.addAttribute("carritoList", carrito);
-		model.addAttribute("productosList", productos);
-		model.addAttribute("total", precioTotal);
-		return "productos/listProductos";
 	}
 }

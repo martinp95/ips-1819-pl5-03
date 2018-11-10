@@ -83,8 +83,8 @@
 							<th>Descripcion</th>
 							<th>Cantidad</th>
 							<th>Precio</th>
-							<th>Aumentar Unidad</th>
-							<th>Decrementar Unidad</th>
+							<th>Aumentar</th>
+							<th>Decrementar</th>
 							<th>Borrar</th>
 						</tr>
 					</thead>
@@ -97,15 +97,15 @@
 
 							<td><button type="button"
 									th:id="${'incrementarButton' + productosCarrito.producto.id}"
-									class="btn btn-info">Aumentar unidad</button></td>
+									class="btn btn-info">+</button></td>
 
 							<td><button type="button"
 									th:id="${'decrementarButton' + productosCarrito.producto.id}"
-									class="btn btn-info">Decrementar unidad</button></td>
+									class="btn btn-info">-</button></td>
 
 							<td><button type="button"
 									th:id="${'eliminarButton' + productosCarrito.producto.id}"
-									class="btn btn-danger">Borrar de carrito</button></td>
+									class="btn btn-danger">Borrar</button></td>
 
 
 							<script th:inline="javascript">
@@ -118,7 +118,7 @@
 													var urlUpdate = '/carrito/aumentarUnidad/[[${productosCarrito.producto.id}]]';
 
 													$(window).load(urlUpdate);
-													var delayInMilliseconds = 50;
+													var delayInMilliseconds = 100;
 													setTimeout(function() {
 														location.reload(true);
 													}, delayInMilliseconds);
