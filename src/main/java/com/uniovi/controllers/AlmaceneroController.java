@@ -213,6 +213,9 @@ public class AlmaceneroController {
 		List<Object> productos = productosService.findProductosByOtAndNoEmpaquetado(ordenTrabajo);
 		if (productos.isEmpty()) {
 			ordenTrabajoService.cambiarEmpaquetada(ordenTrabajo);
+			String albaran = ordenTrabajoService.generarAlbaran(ordenTrabajo);
+			model.addAttribute("albaran", albaran);
+			return "almacenero/albaran";
 		}
 		model.addAttribute("productosList", productos);
 		model.addAttribute("otID", otID);
