@@ -40,13 +40,13 @@
 				</thead>
 				<tbody>
 					<tr th:each="producto : ${productosList}">
-						<td th:text="${producto[0]}"></td>
+						<td th:text="${producto[2]}"></td>
+						<td th:text="${producto[7]}"></td>
+						<td th:text="${producto[8]}"></td>
 						<td th:text="${producto[5]}"></td>
 						<td th:text="${producto[6]}"></td>
-						<td th:text="${producto[3]}"></td>
-						<td th:text="${producto[4]}"></td>
-						<td th:text="${producto[9]}"></td>
-						<td th:text="${producto[10]}"></td>
+						<td th:text="${producto[0]}"></td>
+						<td th:text="${producto[1]}"></td>
 					</tr>
 				</tbody>
 			</table>

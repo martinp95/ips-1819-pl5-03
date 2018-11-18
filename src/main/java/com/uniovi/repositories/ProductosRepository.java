@@ -18,7 +18,7 @@ public interface ProductosRepository extends CrudRepository<Producto, Long> {
 	@Query("SELECT p FROM Producto p")
 	List<Producto> findAll();
 
-	@Query(value = "SELECT top 5 p.*, pp.CANTIDAD_POR_RECOGER, pp.TIENE_INCIDENCIA FROM PRODUCTO p, PRODUCTOS_PEDIDO pp WHERE pp.PRODUCTO_ID = p.ID "
+	@Query(value = "SELECT top 5 pp.CANTIDAD_POR_RECOGER, pp.TIENE_INCIDENCIA, p.*  FROM PRODUCTO p, PRODUCTOS_PEDIDO pp WHERE pp.PRODUCTO_ID = p.ID "
 			+ "and pp.PEDIDO_ID IN (SELECT pe.ID FROM PEDIDO pe WHERE pe.ID IN(SELECT po.PEDIDO_ID FROM PEDIDOS_ORDEN_TRABAJO po "
 			+ "WHERE po.ORDENTRABAJO_ID=?1)) AND pp.CANTIDAD_POR_RECOGER > 0 order by p.pasillo , p.posicion , p.num_estanteria , p.num_fila", nativeQuery = true) 
 	List<Object> findProductosByOtOrderByPosicionAlmacen(OrdenTrabajo ordenTrabajo);
@@ -34,7 +34,7 @@ public interface ProductosRepository extends CrudRepository<Producto, Long> {
 			+ " ot.INCIDENCIA = False)) AND pp.PAQUETE_ID IS NULL ", nativeQuery = true)
 	List<ProductosPedido> findProductoByOtNoincidenciaNoEmpaquetado(OrdenTrabajo ordenTrabajo);
 
-	@Query(value = "SELECT top 5 p.*,pp.CANTIDAD_POR_EMPAQUETAR FROM PRODUCTO p, PRODUCTOS_PEDIDO pp WHERE pp.PRODUCTO_ID = p.ID "
+	@Query(value = "SELECT top 5 pp.CANTIDAD_POR_EMPAQUETAR, p.* FROM PRODUCTO p, PRODUCTOS_PEDIDO pp WHERE pp.PRODUCTO_ID = p.ID "
 			+ "and pp.PEDIDO_ID IN (SELECT pe.ID FROM PEDIDO pe WHERE pe.ID IN(SELECT po.PEDIDO_ID FROM PEDIDOS_ORDEN_TRABAJO po "
 			+ "WHERE po.ORDENTRABAJO_ID=?1)) and pp.PAQUETE_ID IS NULL and pp.cantidad_por_empaquetar > 0", nativeQuery = true)
 	List<Object> findProductosByOtAndNoEmpaquetado(OrdenTrabajo ordenTrabajo);

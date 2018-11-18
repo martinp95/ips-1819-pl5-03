@@ -24,7 +24,7 @@ public class Producto {
 	private String posicion;
 	private int numEstanteria;
 	private int numFila;
-	
+	private int stockMinimo;
 
 	@OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
 	private Set<ProductosCarrito> productosCarrito = new HashSet<ProductosCarrito>();
@@ -36,7 +36,7 @@ public class Producto {
 	}
 
 	public Producto(String name, String description, double precio, int stock, int pasillo, String posicion,
-			int numEstanteria, int numFila) {
+			int numEstanteria, int numFila, int stockMinimo) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -46,6 +46,7 @@ public class Producto {
 		this.posicion = posicion;
 		this.numEstanteria = numEstanteria;
 		this.numFila = numFila;
+		this.stockMinimo = stockMinimo;
 	}
 
 	public String getName() {
@@ -162,8 +163,12 @@ public class Producto {
 		return "Producto [name=" + name + ", description=" + description + ", precio=" + precio + "]";
 	}
 
-	
-	
-	
+	public int getStockMinimo() {
+		return stockMinimo;
+	}
+
+	public void setStockMinimo(int stockMinimo) {
+		this.stockMinimo = stockMinimo;
+	}
 
 }
