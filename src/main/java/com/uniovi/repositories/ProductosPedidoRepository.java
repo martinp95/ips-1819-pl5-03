@@ -21,7 +21,7 @@ public interface ProductosPedidoRepository extends CrudRepository<ProductosPedid
 
 	@Query(value = "SELECT pp.* FROM PRODUCTO p, PRODUCTOS_PEDIDO pp WHERE pp.PRODUCTO_ID = p.ID and p.ID = ?1 "
 			+ "and pp.PEDIDO_ID IN (SELECT pe.ID FROM PEDIDO pe WHERE pe.ID IN(SELECT po.PEDIDO_ID FROM PEDIDOS_ORDEN_TRABAJO po "
-			+ "WHERE po.ORDENTRABAJO_ID=?2)) AND pp.PAQUETE_ID IS NULL", nativeQuery = true)
+			+ "WHERE po.ORDENTRABAJO_ID=?2)) AND pp.CANTIDAD_POR_EMPAQUETAR > 0", nativeQuery = true)
 	List<ProductosPedido> getProductoPedidoByProductoIDAndOtIDAndNoEmpaquetado(String idProducto, String otID);
 
 	@Query(value = "select pp.* from productos_pedido pp where pp.pedido_id=?1 and pp.producto_id=?2", nativeQuery = true)

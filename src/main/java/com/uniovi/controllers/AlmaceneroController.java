@@ -53,7 +53,7 @@ public class AlmaceneroController {
 		if (pedidoID != null) {
 			String email = principal.getName();
 			User almacenero = usersService.getUserByEmail(email);
-			OrdenTrabajo ordenTrabajo  = new OrdenTrabajo(almacenero);
+			OrdenTrabajo ordenTrabajo = new OrdenTrabajo(almacenero);
 			ordenTrabajoService.addOrdenTrabajo(ordenTrabajo);
 			PedidosOrdenTrabajo pedidoOrdenTrabajo;
 
@@ -86,7 +86,8 @@ public class AlmaceneroController {
 				// creo la variable porque solo interviene 1 pedido aqui
 				Pedido pFinal = pedidoService.findById(Long.parseLong(pedidoID));
 				// saco los 5 primeros productos del pedido y los añado
-				//pedidoService.findPrimerosProductosPedido(Long.parseLong(pedidoID), NUM_MAX_PEDIDO);
+				// pedidoService.findPrimerosProductosPedido(Long.parseLong(pedidoID),
+				// NUM_MAX_PEDIDO);
 				pedidoOrdenTrabajo = new PedidosOrdenTrabajo(pFinal, ordenTrabajo);
 				pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
 				tamaux -= NUM_MAX_PEDIDO;
@@ -95,13 +96,12 @@ public class AlmaceneroController {
 					ordenTrabajo = new OrdenTrabajo(null);
 					ordenTrabajoService.addOrdenTrabajo(ordenTrabajo);
 					// busco la siguiente remesa de productos
-					//p1 = ... ;
+					// p1 = ... ;
 					// añadir pedido con productos que no esten en OT a otra OT
 					pedidoOrdenTrabajo = new PedidosOrdenTrabajo(pFinal, ordenTrabajo);
 					pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
 					tamaux -= NUM_MAX_PEDIDO;
-				}
-				while (tamaux > 0);
+				} while (tamaux > 0);
 				return "redirect:/ordenesTrabajo";
 			}
 
@@ -204,8 +204,10 @@ public class AlmaceneroController {
 					.findProductoPedidoByOtAndProductoAndNoEmpaquetado(idProducto, otID);
 			if (!productosPedido.isEmpty()) {
 				ProductosPedido productoPedido = productosPedido.get(0);
-				if (productoPedido != null) {
+				if (productoPedido != null && productoPedido.getCantidadPorEmpaquetar() == 0) {
 					paqueteService.empaquetarProducto(productoPedido, Long.parseLong(otID));
+				}else if(productoPedido != null) {
+					paqueteService.decrementarCantidadPorEmpaquetar(productoPedido);
 				}
 			}
 		}

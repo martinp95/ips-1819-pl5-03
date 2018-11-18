@@ -20,8 +20,6 @@ public class PaqueteService {
 	@Autowired
 	private ProductosPedidoRepository productosPedidoRepository;
 
-	// Conocer la ot del producto pedido para encontrar el paquete correspondiente
-	// al producto
 	public void empaquetarProducto(ProductosPedido productoPedido, Long otID) {
 		OrdenTrabajo ot = ordenTrabajoRepository.findById(otID);
 		Paquete paquete = paqueteRepository.findByOrdenTrabajo(ot);
@@ -38,5 +36,10 @@ public class PaqueteService {
 		}
 		paqueteRepository.save(paquete);
 		ordenTrabajoRepository.save(ordenTrabajo);
+	}
+
+	public void decrementarCantidadPorEmpaquetar(ProductosPedido productoPedido) {
+		productoPedido.setCantidadPorEmpaquetar(productoPedido.getCantidadPorEmpaquetar() - 1);		
+		productosPedidoRepository.save(productoPedido);		
 	}
 }

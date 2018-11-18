@@ -24,14 +24,13 @@ public class ProductosPedido {
 
 	private int cantidad;
 	private int cantidadPorRecoger;
+	private int cantidadPorEmpaquetar;
 	private double precioUnidad;
 	private String incidencia;
 	private boolean tieneIncidencia;
 
 	@ManyToOne
 	private Paquete paquete;
-	
-	
 
 	public ProductosPedido() {
 	}
@@ -41,6 +40,7 @@ public class ProductosPedido {
 		this.producto = producto;
 		this.setCantidad(cantidad);
 		this.setCantidadPorRecoger(cantidad);
+		this.setCantidadPorEmpaquetar(cantidad);
 		this.setPrecioUnidad(precioUnidad);
 		this.incidencia = "";
 	}
@@ -139,13 +139,18 @@ public class ProductosPedido {
 	public void setTieneIncidencia(boolean tieneIncidencia) {
 		this.tieneIncidencia = tieneIncidencia;
 	}
-	
-
 
 	@Override
 	public String toString() {
 		return "ProductosPedido [pedido=" + pedido + ", producto=" + producto + ", cantidad=" + cantidad + "]";
 	}
-	
-	
+
+	public int getCantidadPorEmpaquetar() {
+		return cantidadPorEmpaquetar;
+	}
+
+	public void setCantidadPorEmpaquetar(int cantidadPorEmpaquetar) {
+		this.cantidadPorEmpaquetar = cantidadPorEmpaquetar;
+	}
+
 }
