@@ -1,12 +1,14 @@
 package com.uniovi.services;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uniovi.entities.OrdenTrabajo;
 import com.uniovi.entities.Producto;
+import com.uniovi.entities.ProductosCarrito;
 import com.uniovi.entities.ProductosPedido;
 import com.uniovi.repositories.ProductosRepository;
 
@@ -49,5 +51,14 @@ public class ProductosService {
 
 	public List<Object> findProductosByOtAndNoEmpaquetado(OrdenTrabajo ordenTrabajo) {
 		return productosRepository.findProductosByOtAndNoEmpaquetado(ordenTrabajo);
+	}
+
+	public void descontarStock(Set<ProductosCarrito> productosCarrito) {
+		Producto producto;
+		for (ProductosCarrito productosCarro : productosCarrito) {
+			producto = productosCarro.getProducto();
+			producto.setStock(producto.getStock() - productosCarro.getCantidad());
+			productosRepository.save(producto);
+		}		
 	}
 }

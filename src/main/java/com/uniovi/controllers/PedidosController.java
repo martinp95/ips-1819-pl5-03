@@ -17,6 +17,7 @@ import com.uniovi.entities.User;
 import com.uniovi.services.PedidosService;
 import com.uniovi.services.ProductosCarritoService;
 import com.uniovi.services.ProductosPedidoService;
+import com.uniovi.services.ProductosService;
 import com.uniovi.services.UsersService;
 
 @Controller
@@ -29,6 +30,8 @@ public class PedidosController {
 	private ProductosPedidoService productosPedidoService;
 	@Autowired
 	private ProductosCarritoService productosCarritoService;
+	@Autowired
+	private ProductosService productosService;
 
 	@RequestMapping(value = "/pedido/add")
 	public String addPedido(Model model, Pageable pageable, Principal principal) {
@@ -43,6 +46,7 @@ public class PedidosController {
 			pedido.setPagado(true);
 			pedidosService.addPedido(pedido);
 			productosPedidoService.addProductosPedido(pedido, user.getProductosCarrito());
+			productosService.descontarStock(user.getProductosCarrito());
 			productosCarritoService.deleteCarrito(user);
 		} else {
 			return "redirect:/carrito";
@@ -87,6 +91,7 @@ public class PedidosController {
 				pedido.setPagado(true);
 			pedidosService.addPedido(pedido);
 			productosPedidoService.addProductosPedido(pedido, user.getProductosCarrito());
+			productosService.descontarStock(user.getProductosCarrito());
 			productosCarritoService.deleteCarrito(user);
 		} else {
 			return "redirect:/carrito";
