@@ -46,7 +46,7 @@ public class PedidosController {
 			pedido.setPagado(true);
 			pedidosService.addPedido(pedido);
 			productosPedidoService.addProductosPedido(pedido, user.getProductosCarrito());
-			productosService.descontarStock(user.getProductosCarrito());
+			productosService.descontarStock(user.getProductosCarrito());			
 			productosCarritoService.deleteCarrito(user);
 		} else {
 			return "redirect:/carrito";

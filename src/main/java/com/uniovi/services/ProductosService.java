@@ -17,10 +17,12 @@ public class ProductosService {
 
 	@Autowired
 	private ProductosRepository productosRepository;
+	@Autowired
+	private PedidoAlmacenService pedidoAlmacenService;
 
 	public List<Producto> searchProductosByNameAndDescription(String searchText) {
 		searchText = "%" + searchText + "%";
-		List<Producto> productos  = productosRepository.searchByNameAndDescription(searchText);
+		List<Producto> productos = productosRepository.searchByNameAndDescription(searchText);
 		return productos;
 	}
 
@@ -59,6 +61,10 @@ public class ProductosService {
 			producto = productosCarro.getProducto();
 			producto.setStock(producto.getStock() - productosCarro.getCantidad());
 			productosRepository.save(producto);
-		}		
+			if (producto.getStock() < producto.getStockMinimo()) {
+				System.out.println("Hacer pedido del producto.");
+				pedidoAlmacenService.crearPedido(producto, producto.getStockMaximo() - producto.getStock());
+			}
+		}
 	}
 }
