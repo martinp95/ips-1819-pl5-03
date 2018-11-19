@@ -31,9 +31,13 @@ public class ProductosCarritoService {
 
 	public void aumentarUnidad(ProductosCarrito productoCarrito) {
 		ProductosCarrito productoCarritoPersist = productosCarritoRepository.findProductoCarrito(productoCarrito);
-		productoCarritoPersist.setCantidad(productoCarritoPersist.getCantidad() + 1);
-		productoCarritoPersist.calcularPrecioProductoCantidad();
-		productosCarritoRepository.save(productoCarritoPersist);
+		int i = productoCarritoPersist.getCantidad() + 1;
+		int stock = productoCarrito.getProducto().getStock();
+		if (i <= stock) {
+			productoCarritoPersist.setCantidad(productoCarritoPersist.getCantidad() + 1);
+			productoCarritoPersist.calcularPrecioProductoCantidad();
+			productosCarritoRepository.save(productoCarritoPersist);
+		}
 	}
 
 	public void decrementarUnidad(ProductosCarrito productoCarrito) {
