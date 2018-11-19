@@ -36,6 +36,8 @@ public class CarritoCompraController {
 
 		if (user.getProductosCarrito().contains(productosCarrito)) {
 			model.addAttribute("error", producto.getId());
+		} else if (producto.getStock() < cantidad) {
+			model.addAttribute("errorStock", producto.getId());
 		} else {
 			productosCarritoService.addProductoCarrito(productosCarrito);
 		}
