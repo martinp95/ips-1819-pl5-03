@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head" />
+<body>
+	<!-- Barra de Navegaci�n superior -->
+	<nav th:replace="fragments/nav" />
+	<div class="container">
+		<h2>Metodos de pago</h2>
+		<form class="form-horizontal" method="post" action="/pedido/tarjeta">
+			<table class="table table-hover" id="tableTarjeta">
+				<tbody>
+					<tr>
+						<td><label>Introduzca numero de la tarjeta</label> <input
+							type="text" /></td>
+					</tr>
+					<tr>
+						<td><label>Introduzca fecha de caducidad de la
+								tarjeta</label> <input type="text" /></td>
+					</tr>
+					<tr>
+						<td><label>Introduzca codigo CVV</label> <input type="text" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<button type="submit" class="btn btn-success">Pagar</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+		</form>
+	</div>
+	<footer th:replace="fragments/footer" />
+</body>
+</html>

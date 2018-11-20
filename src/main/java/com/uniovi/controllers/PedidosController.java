@@ -96,7 +96,13 @@ public class PedidosController {
 		} else {
 			return "redirect:/carrito";
 		}
-		return "redirect:/productos";
+		if(metodoPago.equals("Tarjeta"))
+			return "carrito/tarjeta";
+		if(metodoPago.equals("Transferencia"))	
+			return "carrito/transferencia";
+		else
+			return "redirect:/productos";
+			
 	}
 
 	@RequestMapping("/pedidos/noPagados")
@@ -115,4 +121,16 @@ public class PedidosController {
 		}
 		return "redirect:/pedidos/noPagados";
 	}
+	
+	@RequestMapping("/pedido/tarjeta")
+	public String getSimulacionTarjeta(Model model, @RequestParam(value = "", required = false) Principal principal) {
+		return "redirect:/productos";
+	}
+	
+	@RequestMapping("/pedido/transferencia")
+	public String getSimulacionTransferencia(Model model, @RequestParam(value = "", required = false) Principal principal) {
+		return "redirect:/productos";
+	}	
+	
+	
 }
