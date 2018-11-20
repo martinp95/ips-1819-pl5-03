@@ -30,4 +30,12 @@ public class PedidoAlmacenService {
 	public void remove(PedidoAlmacen pa) {
 		pedidoAlmacenRepository.delete(pa);
 	}
+
+	public void update(PedidoAlmacen pedidoAlmacen) {
+		pedidoAlmacenRepository.save(pedidoAlmacen);
+	}
+
+	public PedidoAlmacen findByProducto(Producto producto) {
+		return pedidoAlmacenRepository.findPedidoAlmacenByProducto(producto);
+	}
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uniovi.entities.OrdenTrabajo;
+import com.uniovi.entities.PedidoAlmacen;
 import com.uniovi.entities.Producto;
 import com.uniovi.entities.ProductosCarrito;
 import com.uniovi.entities.ProductosPedido;
@@ -62,9 +63,14 @@ public class ProductosService {
 			producto.setStock(producto.getStock() - productosCarro.getCantidad());
 			productosRepository.save(producto);
 			if (producto.getStock() < producto.getStockMinimo()) {
-				// Comprobar si ya ha y un pedido para ese producto y en caso de haberlo aumento
-				// la cantidad, sino si creo el pedido.
-				pedidoAlmacenService.crearPedido(producto, producto.getStockMaximo() - producto.getStock());
+				// Si no lo hay lo creo
+				PedidoAlmacen pedidoAlmacen = pedidoAlmacenService.findByProducto(producto);
+				if (pedidoAlmacen == null) {
+					pedidoAlmacenService.crearPedido(producto, producto.getStockMaximo() - producto.getStock());
+				} else {//Si ya lo hay
+					pedidoAlmacen.setCantidad(producto.getStockMaximo() - producto.getStock());
+					pedidoAlmacenService.update(pedidoAlmacen);
+				}
 			}
 		}
 	}
