@@ -35,8 +35,7 @@ public class PedidosService {
 	public void pagarPedido(String pedidoID) {
 		Pedido pedido = pedidosRepository.findById(Long.parseLong(pedidoID));
 		pedido.setPagado(true);
-		pedidosRepository.save(pedido);
-		
+		pedidosRepository.save(pedido);		
 	}
 
 }

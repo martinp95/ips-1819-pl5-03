@@ -18,10 +18,11 @@
 					</thead>
 					<tbody>
 						<tr th:each="ot : ${ordenTrabajoList}">
-							<td><input type="radio" th:value="${ot.id}" name="otID" /></td>
-																				
-							<td th:text="${ot.fecha}"></td>
-							<td th:text="${ot.id}"></td>
+							<div th:if="${ot.incidencia}">
+								<td><input type="radio" th:value="${ot.id}" name="otID" /></td>		
+								<td th:text="${ot.fecha}"></td>
+								<td th:text="${ot.id}"></td>
+							</div>
 						</tr>
 					</tbody>
 				</table>

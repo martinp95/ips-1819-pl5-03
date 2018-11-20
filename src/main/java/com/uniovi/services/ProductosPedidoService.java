@@ -23,24 +23,30 @@ public class ProductosPedidoService {
 					productosCarro.getCantidad(), productosCarro.getProducto().getPrecio()));
 		}
 	}
-	
+
 	public List<ProductosPedido> findProductoPedidoByOtAndProducto(String producto, String ordenTrabajo) {
 		return productosPedidoRepository.getProductoPedidoByProductoIDAndOtID(producto, ordenTrabajo);
 	}
-	
-	public void decrementarCantidadPorRecoger(ProductosPedido productoPedido) {
-		productoPedido.setCantidadPorRecoger(productoPedido.getCantidadPorRecoger()-1);
-		productosPedidoRepository.save(productoPedido);
+
+	public void decrementarCantidadPorRecoger(ProductosPedido productosPedido) {
+		productosPedido.setCantidadPorRecoger(productosPedido.getCantidadPorRecoger() - 1);
+		productosPedido.setIncidencia("");
+		productosPedido.setTieneIncidencia(false);
+		productosPedidoRepository.save(productosPedido);
 	}
 
-	public ProductosPedido findByCodigo(String codigoProducto) {
-		return productosPedidoRepository.findByCodigo(codigoProducto);
+	public void addIncidencia(ProductosPedido productosPedido, String incidencia) {
+		productosPedido.setIncidencia(incidencia);
+		productosPedido.setTieneIncidencia(true);
+		productosPedidoRepository.save(productosPedido);
 	}
 
-	public void empaquetarProducto(ProductosPedido producto) {
-		producto.setEmpaquetado(true);
-		productosPedidoRepository.save(producto);
-		
+	public ProductosPedido findByProductoId(String id) {
+		return productosPedidoRepository.findByProductoId(id);
+	}
+
+	public List<ProductosPedido> findProductoPedidoByOtAndProductoAndNoEmpaquetado(String idProducto, String otID) {
+		return productosPedidoRepository.getProductoPedidoByProductoIDAndOtIDAndNoEmpaquetado(idProducto,otID);
 	}
 
 }

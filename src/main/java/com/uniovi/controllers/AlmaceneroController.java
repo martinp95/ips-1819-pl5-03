@@ -11,11 +11,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uniovi.entities.OrdenTrabajo;
+import com.uniovi.entities.Pedido;
+import com.uniovi.entities.PedidoAlmacen;
 import com.uniovi.entities.PedidosOrdenTrabajo;
 import com.uniovi.entities.ProductosPedido;
 import com.uniovi.entities.User;
 import com.uniovi.services.AlmaceneroService;
 import com.uniovi.services.OrdenTrabajoService;
+import com.uniovi.services.PaqueteService;
+import com.uniovi.services.PedidoAlmacenService;
 import com.uniovi.services.PedidoOrdenTrabajoService;
 import com.uniovi.services.PedidosService;
 import com.uniovi.services.ProductosPedidoService;
@@ -39,22 +43,78 @@ public class AlmaceneroController {
 	private ProductosService productosService;
 	@Autowired
 	private ProductosPedidoService productosPedidoService;
+	@Autowired
+	private PaqueteService paqueteService;
+	@Autowired
+	private PedidoAlmacenService pedidoAlmacenService;
+
+	private final int NUM_MIN_PEDIDO = 5;
+	private final int NUM_MAX_PEDIDO = 5;
 
 	@RequestMapping(value = "/almacenero/asignar", method = RequestMethod.POST)
 	public String addPedido(Principal principal, Model model,
 			@RequestParam(value = "pedidoID", required = false) String pedidoID) {
-
 		if (pedidoID != null) {
 			String email = principal.getName();
 			User almacenero = usersService.getUserByEmail(email);
 			OrdenTrabajo ordenTrabajo = new OrdenTrabajo(almacenero);
 			ordenTrabajoService.addOrdenTrabajo(ordenTrabajo);
-			PedidosOrdenTrabajo pedidoOrdenTrabajo = new PedidosOrdenTrabajo(
-					pedidoService.findById(Long.parseLong(pedidoID)), ordenTrabajo);
+			PedidosOrdenTrabajo pedidoOrdenTrabajo;
+
+			// tamaño pedido
+			int tam = pedidoService.findById(Long.parseLong(pedidoID)).getSize();
+
+			// if tamaño menor que NUM_MIN_PEDIDO
+			if (tam < NUM_MIN_PEDIDO) {
+				// añade pedido a la orden de trabajo
+				pedidoOrdenTrabajo = new PedidosOrdenTrabajo(pedidoService.findById(Long.parseLong(pedidoID)),
+						ordenTrabajo);
+				pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
+				// saca la lista del resto de pedidos
+				List<Pedido> pedidosNoAsignados = pedidoService.findNoAsignadosOrderByFecha();
+				// los va asignando si caben a la orden de trabajo existente
+				for (Pedido p : pedidosNoAsignados) {
+					if (p.getSize() + tam <= NUM_MIN_PEDIDO) {
+						pedidoOrdenTrabajo = new PedidosOrdenTrabajo(p, ordenTrabajo);
+						pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
+						tam += p.getSize();
+					}
+				}
+				return "redirect:/ordenesTrabajo";
+			}
+
+			// if tamaño mayor que NUM_MAX_PEDIDO
+			if (tam > NUM_MAX_PEDIDO) {
+				// variable auixliar con el tamaño para controlar los productos que faltan
+				int tamaux = tam;
+				// creo la variable porque solo interviene 1 pedido aqui
+				Pedido pFinal = pedidoService.findById(Long.parseLong(pedidoID));
+				// saco los 5 primeros productos del pedido y los añado
+				// pedidoService.findPrimerosProductosPedido(Long.parseLong(pedidoID),
+				// NUM_MAX_PEDIDO);
+				pedidoOrdenTrabajo = new PedidosOrdenTrabajo(pFinal, ordenTrabajo);
+				pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
+				tamaux -= NUM_MAX_PEDIDO;
+				do {
+					// creo la OT nueva pero esta vez sin almacenero asignado
+					ordenTrabajo = new OrdenTrabajo(null);
+					ordenTrabajoService.addOrdenTrabajo(ordenTrabajo);
+					// busco la siguiente remesa de productos
+					// p1 = ... ;
+					// añadir pedido con productos que no esten en OT a otra OT
+					pedidoOrdenTrabajo = new PedidosOrdenTrabajo(pFinal, ordenTrabajo);
+					pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
+					tamaux -= NUM_MAX_PEDIDO;
+				} while (tamaux > 0);
+				return "redirect:/ordenesTrabajo";
+			}
+
+			// para pedidos de 5 productos (funcionaria como en el sprint 1)
+			pedidoOrdenTrabajo = new PedidosOrdenTrabajo(pedidoService.findById(Long.parseLong(pedidoID)),
+					ordenTrabajo);
 			pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
 		}
 		return "redirect:/ordenesTrabajo";
-
 	}
 
 	@RequestMapping("/ordenesTrabajo")
@@ -80,23 +140,43 @@ public class AlmaceneroController {
 
 	@RequestMapping(value = "/ordenTrabajo/marcarRecogido", method = RequestMethod.POST)
 	public String marcarProductosOrdenTrabajoRecogido(Principal principal, Model model,
-			@RequestParam(value = "", required = false) String codigoProducto,
-			@RequestParam(value = "", required = false) String otID) {
-		if(codigoProducto != null) {
-			if(productosService.isProductoInOT(codigoProducto, otID)) {
-				List<ProductosPedido> productoPedido = productosPedidoService.findProductoPedidoByOtAndProducto(codigoProducto, otID);
-				productosPedidoService.decrementarCantidadPorRecoger(productoPedido.get(0));
-			}else {
-				model.addAttribute("error","ERROR:El producto escaneado no se encuentra en la OT o ya ha sido recogido");
+			@RequestParam(value = "codigoProducto", required = false) String codigoProducto,
+			@RequestParam(value = "otID", required = false) String otID,
+			@RequestParam(value = "incidencia", required = false) String incidencia) {
+
+		OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));
+		if (!codigoProducto.isEmpty()) {
+			if (incidencia.isEmpty()) {
+				if (productosService.isProductoInOT(codigoProducto, otID)) {
+					List<ProductosPedido> productoPedido = productosPedidoService
+							.findProductoPedidoByOtAndProducto(codigoProducto, otID);
+					productosPedidoService.decrementarCantidadPorRecoger(productoPedido.get(0));
+				} else {
+					model.addAttribute("error",
+							"ERROR:El producto escaneado no se encuentra en la OT o ya ha sido recogido");
+				}
+			} else {
+				if (productosService.isProductoInOT(codigoProducto, otID)) {
+					List<ProductosPedido> productoPedido = productosPedidoService
+							.findProductoPedidoByOtAndProducto(codigoProducto, otID);
+					productosPedidoService.addIncidencia(productoPedido.get(0), incidencia);
+					ordenTrabajoService.addIncidencia(ordenTrabajo);
+					model.addAttribute("error", "Se ha registrado la incidencia con exito");
+				} else {
+					model.addAttribute("error",
+							"ERROR:El producto escaneado no se encuentra en la OT o ya ha sido recogido");
+				}
 			}
 		}
-		OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));
 		List<Object> productos = productosService.findProductosByOt(ordenTrabajo);
+		if (productos.isEmpty()) {
+			ordenTrabajoService.eliminarIncidencia(ordenTrabajo);
+		}
 		model.addAttribute("productosList", productos);
 		model.addAttribute("otID", otID);
 		return "almacenero/listProductosOT";
 	}
-	
+
 	@RequestMapping("/ordenesTrabajo/noIncidence")
 	public String getOTSinIncidencia(Model model, Principal principal) {
 		String email = principal.getName();
@@ -105,28 +185,86 @@ public class AlmaceneroController {
 		model.addAttribute("ordenTrabajoList", ordenesTrabajo);
 		return "almacenero/listOTSinIncidencias";
 	}
-	
-	@RequestMapping("/ordenesTrabajo/empaquetar/productos/")
+
+	@RequestMapping("/ordenesTrabajo/empaquetar/productos")
 	public String getProductosEmpaquetarOrdenTrabajo(Principal principal, Model model,
 			@RequestParam(value = "otID", required = false) String otID) {
 		if (otID != null) {
 			OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));
-			List<Object> productos = productosService.findProductosByOt(ordenTrabajo);
+			List<Object> productos = productosService.findProductosByOtAndNoEmpaquetado(ordenTrabajo);
+			paqueteService.crearPaqueteDeOT(ordenTrabajo);
 			model.addAttribute("productosList", productos);
+			model.addAttribute("otID", otID);
 		}
 		return "almacenero/listProductosEmpaquetar";
 	}
-	
+
 	@RequestMapping("/ordenTrabajo/empaquetar")
 	public String empaquetarOrdenTrabajo(Principal principal, Model model,
-			@RequestParam(value = "codigoProducto", required = false) String codigoProducto) {
-		if(codigoProducto!=null) {
-			ProductosPedido producto = productosPedidoService.findByCodigo(codigoProducto);
-			if(producto!=null) {
-				productosPedidoService.empaquetarProducto(producto);//empaquetar producto o producto pedido?
-				
+			@RequestParam(value = "idProducto", required = false) String idProducto,
+			@RequestParam(value = "otID", required = false) String otID) {
+		if (!idProducto.isEmpty()) {
+			List<ProductosPedido> productosPedido = productosPedidoService
+					.findProductoPedidoByOtAndProductoAndNoEmpaquetado(idProducto, otID);
+			if (!productosPedido.isEmpty()) {
+				ProductosPedido productoPedido = productosPedido.get(0);
+				if (productoPedido != null && productoPedido.getCantidadPorEmpaquetar() == 0) {
+					paqueteService.empaquetarProducto(productoPedido, Long.parseLong(otID));
+				} else if (productoPedido != null) {
+					paqueteService.decrementarCantidadPorEmpaquetar(productoPedido);
+				}
 			}
 		}
+		OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));
+		List<Object> productos = productosService.findProductosByOtAndNoEmpaquetado(ordenTrabajo);
+		if (productos.isEmpty()) {
+			ordenTrabajoService.cambiarEmpaquetada(ordenTrabajo);
+			String albaran = ordenTrabajoService.generarAlbaran(ordenTrabajo);
+			model.addAttribute("albaran", albaran);
+			return "almacenero/albaran";
+		}
+		model.addAttribute("productosList", productos);
+		model.addAttribute("otID", otID);
 		return "almacenero/listProductosEmpaquetar";
+	}
+
+	@RequestMapping("/ordenesTrabajo/empaquetadas")
+	public String getOtsEmpaquetadas(Principal principal, Model model) {
+		String email = principal.getName();
+		User almacenero = usersService.getUserByEmail(email);
+		List<OrdenTrabajo> ordenesTrabajo = almaceneroService.findOrdenTabajoByUserAndEmpaquetada(almacenero);
+		model.addAttribute("ordenTrabajoList", ordenesTrabajo);
+		return "almacenero/listOTEmpaquetadas";
+	}
+
+	@RequestMapping("/ordenesTrabajo/albaran")
+	public String generarAlbaran(Principal principal, Model model,
+			@RequestParam(value = "otID", required = false) String otID) {
+		if (otID != null) {
+			OrdenTrabajo ordenTrabajo = ordenTrabajoService.findById(Long.parseLong(otID));
+			String albaran = ordenTrabajoService.generarAlbaran(ordenTrabajo);
+			model.addAttribute("albaran", albaran);
+		}
+		return "almacenero/albaran";
+	}
+
+	@RequestMapping("/pedidosAlmacen")
+	public String getPedidosAlmacen(Principal principal, Model model) {
+		List<PedidoAlmacen> pedidoAlmacen = pedidoAlmacenService.findAll();
+		model.addAttribute("pedidoAlmacen", pedidoAlmacen);
+		return "almacenero/listPedidosAlmacen";
+	}
+
+	@RequestMapping("/pedidosAlmacen/marcarEntregado")
+	public String marcarPedidoAlmacenEntregado(Principal principal, Model model,
+			@RequestParam(value = "paID", required = false) String paID) {
+		if (paID != null) {
+			PedidoAlmacen pa = pedidoAlmacenService.findByID(Long.parseLong(paID));
+			productosService.anadirStock(pa.getProducto(), pa.getCantidad());
+			pedidoAlmacenService.remove(pa);
+		}
+		List<PedidoAlmacen> pedidoAlmacen = pedidoAlmacenService.findAll();
+		model.addAttribute("pedidoAlmacen", pedidoAlmacen);
+		return "almacenero/listPedidosAlmacen";
 	}
 }

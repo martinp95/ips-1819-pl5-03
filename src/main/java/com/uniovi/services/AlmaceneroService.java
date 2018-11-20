@@ -18,4 +18,8 @@ public class AlmaceneroService {
 	public List<OrdenTrabajo> findOrdenTrabajoByUser(User almacenero) {
 		return ordenTrabajoRepository.findByAlmacenero(almacenero);
 	}
+
+	public List<OrdenTrabajo> findOrdenTabajoByUserAndEmpaquetada(User almacenero) {
+		return ordenTrabajoRepository.findByAlmaceneroAndEmpaquetada(almacenero);
+	}
 }
