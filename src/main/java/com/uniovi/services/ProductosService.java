@@ -62,9 +62,16 @@ public class ProductosService {
 			producto.setStock(producto.getStock() - productosCarro.getCantidad());
 			productosRepository.save(producto);
 			if (producto.getStock() < producto.getStockMinimo()) {
-				System.out.println("Hacer pedido del producto.");
+				// Comprobar si ya ha y un pedido para ese producto y en caso de haberlo aumento
+				// la cantidad, sino si creo el pedido.
 				pedidoAlmacenService.crearPedido(producto, producto.getStockMaximo() - producto.getStock());
 			}
 		}
 	}
+
+	public void anadirStock(Producto producto, int cantidad) {
+		producto.setStock(producto.getStock() + cantidad);
+		productosRepository.save(producto);
+	}
+
 }

@@ -38,6 +38,10 @@
 			<ul class="nav navbar-nav" sec:authorize="hasRole('ROLE_USER') and hasRole('ROLE_PARTICULAR')">
 				<li><a href="/pedidos/noPagados" th:text="#{pedidosNoPagados.message}"></a></li>
 			</ul>
+			
+			<ul class="nav navbar-nav" sec:authorize="hasRole('ROLE_ALMACENERO')">
+				<li><a href="/pedidosAlmacen" th:text="#{pedidosAlmacen.message}"></a></li>
+			</ul>
 
 			<ul class="nav navbar-nav navbar-right">
 

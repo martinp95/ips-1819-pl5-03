@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.uniovi.entities.OrdenTrabajo;
 import com.uniovi.entities.Pedido;
+import com.uniovi.entities.PedidoAlmacen;
 import com.uniovi.entities.PedidosOrdenTrabajo;
 import com.uniovi.entities.ProductosPedido;
 import com.uniovi.entities.User;
 import com.uniovi.services.AlmaceneroService;
 import com.uniovi.services.OrdenTrabajoService;
 import com.uniovi.services.PaqueteService;
+import com.uniovi.services.PedidoAlmacenService;
 import com.uniovi.services.PedidoOrdenTrabajoService;
 import com.uniovi.services.PedidosService;
 import com.uniovi.services.ProductosPedidoService;
@@ -43,6 +45,8 @@ public class AlmaceneroController {
 	private ProductosPedidoService productosPedidoService;
 	@Autowired
 	private PaqueteService paqueteService;
+	@Autowired
+	private PedidoAlmacenService pedidoAlmacenService;
 
 	private final int NUM_MIN_PEDIDO = 5;
 	private final int NUM_MAX_PEDIDO = 5;
@@ -206,7 +210,7 @@ public class AlmaceneroController {
 				ProductosPedido productoPedido = productosPedido.get(0);
 				if (productoPedido != null && productoPedido.getCantidadPorEmpaquetar() == 0) {
 					paqueteService.empaquetarProducto(productoPedido, Long.parseLong(otID));
-				}else if(productoPedido != null) {
+				} else if (productoPedido != null) {
 					paqueteService.decrementarCantidadPorEmpaquetar(productoPedido);
 				}
 			}
@@ -242,5 +246,25 @@ public class AlmaceneroController {
 			model.addAttribute("albaran", albaran);
 		}
 		return "almacenero/albaran";
+	}
+
+	@RequestMapping("/pedidosAlmacen")
+	public String getPedidosAlmacen(Principal principal, Model model) {
+		List<PedidoAlmacen> pedidoAlmacen = pedidoAlmacenService.findAll();
+		model.addAttribute("pedidoAlmacen", pedidoAlmacen);
+		return "almacenero/listPedidosAlmacen";
+	}
+
+	@RequestMapping("/pedidosAlmacen/marcarEntregado")
+	public String marcarPedidoAlmacenEntregado(Principal principal, Model model,
+			@RequestParam(value = "paID", required = false) String paID) {
+		if (paID != null) {
+			PedidoAlmacen pa = pedidoAlmacenService.findByID(Long.parseLong(paID));
+			productosService.anadirStock(pa.getProducto(), pa.getCantidad());
+			pedidoAlmacenService.remove(pa);
+		}
+		List<PedidoAlmacen> pedidoAlmacen = pedidoAlmacenService.findAll();
+		model.addAttribute("pedidoAlmacen", pedidoAlmacen);
+		return "almacenero/listPedidosAlmacen";
 	}
 }
