@@ -39,8 +39,13 @@
 								oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
 								step="1" class="form-control" name="cantidad" value="1" min="1"
 								th:max="${producto.stock}" /></td>
+							
+							
+  									
 
-							<td th:text="${producto.precio} + €"></td>
+							<div th:with="result=${(producto.precio * producto.iva.porcentaje) + producto.precio}">
+								<td th:text="${result}"></td>
+							</div>
 
 							<td sec:authorize="hasRole('ROLE_USER')">
 								<button type="button"
@@ -92,8 +97,14 @@
 						<tr th:each="productosCarrito : ${carritoList}">
 							<td th:text="${productosCarrito.producto.name}"></td>
 							<td th:text="${productosCarrito.producto.description}"></td>
-							<td th:text="${productosCarrito.cantidad}"></td>
-							<td th:text="${productosCarrito.precioProductoCantidad} + €"></td>
+							<td th:text="${productosCarrito.cantidad}"></td>			
+							
+							
+							
+							<div th:with="result=${(productosCarrito.precioProductoCantidad * productosCarrito.producto.iva.porcentaje)
+							 + productosCarrito.precioProductoCantidad}">
+								<td th:text="${result}"></td>
+							</div>
 
 							<td><button type="button"
 									th:id="${'incrementarButton' + productosCarrito.producto.id}"
@@ -164,7 +175,8 @@
 						</tr>
 					</tbody>
 				</table>
-				<p th:text="'Total a pagar: ' + ${total} + '€'"></p>
+				<p th:text="'Total a pagar sin IVA: ' + ${total} + '€'"></p>
+				<p th:text="'Total a pagar con IVA: ' + ${totalIva} + '€'"></p>
 
 				<a th:if="${#lists.size(carritoList) > 0 }"
 					sec:authorize="hasRole('ROLE_EMPRESA')" id="confirmarPedido"

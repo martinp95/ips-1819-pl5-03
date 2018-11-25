@@ -61,7 +61,7 @@ public class ProductosCarrito {
 
 	public void calcularPrecioProductoCantidad() {
 		this.precioProductoCantidad = producto.getPrecio() * cantidad;
-	}
+	}	
 
 	public double getPrecioProductoCantidad() {
 		return precioProductoCantidad;
