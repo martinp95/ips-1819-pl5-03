@@ -62,12 +62,20 @@ public class OrdenTrabajoService {
 			albaran += "\t\tUsuario:" + user.getName() + ", Email:" + user.getEmail() + "\n";
 			albaran += "\t\tProductos:\n";
 			List<Producto> productos = productosRepository.findProductosByPedido(pedido);
+			double precioPedido = 0.0;
+			double precioPedidoConIva = 0.0;
 			for (Producto producto : productos) {
 				ProductosPedido pp = productoPedidoRepository.findProductoPedidoByPedidoAndProducto(pedido, producto);
 				albaran += "\t\t\tNombre:" + producto.getName() + ", Descripcion:" + producto.getDescription()
-						+ ", Precio unidad:" + producto.getPrecio() + ", Cantidad:" + pp.getCantidad() + "\n";
+						+ ", Precio unidad sin IVA:" + producto.getPrecio() 
+						+ ", Precio unidad con IVA: " + ((producto.getPrecio()*producto.getIva().getPorcentaje())+producto.getPrecio())						
+						+ ", Cantidad:" + pp.getCantidad() 	+"\n";
+				precioPedido += producto.getPrecio() * pp.getCantidad();
+				precioPedidoConIva += ((producto.getPrecio()*producto.getIva().getPorcentaje())+producto.getPrecio()) * pp.getCantidad();
 			}
 			albaran += "--------------------------------------------------------------------------------------------\n";
+			albaran += "Precio total del pedido: " + precioPedido +"\n";
+			albaran += "Precio total del pedido con IVA: " + precioPedidoConIva + "\n";
 		}
 		return albaran;
 	}
