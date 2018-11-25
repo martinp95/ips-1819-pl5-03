@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -32,12 +33,15 @@ public class Producto {
 
 	@OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
 	private Set<ProductosPedido> productosPedido = new HashSet<ProductosPedido>();
+	
+	@ManyToOne
+	private Iva iva;
 
 	public Producto() {
 	}
 
 	public Producto(String name, String description, double precio, int stock, int pasillo, String posicion,
-			int numEstanteria, int numFila, int stockMinimo, int stockMaximo) {
+			int numEstanteria, int numFila, int stockMinimo, int stockMaximo,Iva iva) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -49,6 +53,7 @@ public class Producto {
 		this.numFila = numFila;
 		this.stockMinimo = stockMinimo;
 		this.StockMaximo = stockMaximo;
+		this.iva = iva;
 	}
 
 	public String getName() {
@@ -133,6 +138,14 @@ public class Producto {
 
 	public Set<ProductosPedido> getProductosPedido() {
 		return new HashSet<ProductosPedido>(productosPedido);
+	}	
+
+	public Iva getIva() {
+		return iva;
+	}
+
+	public void setIva(Iva iva) {
+		this.iva = iva;
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.uniovi.entities.Iva;
 import com.uniovi.entities.Producto;
 import com.uniovi.entities.User;
 
@@ -18,6 +19,9 @@ public class InsertSampleDataService {
 
 	@Autowired
 	private ProductosService productoService;
+	
+	@Autowired
+	private IvaService ivaService;
 
 	@PostConstruct
 	public void init() {
@@ -87,26 +91,34 @@ public class InsertSampleDataService {
 		usersService.addUser(almacenero1);
 
 		usersService.addUser(empresa1);
+		
+		Iva iva1 = new Iva(0.15,"Tipo1");
+		Iva iva2 = new Iva(0.3,"Tipo2");
+		Iva iva3 = new Iva(0.2,"Tipo3");
+		
+		ivaService.addIva(iva1);
+		ivaService.addIva(iva2);
+		ivaService.addIva(iva3);
+		
 
-		Producto producto = new Producto("Teclado", "teclado retroiluminado", 10.2, 10, 2, "derecha", 3, 2, 5, 15);
-		Producto producto2 = new Producto("Teclado", "teclado mecanico", 10.2, 10, 2, "derecha", 2, 2, 5, 15);
-		Producto producto3 = new Producto("Ratón", "ratón retroiluminado", 10.2, 10, 2, "izquierda", 3, 2, 5, 15);
-		Producto producto4 = new Producto("Ratón", "ratón mecanico", 10.2, 10, 2, "izquierda", 3, 2, 5, 15);
-		Producto producto5 = new Producto("Procesador", "Procesador intell i7", 250, 10, 1, "izquierda", 1, 1, 5, 15);
-		Producto producto6 = new Producto("Procesador", "Procesador intell i5", 250, 10, 1, "derecha", 1, 1, 5, 15);
-		Producto producto7 = new Producto("Procesador", "Procesador intell i3", 250, 10, 1, "izquierda", 1, 2, 5, 15);
-		Producto producto8 = new Producto("Procesador", "Procesador intell pentium", 250, 10, 1, "derecha", 1, 2, 5,
-				15);
-		Producto producto9 = new Producto("Procesador", "Procesador intell xeon", 250, 10, 1, "izquierda", 1, 3, 5, 15);
+		Producto producto = new Producto("Teclado", "teclado retroiluminado", 10.2, 10, 2, "derecha", 3, 2, 5, 15,iva1);
+		Producto producto2 = new Producto("Teclado", "teclado mecanico", 10.2, 10, 2, "derecha", 2, 2, 5, 15,iva1);
+		Producto producto3 = new Producto("Ratón", "ratón retroiluminado", 10.2, 10, 2, "izquierda", 3, 2, 5, 15,iva1);
+		Producto producto4 = new Producto("Ratón", "ratón mecanico", 10.2, 10, 2, "izquierda", 3, 2, 5, 15,iva1);
+		Producto producto5 = new Producto("Procesador", "Procesador intell i7", 250, 10, 1, "izquierda", 1, 1, 5, 15,iva2);
+		Producto producto6 = new Producto("Procesador", "Procesador intell i5", 250, 10, 1, "derecha", 1, 1, 5, 15,iva2);
+		Producto producto7 = new Producto("Procesador", "Procesador intell i3", 250, 10, 1, "izquierda", 1, 2, 5, 15,iva2);
+		Producto producto8 = new Producto("Procesador", "Procesador intell pentium", 250, 10, 1, "derecha", 1, 2, 5,15,iva2);
+		Producto producto9 = new Producto("Procesador", "Procesador intell xeon", 250, 10, 1, "izquierda", 1, 3, 5, 15,iva2);
 
-		Producto producto10 = new Producto("Pantalla", "Pantalla  xeon", 25, 10, 1, "izquierda", 1, 4, 5, 15);
-		Producto producto11 = new Producto("Pantalla", "Pantalla  xeon", 25, 10, 1, "izquierda", 1, 5, 5, 15);
-		Producto producto12 = new Producto("Pantalla", "Pantalla  xeon", 25, 10, 1, "izquierda", 1, 6, 5, 15);
-		Producto producto13 = new Producto("Pantalla", "Pantalla  xeon", 25, 10, 1, "izquierda", 1, 7, 5, 15);
-		Producto producto14 = new Producto("Pantalla", "Pantalla  xeon", 25, 10, 1, "izquierda", 1, 8, 5, 15);
-		Producto producto15 = new Producto("Pantalla", "Pantalla  xeon", 25, 10, 1, "izquierda", 1, 9, 5, 15);
-		Producto producto16 = new Producto("Pantalla", "Pantalla  xeon", 25, 10, 1, "izquierda", 1, 10, 5, 15);
-		Producto producto17 = new Producto("Pantalla", "Pantalla  xeon", 25, 10, 1, "izquierda", 1, 11, 5, 15);
+		Producto producto10 = new Producto("Pantalla", "Pantalla  xeon", 25, 10, 1, "izquierda", 1, 4, 5, 15,iva3);
+		Producto producto11 = new Producto("Pantalla", "Pantalla  xeon", 25, 10, 1, "izquierda", 1, 5, 5, 15,iva3);
+		Producto producto12 = new Producto("Pantalla", "Pantalla  xeon", 25, 10, 1, "izquierda", 1, 6, 5, 15,iva3);
+		Producto producto13 = new Producto("Pantalla", "Pantalla  xeon", 25, 10, 1, "izquierda", 1, 7, 5, 15,iva3);
+		Producto producto14 = new Producto("Pantalla", "Pantalla  xeon", 25, 10, 1, "izquierda", 1, 8, 5, 15,iva3);
+		Producto producto15 = new Producto("Pantalla", "Pantalla  xeon", 25, 10, 1, "izquierda", 1, 9, 5, 15,iva3);
+		Producto producto16 = new Producto("Pantalla", "Pantalla  xeon", 25, 10, 1, "izquierda", 1, 10, 5, 15,iva3);
+		Producto producto17 = new Producto("Pantalla", "Pantalla  xeon", 25, 10, 1, "izquierda", 1, 11, 5, 15,iva3);
 
 		productoService.addProducto(producto);
 		productoService.addProducto(producto2);

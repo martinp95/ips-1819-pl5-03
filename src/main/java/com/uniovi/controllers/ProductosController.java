@@ -47,12 +47,17 @@ public class ProductosController {
 
 			carrito = productosCarritoService.findAllByUser(user);
 			double precioTotal = 0.0;
+			double precioTotalConIva = 0.0;
 			for (ProductosCarrito productosCarrito : carrito) {
 				precioTotal += productosCarrito.getPrecioProductoCantidad();
+				precioTotalConIva += (productosCarrito.getPrecioProductoCantidad() 
+						* productosCarrito.getProducto().getIva().getPorcentaje())
+						+productosCarrito.getPrecioProductoCantidad();
 			}
 			model.addAttribute("carritoList", carrito);
 			model.addAttribute("productosList", productos);
 			model.addAttribute("total", precioTotal);
+			model.addAttribute("totalIva", precioTotalConIva);
 			return "productos/listProductos";
 		}
 	}
