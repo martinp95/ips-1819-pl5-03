@@ -24,9 +24,13 @@ public class ProductosPedido {
 
 	private int cantidad;
 	private int cantidadPorRecoger;
+	private int cantidadPorEmpaquetar;
 	private double precioUnidad;
-	
-	private boolean empaquetado;
+	private String incidencia;
+	private boolean tieneIncidencia;
+
+	@ManyToOne
+	private Paquete paquete;
 
 	public ProductosPedido() {
 	}
@@ -36,8 +40,9 @@ public class ProductosPedido {
 		this.producto = producto;
 		this.setCantidad(cantidad);
 		this.setCantidadPorRecoger(cantidad);
+		this.setCantidadPorEmpaquetar(cantidad);
 		this.setPrecioUnidad(precioUnidad);
-		this.empaquetado = false;
+		this.incidencia = "";
 	}
 
 	@Override
@@ -111,14 +116,41 @@ public class ProductosPedido {
 		this.cantidadPorRecoger = cantidadPorRecoger;
 	}
 
-	public boolean isEmpaquetado() {
-		return empaquetado;
+	public String getIncidencia() {
+		return incidencia;
 	}
 
-	public void setEmpaquetado(boolean empaquetado) {
-		this.empaquetado = empaquetado;
+	public void setIncidencia(String incidencia) {
+		this.incidencia = incidencia;
 	}
-	
-	
+
+	public Paquete getPaquete() {
+		return paquete;
+	}
+
+	public void setPaquete(Paquete paquete) {
+		this.paquete = paquete;
+	}
+
+	public boolean isTieneIncidencia() {
+		return tieneIncidencia;
+	}
+
+	public void setTieneIncidencia(boolean tieneIncidencia) {
+		this.tieneIncidencia = tieneIncidencia;
+	}
+
+	@Override
+	public String toString() {
+		return "ProductosPedido [pedido=" + pedido + ", producto=" + producto + ", cantidad=" + cantidad + "]";
+	}
+
+	public int getCantidadPorEmpaquetar() {
+		return cantidadPorEmpaquetar;
+	}
+
+	public void setCantidadPorEmpaquetar(int cantidadPorEmpaquetar) {
+		this.cantidadPorEmpaquetar = cantidadPorEmpaquetar;
+	}
 
 }

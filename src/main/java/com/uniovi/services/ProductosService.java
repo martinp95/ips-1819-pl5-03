@@ -1,16 +1,16 @@
 package com.uniovi.services;
 
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.uniovi.entities.OrdenTrabajo;
+import com.uniovi.entities.PedidoAlmacen;
 import com.uniovi.entities.Producto;
+import com.uniovi.entities.ProductosCarrito;
+import com.uniovi.entities.ProductosPedido;
 import com.uniovi.repositories.ProductosRepository;
 
 @Service
@@ -18,16 +18,17 @@ public class ProductosService {
 
 	@Autowired
 	private ProductosRepository productosRepository;
+	@Autowired
+	private PedidoAlmacenService pedidoAlmacenService;
 
-	public Page<Producto> searchProductosByNameAndDescription(Pageable pageable, String searchText) {
-		Page<Producto> productos = new PageImpl<Producto>(new LinkedList<Producto>());
+	public List<Producto> searchProductosByNameAndDescription(String searchText) {
 		searchText = "%" + searchText + "%";
-		productos = productosRepository.searchByNameAndDescription(pageable, searchText);
+		List<Producto> productos = productosRepository.searchByNameAndDescription(searchText);
 		return productos;
 	}
 
-	public Page<Producto> findAll(Pageable pageable) {
-		return productosRepository.findAll(pageable);
+	public List<Producto> findAll() {
+		return productosRepository.findAll();
 	}
 
 	public void addProducto(Producto producto) {
@@ -46,4 +47,37 @@ public class ProductosService {
 		List<Producto> productos = productosRepository.getProductoByProductoIDAndOtID(producto, ordenTrabajo);
 		return !productos.isEmpty();
 	}
+
+	public List<ProductosPedido> findProductosByOtNoIncidenciaNoEmpaquetado(OrdenTrabajo ordenTrabajo) {
+		return productosRepository.findProductoByOtNoincidenciaNoEmpaquetado(ordenTrabajo);
+	}
+
+	public List<Object> findProductosByOtAndNoEmpaquetado(OrdenTrabajo ordenTrabajo) {
+		return productosRepository.findProductosByOtAndNoEmpaquetado(ordenTrabajo);
+	}
+
+	public void descontarStock(Set<ProductosCarrito> productosCarrito) {
+		Producto producto;
+		for (ProductosCarrito productosCarro : productosCarrito) {
+			producto = productosCarro.getProducto();
+			producto.setStock(producto.getStock() - productosCarro.getCantidad());
+			productosRepository.save(producto);
+			if (producto.getStock() < producto.getStockMinimo()) {
+				// Si no lo hay lo creo
+				PedidoAlmacen pedidoAlmacen = pedidoAlmacenService.findByProducto(producto);
+				if (pedidoAlmacen == null) {
+					pedidoAlmacenService.crearPedido(producto, producto.getStockMaximo() - producto.getStock());
+				} else {//Si ya lo hay
+					pedidoAlmacen.setCantidad(producto.getStockMaximo() - producto.getStock());
+					pedidoAlmacenService.update(pedidoAlmacen);
+				}
+			}
+		}
+	}
+
+	public void anadirStock(Producto producto, int cantidad) {
+		producto.setStock(producto.getStock() + cantidad);
+		productosRepository.save(producto);
+	}
+
 }
