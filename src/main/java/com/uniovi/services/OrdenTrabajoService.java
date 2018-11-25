@@ -66,7 +66,7 @@ public class OrdenTrabajoService {
 			double precioPedidoConIva = 0.0;
 			for (Producto producto : productos) {
 				ProductosPedido pp = productoPedidoRepository.findProductoPedidoByPedidoAndProducto(pedido, producto);
-				albaran += "\t\t\tNombre:" + producto.getName() + ", Descripcion:" + producto.getDescription()
+				albaran += "\t\t\tCategoria:" + producto.getName() + ", Nombre:" + producto.getDescription()
 						+ ", Precio unidad sin IVA:" + producto.getPrecio() 
 						+ ", Precio unidad con IVA: " + ((producto.getPrecio()*producto.getIva().getPorcentaje())+producto.getPrecio())						
 						+ ", Cantidad:" + pp.getCantidad() 	+"\n";
