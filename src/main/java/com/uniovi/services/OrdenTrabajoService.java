@@ -14,6 +14,7 @@ import com.uniovi.repositories.OrdenTrabajoRepository;
 import com.uniovi.repositories.PedidosRepository;
 import com.uniovi.repositories.ProductosPedidoRepository;
 import com.uniovi.repositories.ProductosRepository;
+import com.uniovi.util.Util;
 
 @Service
 public class OrdenTrabajoService {
@@ -74,8 +75,9 @@ public class OrdenTrabajoService {
 				precioPedidoConIva += ((producto.getPrecio()*producto.getIva().getPorcentaje())+producto.getPrecio()) * pp.getCantidad();
 			}
 			albaran += "--------------------------------------------------------------------------------------------\n";
-			albaran += "Precio total del pedido: " + precioPedido +"\n";
-			albaran += "Precio total del pedido con IVA: " + precioPedidoConIva + "\n";
+			albaran += "Precio total del pedido: " + Util.round(precioPedido,2) + "\n";
+			albaran += "Precio total del pedido con IVA: " + Util.round(precioPedidoConIva,2) + "\n";
+			
 		}
 		return albaran;
 	}
