@@ -80,36 +80,43 @@ public class PedidosController {
 	@RequestMapping("/pedido/pagar")
 	public String getPagar(Model model, Principal principal,
 			@RequestParam(value = "metodoPago", required = false) String metodoPago) {
-
-		String email = principal.getName();
-		User user = usersService.getUserByEmail(email);
-		if (user.getProductosCarrito().size() > 0) {
-			int size = 0;
-			for (ProductosCarrito productoCarro : user.getProductosCarrito()) {
-				size += productoCarro.getCantidad();
+		if (metodoPago.equals("Tarjeta"))
+			return "carrito/tarjeta";
+		else {
+			String email = principal.getName();
+			User user = usersService.getUserByEmail(email);
+			if (user.getProductosCarrito().size() > 0) {
+				int size = 0;
+				for (ProductosCarrito productoCarro : user.getProductosCarrito()) {
+					size += productoCarro.getCantidad();
+				}
+				Pedido pedido = new Pedido(user, size);
+				if (metodoPago.equals("Contrareembolso"))
+					pedido.setPagado(true);
+				pedidosService.addPedido(pedido);
+				productosPedidoService.addProductosPedido(pedido, user.getProductosCarrito());
+				productosService.descontarStock(user.getProductosCarrito());
+				productosCarritoService.deleteCarrito(user);
+			} else {
+				return "redirect:/carrito";
 			}
 			Pedido pedido = new Pedido(user, size);
-			if (metodoPago.equals("Tarjeta") || metodoPago.equals("Contrareembolso")) {
+			if (metodoPago.equals("Tarjeta") || metodoPago.equals("Contrareembolso"))
 				pedido.setPagado(true);
-			}
 			pedidosService.addPedido(pedido);
 			productosPedidoService.addProductosPedido(pedido, user.getProductosCarrito());
 			productosService.descontarStock(user.getProductosCarrito());
-
-			// meter el total en el pedido.
-			pedidosService.setTotalPedido(pedido);
-
 			productosCarritoService.deleteCarrito(user);
 		} else {
 			return "redirect:/carrito";
 		}
-		if (metodoPago.equals("Tarjeta"))
+		if(metodoPago.equals("Tarjeta"))
 			return "carrito/tarjeta";
-		if (metodoPago.equals("Transferencia"))
+		if(metodoPago.equals("Transferencia"))	
 			return "carrito/transferencia";
 		else
 			return "redirect:/productos";
-
+			
 	}
 
 	@RequestMapping("/pedidos/noPagados")
@@ -130,7 +137,21 @@ public class PedidosController {
 	}
 
 	@RequestMapping("/pedido/tarjeta")
-	public String getSimulacionTarjeta(Model model, @RequestParam(value = "", required = false) Principal principal) {
+	public String getSimulacionTarjeta(Model model, Principal principal) {
+		String email = principal.getName();
+		User user = usersService.getUserByEmail(email);
+		if (user.getProductosCarrito().size() > 0) {
+			int size = 0;
+			for (ProductosCarrito productoCarro : user.getProductosCarrito()) {
+				size += productoCarro.getCantidad();
+			}
+			Pedido pedido = new Pedido(user, size);		
+			pedido.setPagado(true);
+			pedidosService.addPedido(pedido);
+			productosPedidoService.addProductosPedido(pedido, user.getProductosCarrito());
+			productosService.descontarStock(user.getProductosCarrito());
+			productosCarritoService.deleteCarrito(user);
+		}
 		return "redirect:/productos";
 	}
 
@@ -138,5 +159,7 @@ public class PedidosController {
 	public String getSimulacionTransferencia(Model model,
 			@RequestParam(value = "", required = false) Principal principal) {
 		return "redirect:/productos";
-	}
+	}	
+	
+	
 }
