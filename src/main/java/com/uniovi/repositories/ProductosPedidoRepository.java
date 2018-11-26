@@ -27,4 +27,6 @@ public interface ProductosPedidoRepository extends CrudRepository<ProductosPedid
 	@Query(value = "select pp.* from productos_pedido pp where pp.pedido_id=?1 and pp.producto_id=?2", nativeQuery = true)
 	ProductosPedido findProductoPedidoByPedidoAndProducto(Pedido pedido, Producto producto);
 
+	List<ProductosPedido> findByPedido(Pedido pedido);
+
 }
