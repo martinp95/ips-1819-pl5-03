@@ -1,5 +1,7 @@
 package com.uniovi.services;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,17 +70,38 @@ public class OrdenTrabajoService {
 			for (Producto producto : productos) {
 				ProductosPedido pp = productoPedidoRepository.findProductoPedidoByPedidoAndProducto(pedido, producto);
 				albaran += "\t\t\tNombre:" + producto.getName() + ", Descripcion:" + producto.getDescription()
-						+ ", Precio unidad sin IVA:" + producto.getPrecio() 
-						+ ", Precio unidad con IVA: " + ((producto.getPrecio()*producto.getIva().getPorcentaje())+producto.getPrecio())						
-						+ ", Cantidad:" + pp.getCantidad() 	+"\n";
+						+ ", Precio unidad sin IVA:" + producto.getPrecio() + ", Precio unidad con IVA: "
+						+ ((producto.getPrecio() * producto.getIva().getPorcentaje()) + producto.getPrecio())
+						+ ", Cantidad:" + pp.getCantidad() + "\n";
 				precioPedido += producto.getPrecio() * pp.getCantidad();
-				precioPedidoConIva += ((producto.getPrecio()*producto.getIva().getPorcentaje())+producto.getPrecio()) * pp.getCantidad();
+				precioPedidoConIva += ((producto.getPrecio() * producto.getIva().getPorcentaje())
+						+ producto.getPrecio()) * pp.getCantidad();
 			}
 			albaran += "--------------------------------------------------------------------------------------------\n";
-			albaran += "Precio total del pedido: " + Util.round(precioPedido,2) + "\n";
-			albaran += "Precio total del pedido con IVA: " + Util.round(precioPedidoConIva,2) + "\n";
-			
+			albaran += "Precio total del pedido: " + Util.round(precioPedido, 2) + "\n";
+			albaran += "Precio total del pedido con IVA: " + Util.round(precioPedidoConIva, 2) + "\n";
+
 		}
 		return albaran;
+	}
+
+	public List<Date> findDatesEntreInicioFin() {
+		List<Date> fechas = new ArrayList<Date>();
+		List<OrdenTrabajo> ots = ordenTrabajoRepository.findAllOrderByFecha();
+		if (!ots.isEmpty()) {
+			Date inicio = ots.get(0).getFecha();
+			Date fin = ots.get(ots.size() - 1).getFecha();
+
+			while (inicio.before(fin)) {
+				fechas.add(inicio);
+				inicio = Util.addDays(inicio, 1);
+			}
+			fechas.add(fin);			
+		}
+		return fechas;
+	}
+
+	public List<OrdenTrabajo> findAllOrderByFecha() {		
+		return ordenTrabajoRepository.findAllOrderByFecha();
 	}
 }

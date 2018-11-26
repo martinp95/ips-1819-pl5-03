@@ -1,6 +1,7 @@
 package com.uniovi.controllers;
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -253,5 +254,14 @@ public class AlmaceneroController {
 		List<Object[]> informe = pedidoService.informeVolumenCompras();
 		model.addAttribute("informe", informe);
 		return "almacenero/informeVolumenCompra";
+	}
+	
+	@RequestMapping("informe/Ots")
+	public String informeOts(Principal principal, Model model) {
+		List<OrdenTrabajo> ots = ordenTrabajoService.findAllOrderByFecha();
+		List<Date> fechas = ordenTrabajoService.findDatesEntreInicioFin();
+		model.addAttribute("ots", ots);
+		model.addAttribute("fechas", fechas);
+		return "almacenero/informeOts";
 	}
 }
