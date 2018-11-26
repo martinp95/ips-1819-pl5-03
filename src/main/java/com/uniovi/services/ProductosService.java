@@ -31,6 +31,10 @@ public class ProductosService {
 		return productosRepository.findAll();
 	}
 	
+	public List<Producto> findCategories() {
+		return productosRepository.findCategories();
+	}
+	
 	public List<Producto> findByCategory(String categoria) {
 		return productosRepository.findByCategory(categoria);
 	}

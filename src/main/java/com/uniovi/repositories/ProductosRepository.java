@@ -15,6 +15,9 @@ public interface ProductosRepository extends CrudRepository<Producto, Long> {
 	@Query("SELECT p FROM Producto p WHERE (LOWER(p.name) LIKE LOWER(?1) " + "OR LOWER(p.description) LIKE LOWER(?1))")
 	List<Producto> searchByNameAndDescription(String searchText);
 	
+	@Query("SELECT DISTINCT p.name FROM Producto p")
+	List<Producto> findCategories();
+	
 	@Query("SELECT p FROM Producto p WHERE p.name = ?1")
 	List<Producto> findByCategory(String categoria);
 
@@ -45,4 +48,5 @@ public interface ProductosRepository extends CrudRepository<Producto, Long> {
 	@Query(value = "SELECT top 5 p.* FROM PRODUCTO p, PRODUCTOS_PEDIDO pp WHERE pp.PRODUCTO_ID = p.ID "
 			+ "and pp.PEDIDO_ID=?1", nativeQuery = true)
 	List<Producto> findProductosByPedido(Pedido pedido);
+
 }

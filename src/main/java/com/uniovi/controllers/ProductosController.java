@@ -37,6 +37,8 @@ public class ProductosController {
 		} else {
 
 			List<Producto> productos;
+			List<Producto> categorias;
+			categorias = productosService.findCategories();
 
 			if (searchText != null && !searchText.isEmpty()) {
 				productos = productosService.searchProductosByNameAndDescription(searchText);
@@ -61,6 +63,8 @@ public class ProductosController {
 			model.addAttribute("productosList", productos);
 			model.addAttribute("total", precioTotal);
 			model.addAttribute("totalIva", precioTotalConIva);
+			
+			model.addAttribute("categoriasList", categorias);
 			return "productos/listProductos";
 		}
 	}
