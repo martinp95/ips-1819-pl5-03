@@ -20,6 +20,7 @@ public class Pedido {
 	private Long id;
 	private Date fecha;
 	private int size;
+	private double total;
 
 	@ManyToOne
 	private User user;
@@ -36,9 +37,11 @@ public class Pedido {
 	public Pedido() {
 	}
 
+	@SuppressWarnings("deprecation")
 	public Pedido(User user, int size) {
 		this.user = user;
-		this.setFecha(new Date());
+		Date dia = new Date();
+		this.setFecha(new Date(dia.getYear(), dia.getMonth(), dia.getDate()));
 		this.setSize(size);
 		this.pagado = false;
 	}
@@ -127,6 +130,14 @@ public class Pedido {
 	@Override
 	public String toString() {
 		return "Pedido [id=" + id + ", fecha=" + fecha + ", size=" + size + ", user=" + user + "]";
+	}
+
+	public double getTotal() {
+		return total;
+	}
+
+	public void setTotal(double total) {
+		this.total = total;
 	}
 
 }

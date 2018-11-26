@@ -47,8 +47,9 @@ public class PedidosController {
 			pedido.setPagado(true);
 			pedidosService.addPedido(pedido);
 			productosPedidoService.addProductosPedido(pedido, user.getProductosCarrito());
-			productosService.descontarStock(user.getProductosCarrito());	
-			
+			productosService.descontarStock(user.getProductosCarrito());
+			// meter el total en el pedido.
+			pedidosService.setTotalPedido(pedido);
 			productosCarritoService.deleteCarrito(user);
 		} else {
 			return "redirect:/carrito";
@@ -72,8 +73,7 @@ public class PedidosController {
 		User user = usersService.getUserByEmail(email);
 		if (user.getProductosCarrito().size() > 0) {
 			return "carrito/metodosPago";
-		}
-		else
+		} else
 			return "redirect:/productos";
 	}
 
@@ -89,22 +89,27 @@ public class PedidosController {
 				size += productoCarro.getCantidad();
 			}
 			Pedido pedido = new Pedido(user, size);
-			if (metodoPago.equals("Tarjeta") || metodoPago.equals("Contrareembolso"))
+			if (metodoPago.equals("Tarjeta") || metodoPago.equals("Contrareembolso")) {
 				pedido.setPagado(true);
+			}
 			pedidosService.addPedido(pedido);
 			productosPedidoService.addProductosPedido(pedido, user.getProductosCarrito());
 			productosService.descontarStock(user.getProductosCarrito());
+
+			// meter el total en el pedido.
+			pedidosService.setTotalPedido(pedido);
+
 			productosCarritoService.deleteCarrito(user);
 		} else {
 			return "redirect:/carrito";
 		}
-		if(metodoPago.equals("Tarjeta"))
+		if (metodoPago.equals("Tarjeta"))
 			return "carrito/tarjeta";
-		if(metodoPago.equals("Transferencia"))	
+		if (metodoPago.equals("Transferencia"))
 			return "carrito/transferencia";
 		else
 			return "redirect:/productos";
-			
+
 	}
 
 	@RequestMapping("/pedidos/noPagados")
@@ -123,16 +128,15 @@ public class PedidosController {
 		}
 		return "redirect:/pedidos/noPagados";
 	}
-	
+
 	@RequestMapping("/pedido/tarjeta")
 	public String getSimulacionTarjeta(Model model, @RequestParam(value = "", required = false) Principal principal) {
 		return "redirect:/productos";
 	}
-	
+
 	@RequestMapping("/pedido/transferencia")
-	public String getSimulacionTransferencia(Model model, @RequestParam(value = "", required = false) Principal principal) {
+	public String getSimulacionTransferencia(Model model,
+			@RequestParam(value = "", required = false) Principal principal) {
 		return "redirect:/productos";
-	}	
-	
-	
+	}
 }
