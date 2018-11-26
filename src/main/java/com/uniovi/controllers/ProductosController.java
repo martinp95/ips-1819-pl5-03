@@ -42,7 +42,10 @@ public class ProductosController {
 				productos = productosService.searchProductosByNameAndDescription(searchText);
 			} else {
 				productos = productosService.findAll();
+				//productos = productosService.findByCategory(searchText);
 			}
+			
+			//CARRITO
 			List<ProductosCarrito> carrito;
 
 			carrito = productosCarritoService.findAllByUser(user);

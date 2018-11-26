@@ -30,6 +30,10 @@ public class ProductosService {
 	public List<Producto> findAll() {
 		return productosRepository.findAll();
 	}
+	
+	public List<Producto> findByCategory(String categoria) {
+		return productosRepository.findByCategory(categoria);
+	}
 
 	public void addProducto(Producto producto) {
 		productosRepository.save(producto);

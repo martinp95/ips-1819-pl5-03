@@ -111,14 +111,14 @@ public class InsertSampleDataService {
 		Producto producto8 = new Producto("Procesador", "Procesador intell pentium", 250, 10, 1, "derecha", 1, 2, 5,15,iva2);
 		Producto producto9 = new Producto("Procesador", "Procesador intell xeon", 250, 10, 1, "izquierda", 1, 3, 5, 15,iva2);
 
-		Producto producto10 = new Producto("Pantalla", "Pantalla  xeon", 25, 10, 1, "izquierda", 1, 4, 5, 15,iva3);
-		Producto producto11 = new Producto("Pantalla", "Pantalla  xeon", 25, 10, 1, "izquierda", 1, 5, 5, 15,iva3);
-		Producto producto12 = new Producto("Pantalla", "Pantalla  xeon", 25, 10, 1, "izquierda", 1, 6, 5, 15,iva3);
-		Producto producto13 = new Producto("Pantalla", "Pantalla  xeon", 25, 10, 1, "izquierda", 1, 7, 5, 15,iva3);
-		Producto producto14 = new Producto("Pantalla", "Pantalla  xeon", 25, 10, 1, "izquierda", 1, 8, 5, 15,iva3);
-		Producto producto15 = new Producto("Pantalla", "Pantalla  xeon", 25, 10, 1, "izquierda", 1, 9, 5, 15,iva3);
-		Producto producto16 = new Producto("Pantalla", "Pantalla  xeon", 25, 10, 1, "izquierda", 1, 10, 5, 15,iva3);
-		Producto producto17 = new Producto("Pantalla", "Pantalla  xeon", 25, 10, 1, "izquierda", 1, 11, 5, 15,iva3);
+		Producto producto10 = new Producto("Pantalla", "Pantalla  xeon 10'", 25, 10, 1, "izquierda", 1, 4, 5, 15,iva3);
+		Producto producto11 = new Producto("Pantalla", "Pantalla  xeon 15'", 25, 10, 1, "izquierda", 1, 5, 5, 15,iva3);
+		Producto producto12 = new Producto("Pantalla", "Pantalla  xeon 20'", 25, 10, 1, "izquierda", 1, 6, 5, 15,iva3);
+		Producto producto13 = new Producto("Pantalla", "Pantalla  xeon 25'", 25, 10, 1, "izquierda", 1, 7, 5, 15,iva3);
+		Producto producto14 = new Producto("Pantalla", "Pantalla  xeon 30'", 25, 10, 1, "izquierda", 1, 8, 5, 15,iva3);
+		Producto producto15 = new Producto("Pantalla", "Pantalla  xeon 35'", 25, 10, 1, "izquierda", 1, 9, 5, 15,iva3);
+		Producto producto16 = new Producto("Pantalla", "Pantalla  xeon 40'", 25, 10, 1, "izquierda", 1, 10, 5, 15,iva3);
+		Producto producto17 = new Producto("Pantalla", "Pantalla  xeon 45'", 25, 10, 1, "izquierda", 1, 11, 5, 15,iva3);
 
 		productoService.addProducto(producto);
 		productoService.addProducto(producto2);

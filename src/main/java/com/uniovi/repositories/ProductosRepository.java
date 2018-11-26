@@ -14,6 +14,9 @@ public interface ProductosRepository extends CrudRepository<Producto, Long> {
 
 	@Query("SELECT p FROM Producto p WHERE (LOWER(p.name) LIKE LOWER(?1) " + "OR LOWER(p.description) LIKE LOWER(?1))")
 	List<Producto> searchByNameAndDescription(String searchText);
+	
+	@Query("SELECT p FROM Producto p WHERE p.name = ?1")
+	List<Producto> findByCategory(String categoria);
 
 	@Query("SELECT p FROM Producto p")
 	List<Producto> findAll();
