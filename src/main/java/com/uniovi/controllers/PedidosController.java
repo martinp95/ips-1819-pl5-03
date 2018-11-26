@@ -100,23 +100,13 @@ public class PedidosController {
 			} else {
 				return "redirect:/carrito";
 			}
-			Pedido pedido = new Pedido(user, size);
-			if (metodoPago.equals("Tarjeta") || metodoPago.equals("Contrareembolso"))
-				pedido.setPagado(true);
-			pedidosService.addPedido(pedido);
-			productosPedidoService.addProductosPedido(pedido, user.getProductosCarrito());
-			productosService.descontarStock(user.getProductosCarrito());
-			productosCarritoService.deleteCarrito(user);
-		} else {
-			return "redirect:/carrito";
-		}
-		if(metodoPago.equals("Tarjeta"))
-			return "carrito/tarjeta";
-		if(metodoPago.equals("Transferencia"))	
+		
+		if (metodoPago.equals("Transferencia"))
 			return "carrito/transferencia";
 		else
 			return "redirect:/productos";
-			
+		}
+
 	}
 
 	@RequestMapping("/pedidos/noPagados")
@@ -145,7 +135,7 @@ public class PedidosController {
 			for (ProductosCarrito productoCarro : user.getProductosCarrito()) {
 				size += productoCarro.getCantidad();
 			}
-			Pedido pedido = new Pedido(user, size);		
+			Pedido pedido = new Pedido(user, size);
 			pedido.setPagado(true);
 			pedidosService.addPedido(pedido);
 			productosPedidoService.addProductosPedido(pedido, user.getProductosCarrito());
@@ -159,7 +149,6 @@ public class PedidosController {
 	public String getSimulacionTransferencia(Model model,
 			@RequestParam(value = "", required = false) Principal principal) {
 		return "redirect:/productos";
-	}	
-	
-	
+	}
+
 }
