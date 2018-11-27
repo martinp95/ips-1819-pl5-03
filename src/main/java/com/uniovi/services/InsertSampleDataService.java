@@ -75,6 +75,18 @@ public class InsertSampleDataService {
 		empresa1.setPassword("123456");
 		empresa1.setRole(roleService.getRoles()[0]);
 		empresa1.setRole(roleService.getRoles()[3]);
+		User almacenero2 = new User("almacenero2@example.com", "Rosa");
+		almacenero2.setPassword("123456");
+		almacenero2.setRole(roleService.getRoles()[2]);
+		User almacenero3 = new User("almacenero3@example.com", "Juan");
+		almacenero3.setPassword("123456");
+		almacenero3.setRole(roleService.getRoles()[2]);
+		User almacenero4 = new User("almacenero4@example.com", "Alberto");
+		almacenero4.setPassword("123456");
+		almacenero4.setRole(roleService.getRoles()[2]);
+		User almacenero5 = new User("almacenero5@example.com", "Maria");
+		almacenero5.setPassword("123456");
+		almacenero5.setRole(roleService.getRoles()[2]);
 
 		usersService.addUser(user1);
 		usersService.addUser(user2);
@@ -89,6 +101,10 @@ public class InsertSampleDataService {
 		usersService.addUser(user10);
 		usersService.addUser(user11);
 		usersService.addUser(almacenero1);
+		usersService.addUser(almacenero2);
+		usersService.addUser(almacenero3);
+		usersService.addUser(almacenero4);
+		usersService.addUser(almacenero5);
 
 		usersService.addUser(empresa1);
 		

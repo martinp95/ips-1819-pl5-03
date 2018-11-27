@@ -108,20 +108,20 @@ public class OrdenTrabajoService {
 		
 		
 		List<User> almaceneros = usersService.findAllAlmacenero();
-		HashMap<String,Integer> empleadoOt;
+		HashMap<Long,Integer> empleadoOt;
 		
 		for(Date fecha : fechas) {
 			//inicializar hasmap por cada fecha
-			empleadoOt = new HashMap<String,Integer>();
+			empleadoOt = new HashMap<Long,Integer>();
 			for(User u: almaceneros) {
-				empleadoOt.put(u.getName(), 0);
+				empleadoOt.put(u.getId(), 0);
 			}		
 			
 			for(OrdenTrabajo ot : ots) {
 				if(ot.getFecha().equals(fecha)) {
 					//aumentamos 1 ot asignada al almacenero
-					int numAux = empleadoOt.get(ot.getAlmacenero().getName()) + 1;
-					empleadoOt.put(ot.getAlmacenero().getName(),numAux);
+					int numAux = empleadoOt.get(ot.getAlmacenero().getId()) + 1;
+					empleadoOt.put(ot.getAlmacenero().getId(),numAux);
 				}
 			}
 			Object[] entrada = new Object[100];
