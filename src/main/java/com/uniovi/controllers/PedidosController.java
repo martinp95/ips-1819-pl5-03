@@ -90,8 +90,12 @@ public class PedidosController {
 					size += productoCarro.getCantidad();
 				}
 				Pedido pedido = new Pedido(user, size);
-				if (metodoPago.equals("Contrareembolso"))
+				if (metodoPago.equals("Contrareembolso")) {
 					pedido.setPagado(true);
+					pedido.setTipoPago("CONTRAREEMBOLSO");
+				}else if(metodoPago.equals("Transferencia")) {
+					pedido.setTipoPago("TRANSFERENCIA");
+				}
 				pedidosService.addPedido(pedido);
 				productosPedidoService.addProductosPedido(pedido, user.getProductosCarrito());
 				productosService.descontarStock(user.getProductosCarrito());
@@ -136,6 +140,7 @@ public class PedidosController {
 				size += productoCarro.getCantidad();
 			}
 			Pedido pedido = new Pedido(user, size);
+			pedido.setTipoPago("TARJETA");
 			pedido.setPagado(true);
 			pedidosService.addPedido(pedido);
 			productosPedidoService.addProductosPedido(pedido, user.getProductosCarrito());
