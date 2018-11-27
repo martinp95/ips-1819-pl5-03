@@ -3,9 +3,7 @@ package com.uniovi.services;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +17,6 @@ import com.uniovi.repositories.OrdenTrabajoRepository;
 import com.uniovi.repositories.PedidosRepository;
 import com.uniovi.repositories.ProductosPedidoRepository;
 import com.uniovi.repositories.ProductosRepository;
-import com.uniovi.repositories.UsersRepository;
 import com.uniovi.util.Util;
 
 @Service
