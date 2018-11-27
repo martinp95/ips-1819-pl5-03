@@ -24,4 +24,7 @@ public interface PedidosRepository extends CrudRepository<Pedido, Long> {
 	@Query("select p from Pedido p order by p.fecha")
 	List<Pedido> findAllOrderByFecha();
 
+	@Query(value = "SELECT fecha,tipo_pago, sum(total) as total from Pedido group by tipo_pago,fecha order by fecha", nativeQuery = true)
+	List<Object[]> findSumTotalPedidosGroupByFechaTipoPago();
+
 }

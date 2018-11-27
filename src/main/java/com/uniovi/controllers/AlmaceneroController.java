@@ -248,14 +248,21 @@ public class AlmaceneroController {
 		return "almacenero/listPedidosAlmacen";
 	}
 
-	@RequestMapping("informe/volumenCompras")
+	@RequestMapping("/informe/volumenCompras")
 	public String informeVolumenCompras(Principal principal, Model model) {
 		List<Object[]> informe = pedidoService.informeVolumenCompras();
 		model.addAttribute("informe", informe);
 		return "almacenero/informeVolumenCompra";
 	}
 
-	@RequestMapping("informe/Ots")
+	@RequestMapping("/informe/volumenComprasMetodoPago")
+	public String informeVolumenComprasMetodoPago(Principal principal, Model model) {
+		List<Object[]> informe = pedidoService.informeVolumenComprasMetodoPago();
+		model.addAttribute("informe", informe);
+		return "almacenero/informeVolumenComprasMetodoPago";
+	}
+
+	@RequestMapping("/informe/Ots")
 	public String informeOts(Principal principal, Model model) {
 		List<User> empleados = usersService.findAllAlmacenero();
 		List<Object[]> informe = ordenTrabajoService.informeOts();
