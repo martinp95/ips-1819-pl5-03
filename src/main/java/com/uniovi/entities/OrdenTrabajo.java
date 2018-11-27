@@ -39,7 +39,8 @@ public class OrdenTrabajo {
 	
 	public OrdenTrabajo(User user) {
 		this.almacenero = user;
-		this.setFecha(new Date());
+		Date dia = new Date();
+		this.setFecha(new Date(dia.getYear(), dia.getMonth(), dia.getDate()));		
 		this.incidencia = true;
 	}
 
