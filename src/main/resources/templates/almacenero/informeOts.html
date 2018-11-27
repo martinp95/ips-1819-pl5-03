@@ -10,9 +10,9 @@
 			<table class="table table-hover" th:fragment="tableinformeOts"
 				id="tableinformeOts">
 				<thead>
-					<tr th:each="empleado : ${empleados}">
+					<tr >
 						<th>Fecha</th>
-						<th th:text="${empleado.name}"></th>
+						<th th:each="empleado : ${empleados}" th:text="${empleado.name}"></th>
 					</tr>
 				</thead>
 				<tbody>
