@@ -91,25 +91,42 @@ public class PedidosService {
 	public List<Object[]> informeVolumenComprasMetodoPago() {
 		List<Object[]> listado = pedidosRepository.findSumTotalPedidosGroupByFechaTipoPago();
 		List<Object[]> informe = new ArrayList<Object[]>();
-		Date actual = (Date) listado.get(0)[0];
+		Date actual = null;
 		double factura = 0;
 		double tarjeta = 0;
 		double contrareembolso = 0;
 		double transferencia = 0;
-
-		for (int i = 0; i < listado.size(); i++) {
-			if (actual.equals((Date) listado.get(i)[0])) {
-				if ((String) listado.get(i)[1] == "FACTURA") {
-					factura = (Double) listado.get(i)[2];
-				} else if ((String) listado.get(i)[1] == "TARJETA") {
-					tarjeta = (Double) listado.get(i)[2];
-				} else if ((String) listado.get(i)[1] == "CONTRAREEMBOLSO") {
-					contrareembolso = (Double) listado.get(i)[2];
-				} else if ((String) listado.get(i)[1] == "TRANSFERENCIA") {
-					transferencia = (Double) listado.get(i)[2];
+		if (!listado.isEmpty()) {
+			actual = (Date) listado.get(0)[0];
+			for (int i = 0; i < listado.size(); i++) {
+				if (actual.equals((Date) listado.get(i)[0])) {
+					if ("FACTURA".equals((String) listado.get(i)[1])) {
+						factura = (Double) listado.get(i)[2];
+					} else if ("TARJETA".equals((String) listado.get(i)[1])) {
+						tarjeta = (Double) listado.get(i)[2];
+					} else if ("CONTRAREEMBOLSO".equals((String) listado.get(i)[1])) {
+						contrareembolso = (Double) listado.get(i)[2];
+					} else if ("TRANSFERENCIA".equals((String) listado.get(i)[1])) {
+						transferencia = (Double) listado.get(i)[2];
+					}
+				} else {
+					informe.add(new Object[] { actual.toString(), factura + "", tarjeta + "", contrareembolso + "",
+							transferencia + "" });
+					factura = 0;
+					tarjeta = 0;
+					contrareembolso = 0;
+					transferencia = 0;
+					actual = (Date) listado.get(i)[0];
+					if ("FACTURA".equals((String) listado.get(i)[1])) {
+						factura = (Double) listado.get(i)[2];
+					} else if ("TARJETA".equals((String) listado.get(i)[1])) {
+						tarjeta = (Double) listado.get(i)[2];
+					} else if ("CONTRAREEMBOLSO".equals((String) listado.get(i)[1])) {
+						contrareembolso = (Double) listado.get(i)[2];
+					} else if ("TRANSFERENCIA".equals((String) listado.get(i)[1])) {
+						transferencia = (Double) listado.get(i)[2];
+					}
 				}
-			} else {
-
 			}
 			informe.add(new Object[] { actual.toString(), factura + "", tarjeta + "", contrareembolso + "",
 					transferencia + "" });
