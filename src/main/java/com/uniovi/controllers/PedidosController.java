@@ -45,6 +45,7 @@ public class PedidosController {
 			model.addAttribute("productosList", user.getProductosCarrito());
 			Pedido pedido = new Pedido(user, size);
 			pedido.setPagado(true);
+			pedido.setTipoPago("FACTURA");
 			pedidosService.addPedido(pedido);
 			productosPedidoService.addProductosPedido(pedido, user.getProductosCarrito());
 			productosService.descontarStock(user.getProductosCarrito());
@@ -93,7 +94,7 @@ public class PedidosController {
 				if (metodoPago.equals("Contrareembolso")) {
 					pedido.setPagado(true);
 					pedido.setTipoPago("CONTRAREEMBOLSO");
-				}else if(metodoPago.equals("Transferencia")) {
+				} else if (metodoPago.equals("Transferencia")) {
 					pedido.setTipoPago("TRANSFERENCIA");
 				}
 				pedidosService.addPedido(pedido);
@@ -104,11 +105,11 @@ public class PedidosController {
 			} else {
 				return "redirect:/carrito";
 			}
-		
-		if (metodoPago.equals("Transferencia"))
-			return "carrito/transferencia";
-		else
-			return "redirect:/productos";
+
+			if (metodoPago.equals("Transferencia"))
+				return "carrito/transferencia";
+			else
+				return "redirect:/productos";
 		}
 
 	}

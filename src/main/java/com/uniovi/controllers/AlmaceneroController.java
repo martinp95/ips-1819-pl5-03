@@ -254,4 +254,11 @@ public class AlmaceneroController {
 		model.addAttribute("informe", informe);
 		return "almacenero/informeVolumenCompra";
 	}
+
+	@RequestMapping("informe/volumenComprasMetodoPago")
+	public String informeVolumenComprasMetodoPago(Principal principal, Model model) {
+		List<Object[]> informe = pedidoService.informeVolumenComprasMetodoPago();
+		model.addAttribute("informe", informe);
+		return "";
+	}
 }

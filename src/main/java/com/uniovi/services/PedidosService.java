@@ -44,6 +44,17 @@ public class PedidosService {
 		pedidosRepository.save(pedido);
 	}
 
+	public void setTotalPedido(Pedido pedido) {
+		List<ProductosPedido> productosPedido = productosPedidoRepository.findByPedido(pedido);
+		double total = 0;
+		for (ProductosPedido pp : productosPedido) {
+			total += pp.getPrecioUnidad() * pp.getCantidad()
+					+ (pp.getProducto().getIva().getPorcentaje() * pp.getProducto().getPrecio() * pp.getCantidad());
+		}
+		pedido.setTotal(total);
+		pedidosRepository.save(pedido);
+	}
+
 	public List<Object[]> informeVolumenCompras() {
 		List<Pedido> pedidos = pedidosRepository.findAllOrderByFecha();
 		List<Object[]> informe = new ArrayList<Object[]>();
@@ -77,14 +88,32 @@ public class PedidosService {
 		return informe;
 	}
 
-	public void setTotalPedido(Pedido pedido) {
-		List<ProductosPedido> productosPedido = productosPedidoRepository.findByPedido(pedido);
-		double total = 0;
-		for (ProductosPedido pp : productosPedido) {
-			total += pp.getPrecioUnidad() * pp.getCantidad()
-					+ (pp.getProducto().getIva().getPorcentaje() * pp.getProducto().getPrecio() * pp.getCantidad());
+	public List<Object[]> informeVolumenComprasMetodoPago() {
+		List<Object[]> listado = pedidosRepository.findSumTotalPedidosGroupByFechaTipoPago();
+		List<Object[]> informe = new ArrayList<Object[]>();
+		Date actual = (Date) listado.get(0)[0];
+		double factura = 0;
+		double tarjeta = 0;
+		double contrareembolso = 0;
+		double transferencia = 0;
+
+		for (int i = 0; i < listado.size(); i++) {
+			if (actual.equals((Date) listado.get(i)[0])) {
+				if ((String) listado.get(i)[1] == "FACTURA") {
+					factura = (Double) listado.get(i)[2];
+				} else if ((String) listado.get(i)[1] == "TARJETA") {
+					tarjeta = (Double) listado.get(i)[2];
+				} else if ((String) listado.get(i)[1] == "CONTRAREEMBOLSO") {
+					contrareembolso = (Double) listado.get(i)[2];
+				} else if ((String) listado.get(i)[1] == "TRANSFERENCIA") {
+					transferencia = (Double) listado.get(i)[2];
+				}
+			} else {
+
+			}
+			informe.add(new Object[] { actual.toString(), factura + "", tarjeta + "", contrareembolso + "",
+					transferencia + "" });
 		}
-		pedido.setTotal(total);
-		pedidosRepository.save(pedido);
+		return informe;
 	}
 }
