@@ -2,7 +2,10 @@ package com.uniovi.services;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +19,7 @@ import com.uniovi.repositories.OrdenTrabajoRepository;
 import com.uniovi.repositories.PedidosRepository;
 import com.uniovi.repositories.ProductosPedidoRepository;
 import com.uniovi.repositories.ProductosRepository;
+import com.uniovi.repositories.UsersRepository;
 import com.uniovi.util.Util;
 
 @Service
@@ -29,6 +33,8 @@ public class OrdenTrabajoService {
 	private ProductosRepository productosRepository;
 	@Autowired
 	private ProductosPedidoRepository productoPedidoRepository;
+	@Autowired
+	private UsersRepository usersRepository;
 
 	public void addOrdenTrabajo(OrdenTrabajo ordenTrabjo) {
 		ordenTrabajoRepository.save(ordenTrabjo);
@@ -65,21 +71,14 @@ public class OrdenTrabajoService {
 			albaran += "\t\tUsuario:" + user.getName() + ", Email:" + user.getEmail() + "\n";
 			albaran += "\t\tProductos:\n";
 			List<Producto> productos = productosRepository.findProductosByPedido(pedido);
-			double precioPedido = 0.0;
-			double precioPedidoConIva = 0.0;
 			for (Producto producto : productos) {
 				ProductosPedido pp = productoPedidoRepository.findProductoPedidoByPedidoAndProducto(pedido, producto);
 				albaran += "\t\t\tNombre:" + producto.getName() + ", Descripcion:" + producto.getDescription()
 						+ ", Precio unidad sin IVA:" + producto.getPrecio() + ", Precio unidad con IVA: "
 						+ ((producto.getPrecio() * producto.getIva().getPorcentaje()) + producto.getPrecio())
 						+ ", Cantidad:" + pp.getCantidad() + "\n";
-				precioPedido += producto.getPrecio() * pp.getCantidad();
-				precioPedidoConIva += ((producto.getPrecio() * producto.getIva().getPorcentaje())
-						+ producto.getPrecio()) * pp.getCantidad();
 			}
 			albaran += "--------------------------------------------------------------------------------------------\n";
-			albaran += "Precio total del pedido: " + Util.round(precioPedido, 2) + "\n";
-			albaran += "Precio total del pedido con IVA: " + Util.round(precioPedidoConIva, 2) + "\n";
 
 		}
 		return albaran;
@@ -96,12 +95,42 @@ public class OrdenTrabajoService {
 				fechas.add(inicio);
 				inicio = Util.addDays(inicio, 1);
 			}
-			fechas.add(fin);			
+			fechas.add(fin);
 		}
 		return fechas;
 	}
 
-	public List<OrdenTrabajo> findAllOrderByFecha() {		
+	public List<OrdenTrabajo> findAllOrderByFecha() {
 		return ordenTrabajoRepository.findAllOrderByFecha();
+	}
+
+	public List<Object[]> informeOts() {
+		List<Date> fechas = findDatesEntreInicioFin();
+		List<Object[]> informe = new ArrayList<Object[]>();
+		List<OrdenTrabajo> ots = ordenTrabajoRepository.findAllOrderByFecha();
+		
+		
+		List<User> almaceneros = usersRepository.findAllAlmacenero();
+		HashMap<String,Integer> empleadoOt;
+		
+		for(Date fecha : fechas) {
+			//inicializar hasmap por cada fecha
+			empleadoOt = new HashMap<String,Integer>();
+			for(User u: almaceneros) {
+				empleadoOt.put(u.getName(), 0);
+			}		
+			
+			for(OrdenTrabajo ot : ots) {
+				if(ot.getFecha().equals(fecha)) {
+					//aumentamos 1 ot asignada al almacenero
+					empleadoOt.put(ot.getAlmacenero().getName(), empleadoOt.get(ot.getAlmacenero().getName()+1));
+				}
+			}
+			for (Map.Entry<String, Integer> entry : empleadoOt.entrySet()) {
+			    System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+			}
+		}
+
+		return informe;
 	}
 }

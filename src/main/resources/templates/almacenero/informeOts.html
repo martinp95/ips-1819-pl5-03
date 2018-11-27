@@ -10,30 +10,19 @@
 			<table class="table table-hover" th:fragment="tableinformeOts"
 				id="tableinformeOts">
 				<thead>
-					<tr>
-						<th>Fecha</th>
-						<th>OT</th>
-						<th>Empleado</th>
+					<tr th:each="empleado : ${empleados}">
+						<th>Fecha</th>						
+						<th th:text=${empleado.name}></th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="dia : ${fechas}">
-						<td th:text="${dia}"></td>
-						<table>
-							<thead>
-								<tr>
-									<th>OT id</th>
-									<th>Empleado</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="ot : ${ots}">
-									<td th:text=${ot.id}></td>
-									<td th:text=${ot.almacenero.name}></td>
-								</tr>
-							</tbody>
-
-						</table>
+					<tr th:each="i : ${informe}">
+						<td th:text="${i[0]}"></td>
+						<td th:text="${i[1]}"></td>
+						<td th:text="${i[2]}"></td>
+						<td th:text="${i[3]}"></td>
+						<td th:text="${i[4]}"></td>
+						<td th:text="${i[5]}"></td>
 					</tr>
 				</tbody>
 			</table>
