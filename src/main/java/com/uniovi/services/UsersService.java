@@ -1,5 +1,6 @@
 package com.uniovi.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,12 @@ public class UsersService {
 	}
 
 	public List<User> findAllAlmacenero() {
-		return usersRepository.findAllAlmacenero();
+		List<User> todos = usersRepository.findAll();
+		List<User> almaceneros = new ArrayList<User>();
+		for (User u : todos) {
+			if (u.getRole().contains("ROLE_ALMACENERO"))
+				almaceneros.add(u);
+		}
+		return almaceneros;
 	}
 }
