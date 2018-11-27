@@ -28,6 +28,7 @@ public class ProductosController {
 
 	@RequestMapping("/productos")
 	public String getListado(Model model, @RequestParam(value = "", required = false) String searchText,
+			@RequestParam(value = "", required = false) String category,
 			Principal principal) {
 		String email = principal.getName();
 		User user = usersService.getUserByEmail(email);
@@ -37,16 +38,28 @@ public class ProductosController {
 		} else {
 
 			List<Producto> productos;
+			
 			List<Producto> categorias;
 			categorias = productosService.findCategories();
 
 			if (searchText != null && !searchText.isEmpty()) {
 				productos = productosService.searchProductosByNameAndDescription(searchText);
-			} else {
-				productos = productosService.findAll();
-				//productos = productosService.findByCategory(searchText);
 			}
-			
+			else if (category !=null){
+				//ocultar lista categorias
+				//document.getElementById('categorias').hidden = true;
+				//desocultar lista productos
+				//document.getElementById('productos').hidden = false;
+				productos = productosService.findByCategory(category);
+			}
+			else {
+				//desocultar lista categorias
+				//document.getElementById('categorias').hidden = false;
+				//ocultar lista productos
+				//document.getElementById('productos').hidden = true;
+				productos = productosService.findAll();
+			}
+
 			//CARRITO
 			List<ProductosCarrito> carrito;
 
@@ -63,8 +76,9 @@ public class ProductosController {
 			model.addAttribute("productosList", productos);
 			model.addAttribute("total", precioTotal);
 			model.addAttribute("totalIva", precioTotalConIva);
-			
+
 			model.addAttribute("categoriasList", categorias);
+			
 			return "productos/listProductos";
 		}
 	}

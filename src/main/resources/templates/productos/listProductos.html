@@ -16,14 +16,39 @@
 				th:text="#{listProductosSearchButton.message}"></button>
 		</form>
 		<div class="row">
-		
+
 			<!-- categorias -->
-			<div class="col-sm-6">
-			<br>
+			<div class="col-sm-6" id="categorias">
+				<table class="table table-hover" id="tableCategorias">
+					<thead>
+						<tr>
+							<th th:text="#{listProductosName.message}"></th>
+							<th class="col-md-1"></th>
+							<th class="col-md-1"></th>
+							<th class="col-md-1"></th>
+							<th class="col-md-1"></th>
+							<th class="col-md-1"></th>
+							<th class="col-md-1"></th>
+							<th class="col-md-1"></th>
+							<th class="col-md-1"></th>
+							<th class="col-md-1"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="producto : ${categoriasList}">
+							<td>
+								<form class="navbar-form" action="/productos">
+									<button name="category" type="submit" class="btn btn-info"
+									th:id="categoriaProducto" th:value="${producto}" th:text="${producto}"></button>
+								</form>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
-			
+
 			<!-- productos -->
-			<div class="col-sm-6">
+			<div class="col-sm-6" id="productos">
 				<table class="table table-hover" id="tableListProductos">
 					<thead>
 						<tr>
@@ -46,11 +71,12 @@
 								oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
 								step="1" class="form-control" name="cantidad" value="1" min="1"
 								th:max="${producto.stock}" /></td>
-							
-							
-  									
 
-							<div th:with="result=${(producto.precio * producto.iva.porcentaje) + producto.precio}">
+
+
+
+							<div
+								th:with="result=${(producto.precio * producto.iva.porcentaje) + producto.precio}">
 								<td th:text="${result}"></td>
 							</div>
 
@@ -87,7 +113,7 @@
 				</table>
 				<hr />
 			</div>
-			
+
 			<!-- carrito -->
 			<div class="col-sm-6">
 				<table class="table table-hover" id="tableCarrito">
@@ -106,11 +132,12 @@
 						<tr th:each="productosCarrito : ${carritoList}">
 							<td th:text="${productosCarrito.producto.name}"></td>
 							<td th:text="${productosCarrito.producto.description}"></td>
-							<td th:text="${productosCarrito.cantidad}"></td>			
-							
-							
-							
-							<div th:with="result=${(productosCarrito.precioProductoCantidad * productosCarrito.producto.iva.porcentaje)
+							<td th:text="${productosCarrito.cantidad}"></td>
+
+
+
+							<div
+								th:with="result=${(productosCarrito.precioProductoCantidad * productosCarrito.producto.iva.porcentaje)
 							 + productosCarrito.precioProductoCantidad}">
 								<td th:text="${result}"></td>
 							</div>
