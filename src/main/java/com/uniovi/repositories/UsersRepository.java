@@ -10,8 +10,11 @@ import com.uniovi.entities.User;
 public interface UsersRepository extends CrudRepository<User, Long> {
 	
 	User findByEmail(String email);
+	
+	@Query("select u from User u")
+	List<User> findAll();	
 
-	@Query("select u from User u where u.role = 'ROLE_ALMACENERO'")
-	List<User> findAllAlmacenero();	
+//	@Query("select u from User u where 'ROLE_ALMACENERO' IN u.role")
+//	List<User> findAllAlmacenero();	
 
 }

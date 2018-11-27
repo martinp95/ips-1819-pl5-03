@@ -34,7 +34,7 @@ public class OrdenTrabajoService {
 	@Autowired
 	private ProductosPedidoRepository productoPedidoRepository;
 	@Autowired
-	private UsersRepository usersRepository;
+	private UsersService usersService;
 
 	public void addOrdenTrabajo(OrdenTrabajo ordenTrabjo) {
 		ordenTrabajoRepository.save(ordenTrabjo);
@@ -110,7 +110,7 @@ public class OrdenTrabajoService {
 		List<OrdenTrabajo> ots = ordenTrabajoRepository.findAllOrderByFecha();
 		
 		
-		List<User> almaceneros = usersRepository.findAllAlmacenero();
+		List<User> almaceneros = usersService.findAllAlmacenero();
 		HashMap<String,Integer> empleadoOt;
 		
 		for(Date fecha : fechas) {
@@ -123,14 +123,19 @@ public class OrdenTrabajoService {
 			for(OrdenTrabajo ot : ots) {
 				if(ot.getFecha().equals(fecha)) {
 					//aumentamos 1 ot asignada al almacenero
-					empleadoOt.put(ot.getAlmacenero().getName(), empleadoOt.get(ot.getAlmacenero().getName()+1));
+					int numAux = empleadoOt.get(ot.getAlmacenero().getName()) + 1;
+					empleadoOt.put(ot.getAlmacenero().getName(),numAux);
 				}
 			}
-			for (Map.Entry<String, Integer> entry : empleadoOt.entrySet()) {
-			    System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+			Object[] entrada = new Object[100];
+			entrada[0] = fecha;
+			int i=1;
+			for (Integer numeroOt : empleadoOt.values()) {
+				entrada[i] =numeroOt;
+				i++;			    
 			}
+			informe.add(entrada);
 		}
-
 		return informe;
 	}
 }

@@ -261,6 +261,7 @@ public class AlmaceneroController {
 		List<Object[]> informe = ordenTrabajoService.informeOts();
 		model.addAttribute("informe", informe);
 		model.addAttribute("empleados", empleados);
+		model.addAttribute("numeroEmpleados", empleados.size()+1);
 		return "almacenero/informeOts";
 	}
 }
