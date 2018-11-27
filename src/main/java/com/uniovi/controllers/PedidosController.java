@@ -48,7 +48,6 @@ public class PedidosController {
 			pedidosService.addPedido(pedido);
 			productosPedidoService.addProductosPedido(pedido, user.getProductosCarrito());
 			productosService.descontarStock(user.getProductosCarrito());
-			// meter el total en el pedido.
 			pedidosService.setTotalPedido(pedido);
 			productosCarritoService.deleteCarrito(user);
 		} else {
@@ -96,6 +95,7 @@ public class PedidosController {
 				pedidosService.addPedido(pedido);
 				productosPedidoService.addProductosPedido(pedido, user.getProductosCarrito());
 				productosService.descontarStock(user.getProductosCarrito());
+				pedidosService.setTotalPedido(pedido);
 				productosCarritoService.deleteCarrito(user);
 			} else {
 				return "redirect:/carrito";
@@ -140,6 +140,7 @@ public class PedidosController {
 			pedidosService.addPedido(pedido);
 			productosPedidoService.addProductosPedido(pedido, user.getProductosCarrito());
 			productosService.descontarStock(user.getProductosCarrito());
+			pedidosService.setTotalPedido(pedido);
 			productosCarritoService.deleteCarrito(user);
 		}
 		return "redirect:/productos";

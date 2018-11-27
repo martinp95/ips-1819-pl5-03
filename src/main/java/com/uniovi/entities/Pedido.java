@@ -21,6 +21,7 @@ public class Pedido {
 	private Date fecha;
 	private int size;
 	private double total;
+	private String tipoPago;
 
 	@ManyToOne
 	private User user;
@@ -138,6 +139,14 @@ public class Pedido {
 
 	public void setTotal(double total) {
 		this.total = total;
+	}
+
+	public String getTipoPago() {
+		return tipoPago;
+	}
+
+	public void setTipoPago(String tipoPago) {
+		this.tipoPago = tipoPago;
 	}
 
 }
