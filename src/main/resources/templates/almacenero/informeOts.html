@@ -17,9 +17,8 @@
 				</thead>
 				<tbody>
 					<span th:each="i : ${informe}">
-						<tr th:each="j : ${#numbers.sequence( 0,2)}">
-						<!--<tr>-->
-							<td  th:text="${i[j]}"></td>
+						<tr>
+							<td th:each="j : ${#numbers.sequence( 0,numeroEmpleados)}" th:text="${i[j]}"></td>
 						</tr>
 					</span>
 				</tbody>
