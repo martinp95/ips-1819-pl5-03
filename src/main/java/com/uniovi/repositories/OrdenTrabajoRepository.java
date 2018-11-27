@@ -16,4 +16,7 @@ public interface OrdenTrabajoRepository extends CrudRepository<OrdenTrabajo, Lon
 
 	@Query(value = "SELECT * FROM ORDEN_TRABAJO where almacenero_id=?1 and empaquetada = true", nativeQuery = true)
 	List<OrdenTrabajo> findByAlmaceneroAndEmpaquetada(User almacenero);
+
+	@Query("Select o from OrdenTrabajo o order by o.fecha")
+	List<OrdenTrabajo> findAllOrderByFecha();
 }

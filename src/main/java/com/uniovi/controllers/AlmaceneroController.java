@@ -254,4 +254,13 @@ public class AlmaceneroController {
 		model.addAttribute("informe", informe);
 		return "almacenero/informeVolumenCompra";
 	}
+
+	@RequestMapping("informe/Ots")
+	public String informeOts(Principal principal, Model model) {
+		List<User> empleados = usersService.findAllAlmacenero();
+		List<Object[]> informe = ordenTrabajoService.informeOts();
+		model.addAttribute("informe", informe);
+		model.addAttribute("empleados", empleados);
+		return "almacenero/informeOts";
+	}
 }
