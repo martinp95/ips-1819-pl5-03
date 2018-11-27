@@ -11,19 +11,16 @@
 				id="tableinformeOts">
 				<thead>
 					<tr th:each="empleado : ${empleados}">
-						<th>Fecha</th>						
-						<th th:text=${empleado.name}></th>
+						<th>Fecha</th>
+						<th th:text="${empleado.name}"></th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="i : ${informe}">
-						<td th:text="${i[0]}"></td>
-						<td th:text="${i[1]}"></td>
-						<td th:text="${i[2]}"></td>
-						<td th:text="${i[3]}"></td>
-						<td th:text="${i[4]}"></td>
-						<td th:text="${i[5]}"></td>
-					</tr>
+					<span th:each="i : ${informe}">
+						<tr>
+							<td th:each="j : ${#numbers.sequence( 0,numeroEmpleados)}" th:text="${i[j]}"></td>
+						</tr>
+					</span>
 				</tbody>
 			</table>
 		</div>
