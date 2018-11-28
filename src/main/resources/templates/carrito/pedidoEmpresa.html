@@ -22,7 +22,11 @@
 						<td th:text="${productosCarrito.producto.name}"></td>
 						<td th:text="${productosCarrito.producto.description}"></td>
 						<td th:text="${productosCarrito.cantidad}"></td>
-						<td th:text="${productosCarrito.precioProductoCantidad}"></td>
+						<div
+							th:with="result=${(productosCarrito.precioProductoCantidad * productosCarrito.producto.iva.porcentaje)
+							 + productosCarrito.precioProductoCantidad}">
+							<td th:text="${result}"></td>
+						</div>
 					</tr>
 				</tbody>
 			</table>

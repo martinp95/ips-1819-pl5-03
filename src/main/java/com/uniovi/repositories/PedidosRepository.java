@@ -21,4 +21,10 @@ public interface PedidosRepository extends CrudRepository<Pedido, Long> {
 	@Query(value = "SELECT * FROM pedido p, pedidos_orden_trabajo pot where pot.pedido_id=p.id and pot.ordentrabajo_id=?1", nativeQuery = true)
 	List<Pedido> findPedidoByOrdenTrabajo(OrdenTrabajo ordenTrabajo);
 
+	@Query("select p from Pedido p order by p.fecha")
+	List<Pedido> findAllOrderByFecha();
+
+	@Query(value = "SELECT fecha,tipo_pago, sum(total) as total from Pedido group by tipo_pago,fecha order by fecha", nativeQuery = true)
+	List<Object[]> findSumTotalPedidosGroupByFechaTipoPago();
+
 }

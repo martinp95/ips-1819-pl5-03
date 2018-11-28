@@ -18,29 +18,45 @@
 			<ul class="nav navbar-nav" sec:authorize="hasRole('ROLE_USER')">
 				<li><a href="/productos" th:text="#{productos.message}"></a></li>
 			</ul>
-			
+
+			<ul class="nav navbar-nav" sec:authorize="hasRole('ROLE_ADMIN')">
+				<li class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" href="#">Informes<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="/informe/volumenCompras" th:text="#{informes.pedidos}" ></a></li>
+						<li><a href="/informe/volumenComprasMetodoPago" th:text="#{informes.pedidosMetodoPago}"></a></li>
+						<li><a href="/informe/Ots" th:text="#{informes.ots}"></a></li>
+					</ul></li>
+			</ul>
+
 			<ul class="nav navbar-nav" sec:authorize="hasRole('ROLE_ALMACENERO')">
 				<li><a href="/pedidos" th:text="#{pedidos.message}"></a></li>
 			</ul>
-			
+
 			<ul class="nav navbar-nav" sec:authorize="hasRole('ROLE_ALMACENERO')">
-				<li><a href="/ordenesTrabajo" th:text="#{ordenesTrabajo.message}"></a></li>
+				<li><a href="/ordenesTrabajo"
+					th:text="#{ordenesTrabajo.message}"></a></li>
 			</ul>
-			
+
 			<ul class="nav navbar-nav" sec:authorize="hasRole('ROLE_ALMACENERO')">
-				<li><a href="/ordenesTrabajo/noIncidence" th:text="#{ordenesTrabajoParaEmpaquetar.message}"></a></li>
+				<li><a href="/ordenesTrabajo/noIncidence"
+					th:text="#{ordenesTrabajoParaEmpaquetar.message}"></a></li>
 			</ul>
-			
+
 			<ul class="nav navbar-nav" sec:authorize="hasRole('ROLE_ALMACENERO')">
-				<li><a href="/ordenesTrabajo/empaquetadas" th:text="#{ordenesTrabajoEmpaquetada.message}"></a></li>
+				<li><a href="/ordenesTrabajo/empaquetadas"
+					th:text="#{ordenesTrabajoEmpaquetada.message}"></a></li>
 			</ul>
-			
-			<ul class="nav navbar-nav" sec:authorize="hasRole('ROLE_USER') and hasRole('ROLE_PARTICULAR')">
-				<li><a href="/pedidos/noPagados" th:text="#{pedidosNoPagados.message}"></a></li>
+
+			<ul class="nav navbar-nav"
+				sec:authorize="hasRole('ROLE_USER') and hasRole('ROLE_PARTICULAR')">
+				<li><a href="/pedidos/noPagados"
+					th:text="#{pedidosNoPagados.message}"></a></li>
 			</ul>
-			
+
 			<ul class="nav navbar-nav" sec:authorize="hasRole('ROLE_ALMACENERO')">
-				<li><a href="/pedidosAlmacen" th:text="#{pedidosAlmacen.message}"></a></li>
+				<li><a href="/pedidosAlmacen"
+					th:text="#{pedidosAlmacen.message}"></a></li>
 			</ul>
 
 			<ul class="nav navbar-nav navbar-right">

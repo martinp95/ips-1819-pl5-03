@@ -60,19 +60,12 @@ public class AlmaceneroController {
 			OrdenTrabajo ordenTrabajo = new OrdenTrabajo(almacenero);
 			ordenTrabajoService.addOrdenTrabajo(ordenTrabajo);
 			PedidosOrdenTrabajo pedidoOrdenTrabajo;
-
-			// tamaño pedido
 			int tam = pedidoService.findById(Long.parseLong(pedidoID)).getSize();
-
-			// if tamaño menor que NUM_MIN_PEDIDO
 			if (tam < NUM_MIN_PEDIDO) {
-				// añade pedido a la orden de trabajo
 				pedidoOrdenTrabajo = new PedidosOrdenTrabajo(pedidoService.findById(Long.parseLong(pedidoID)),
 						ordenTrabajo);
 				pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
-				// saca la lista del resto de pedidos
 				List<Pedido> pedidosNoAsignados = pedidoService.findNoAsignadosOrderByFecha();
-				// los va asignando si caben a la orden de trabajo existente
 				for (Pedido p : pedidosNoAsignados) {
 					if (p.getSize() + tam <= NUM_MIN_PEDIDO) {
 						pedidoOrdenTrabajo = new PedidosOrdenTrabajo(p, ordenTrabajo);
@@ -82,34 +75,21 @@ public class AlmaceneroController {
 				}
 				return "redirect:/ordenesTrabajo";
 			}
-
-			// if tamaño mayor que NUM_MAX_PEDIDO
 			if (tam > NUM_MAX_PEDIDO) {
-				// variable auixliar con el tamaño para controlar los productos que faltan
 				int tamaux = tam;
-				// creo la variable porque solo interviene 1 pedido aqui
 				Pedido pFinal = pedidoService.findById(Long.parseLong(pedidoID));
-				// saco los 5 primeros productos del pedido y los añado
-				// pedidoService.findPrimerosProductosPedido(Long.parseLong(pedidoID),
-				// NUM_MAX_PEDIDO);
 				pedidoOrdenTrabajo = new PedidosOrdenTrabajo(pFinal, ordenTrabajo);
 				pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
 				tamaux -= NUM_MAX_PEDIDO;
 				do {
-					// creo la OT nueva pero esta vez sin almacenero asignado
 					ordenTrabajo = new OrdenTrabajo(null);
 					ordenTrabajoService.addOrdenTrabajo(ordenTrabajo);
-					// busco la siguiente remesa de productos
-					// p1 = ... ;
-					// añadir pedido con productos que no esten en OT a otra OT
 					pedidoOrdenTrabajo = new PedidosOrdenTrabajo(pFinal, ordenTrabajo);
 					pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
 					tamaux -= NUM_MAX_PEDIDO;
 				} while (tamaux > 0);
 				return "redirect:/ordenesTrabajo";
 			}
-
-			// para pedidos de 5 productos (funcionaria como en el sprint 1)
 			pedidoOrdenTrabajo = new PedidosOrdenTrabajo(pedidoService.findById(Long.parseLong(pedidoID)),
 					ordenTrabajo);
 			pedidoOrdenTrabajoService.addPedidoOrdenTrabajo(pedidoOrdenTrabajo);
@@ -266,5 +246,29 @@ public class AlmaceneroController {
 		List<PedidoAlmacen> pedidoAlmacen = pedidoAlmacenService.findAll();
 		model.addAttribute("pedidoAlmacen", pedidoAlmacen);
 		return "almacenero/listPedidosAlmacen";
+	}
+
+	@RequestMapping("/informe/volumenCompras")
+	public String informeVolumenCompras(Principal principal, Model model) {
+		List<Object[]> informe = pedidoService.informeVolumenCompras();
+		model.addAttribute("informe", informe);
+		return "almacenero/informeVolumenCompra";
+	}
+
+	@RequestMapping("/informe/volumenComprasMetodoPago")
+	public String informeVolumenComprasMetodoPago(Principal principal, Model model) {
+		List<Object[]> informe = pedidoService.informeVolumenComprasMetodoPago();
+		model.addAttribute("informe", informe);
+		return "almacenero/informeVolumenComprasMetodoPago";
+	}
+
+	@RequestMapping("/informe/Ots")
+	public String informeOts(Principal principal, Model model) {
+		List<User> empleados = usersService.findAllAlmacenero();
+		List<Object[]> informe = ordenTrabajoService.informeOts();
+		model.addAttribute("informe", informe);
+		model.addAttribute("empleados", empleados);
+		model.addAttribute("numeroEmpleados", empleados.size()+1);
+		return "almacenero/informeOts";
 	}
 }
