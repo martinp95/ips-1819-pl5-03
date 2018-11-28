@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.uniovi.entities.OrdenTrabajo;
 import com.uniovi.entities.Pedido;
+import com.uniovi.entities.PedidosOrdenTrabajo;
 import com.uniovi.entities.Producto;
 import com.uniovi.entities.ProductosPedido;
 import com.uniovi.entities.User;
@@ -71,9 +72,9 @@ public class OrdenTrabajoService {
 			for (Producto producto : productos) {
 				ProductosPedido pp = productoPedidoRepository.findProductoPedidoByPedidoAndProducto(pedido, producto);
 				albaran += "\t\t\tCategoria:" + producto.getName() + ", Nombre:" + producto.getDescription()
-						+ ", Precio unidad sin IVA:" + producto.getPrecio() + ", Precio unidad con IVA: "
-						+ ((producto.getPrecio() * producto.getIva().getPorcentaje()) + producto.getPrecio())
-						+ ", Cantidad:" + pp.getCantidad() + "\n";
+				+ ", Precio unidad sin IVA:" + producto.getPrecio() + ", Precio unidad con IVA: "
+				+ ((producto.getPrecio() * producto.getIva().getPorcentaje()) + producto.getPrecio())
+				+ ", Cantidad:" + pp.getCantidad() + "\n";
 			}
 			albaran += "--------------------------------------------------------------------------------------------\n";
 
@@ -105,18 +106,17 @@ public class OrdenTrabajoService {
 		List<Date> fechas = findDatesEntreInicioFin();
 		List<Object[]> informe = new ArrayList<Object[]>();
 		List<OrdenTrabajo> ots = ordenTrabajoRepository.findAllOrderByFecha();
-		
-		
+
 		List<User> almaceneros = usersService.findAllAlmacenero();
 		HashMap<Long,Integer> empleadoOt;
-		
+
 		for(Date fecha : fechas) {
 			//inicializar hasmap por cada fecha
 			empleadoOt = new HashMap<Long,Integer>();
 			for(User u: almaceneros) {
 				empleadoOt.put(u.getId(), 0);
 			}		
-			
+
 			for(OrdenTrabajo ot : ots) {
 				if(ot.getFecha().equals(fecha)) {
 					//aumentamos 1 ot asignada al almacenero
@@ -135,4 +135,81 @@ public class OrdenTrabajoService {
 		}
 		return informe;
 	}
+
+	public List<Object[]> informeOtsRecogidas() {
+		List<Date> fechas = findDatesEntreInicioFin();
+		List<Object[]> informe = new ArrayList<Object[]>();
+		List<OrdenTrabajo> ots = ordenTrabajoRepository.findAllOrderByFecha();
+
+		List<User> almaceneros = usersService.findAllAlmacenero();
+		HashMap<Long,Integer> empleadoOt;
+
+		for(Date fecha : fechas) {
+			//inicializar hasmap por cada fecha
+			empleadoOt = new HashMap<Long,Integer>();
+			for(User u: almaceneros) {
+				empleadoOt.put(u.getId(), 0);
+			}		
+
+			for(OrdenTrabajo ot : ots) {
+				if(ot.getFecha().equals(fecha)) {
+					for (PedidosOrdenTrabajo pot: ot.getPedidoOrdenesTrabajo()) {
+						for (ProductosPedido pp: pot.getPedido().getProductosPedido()) {
+							int num = pp.getCantidad() - pp.getCantidadPorRecoger();
+							int numAux = empleadoOt.get(ot.getAlmacenero().getId()) + num;
+							empleadoOt.put(ot.getAlmacenero().getId(),numAux);
+						}
+					}
+				}
+			}
+			Object[] entrada = new Object[100];
+			entrada[0] = fecha;
+			int i=1;
+			for (Integer numeroOt : empleadoOt.values()) {
+				entrada[i] =numeroOt;
+				i++;			    
+			}
+			informe.add(entrada);
+		}
+		return informe;
+	}
+
+	public List<Object[]> informeOtsEmpaquetadas() {
+		List<Date> fechas = findDatesEntreInicioFin();
+		List<Object[]> informe = new ArrayList<Object[]>();
+		List<OrdenTrabajo> ots = ordenTrabajoRepository.findAllOrderByFecha();
+
+		List<User> almaceneros = usersService.findAllAlmacenero();
+		HashMap<Long,Integer> empleadoOt;
+
+		for(Date fecha : fechas) {
+			//inicializar hasmap por cada fecha
+			empleadoOt = new HashMap<Long,Integer>();
+			for(User u: almaceneros) {
+				empleadoOt.put(u.getId(), 0);
+			}		
+
+			for(OrdenTrabajo ot : ots) {
+				if(ot.getFecha().equals(fecha)) {
+					for (PedidosOrdenTrabajo pot: ot.getPedidoOrdenesTrabajo()) {
+						for (ProductosPedido pp: pot.getPedido().getProductosPedido()) {
+							int num = pp.getCantidad() - pp.getCantidadPorEmpaquetar();
+							int numAux = empleadoOt.get(ot.getAlmacenero().getId()) + num;
+							empleadoOt.put(ot.getAlmacenero().getId(),numAux);
+						}
+					}
+				}
+			}
+			Object[] entrada = new Object[100];
+			entrada[0] = fecha;
+			int i=1;
+			for (Integer numeroOt : empleadoOt.values()) {
+				entrada[i] =numeroOt;
+				i++;			    
+			}
+			informe.add(entrada);
+		}
+		return informe;
+	}
+
 }
