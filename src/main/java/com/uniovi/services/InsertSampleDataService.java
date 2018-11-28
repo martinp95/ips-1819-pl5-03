@@ -101,26 +101,35 @@ public class InsertSampleDataService {
 		ivaService.addIva(iva3);
 		
 
-		Producto producto = new Producto("Teclado", "teclado retroiluminado", 10.2, 10, 2, "derecha", 3, 2, 5, 15,iva1);
-		Producto producto2 = new Producto("Teclado", "teclado mecanico", 10.2, 10, 2, "derecha", 2, 2, 5, 15,iva1);
-		Producto producto3 = new Producto("Ratón", "ratón retroiluminado", 10.2, 10, 2, "izquierda", 3, 2, 5, 15,iva1);
-		Producto producto4 = new Producto("Ratón", "ratón mecanico", 10.2, 10, 2, "izquierda", 3, 2, 5, 15,iva1);
-		Producto producto5 = new Producto("Procesador", "Procesador intell i7", 250, 10, 1, "izquierda", 1, 1, 5, 15,iva2);
-		Producto producto6 = new Producto("Procesador", "Procesador intell i5", 250, 10, 1, "derecha", 1, 1, 5, 15,iva2);
-		Producto producto7 = new Producto("Procesador", "Procesador intell i3", 250, 10, 1, "izquierda", 1, 2, 5, 15,iva2);
-		Producto producto8 = new Producto("Procesador", "Procesador intell pentium", 250, 10, 1, "derecha", 1, 2, 5,15,iva2);
-		Producto producto9 = new Producto("Procesador", "Procesador intell xeon", 250, 10, 1, "izquierda", 1, 3, 5, 15,iva2);
+		Producto producto = new Producto("Teclado", "teclado retroiluminado", 10.2, 10, 2, "derecha", 2, 2, 5, 15,iva1);
+		Producto producto1 = new Producto("Teclado", "teclado mecanico", 10.2, 10, 2, "derecha", 3, 2, 5, 15,iva1);
+		Producto producto2 = new Producto("Teclado", "teclado inalambrico", 10.2, 10, 2, "derecha", 4, 2, 5, 15,iva1);
+		Producto producto3 = new Producto("Teclado", "teclado gaming", 10.2, 10, 2, "derecha", 5, 2, 5, 15,iva1);
+		Producto producto4 = new Producto("Teclado", "teclado optico", 10.2, 10, 2, "derecha", 6, 2, 5, 15,iva1);
+		
+		Producto producto5 = new Producto("Ratón", "ratón retroiluminado", 10.2, 10, 2, "izquierda", 2, 2, 5, 15,iva1);
+		Producto producto6 = new Producto("Ratón", "ratón mecanico", 10.2, 10, 2, "izquierda", 3, 2, 5, 15,iva1);
+		Producto producto7 = new Producto("Ratón", "ratón inalambrico", 10.2, 10, 2, "izquierda", 4, 2, 5, 15,iva1);
+		Producto producto8 = new Producto("Ratón", "ratón gaming", 10.2, 10, 2, "izquierda", 5, 2, 5, 15,iva1);
+		Producto producto9 = new Producto("Ratón", "ratón optico", 10.2, 10, 2, "izquierda", 6, 2, 5, 15,iva1);
+		
+		Producto producto10 = new Producto("Procesador", "Procesador intell i7", 250, 10, 1, "izquierda", 1, 1, 5, 15,iva2);
+		Producto producto11 = new Producto("Procesador", "Procesador intell i5", 250, 10, 1, "derecha", 1, 1, 5, 15,iva2);
+		Producto producto12 = new Producto("Procesador", "Procesador intell i3", 250, 10, 1, "izquierda", 1, 2, 5, 15,iva2);
+		Producto producto13 = new Producto("Procesador", "Procesador intell pentium", 250, 10, 1, "derecha", 1, 2, 5,15,iva2);
+		Producto producto14 = new Producto("Procesador", "Procesador intell xeon", 250, 10, 1, "izquierda", 1, 3, 5, 15,iva2);
 
-		Producto producto10 = new Producto("Pantalla", "Pantalla  xeon 10'", 25, 10, 1, "izquierda", 1, 4, 5, 15,iva3);
-		Producto producto11 = new Producto("Pantalla", "Pantalla  xeon 15'", 25, 10, 1, "izquierda", 1, 5, 5, 15,iva3);
-		Producto producto12 = new Producto("Pantalla", "Pantalla  xeon 20'", 25, 10, 1, "izquierda", 1, 6, 5, 15,iva3);
-		Producto producto13 = new Producto("Pantalla", "Pantalla  xeon 25'", 25, 10, 1, "izquierda", 1, 7, 5, 15,iva3);
-		Producto producto14 = new Producto("Pantalla", "Pantalla  xeon 30'", 25, 10, 1, "izquierda", 1, 8, 5, 15,iva3);
-		Producto producto15 = new Producto("Pantalla", "Pantalla  xeon 35'", 25, 10, 1, "izquierda", 1, 9, 5, 15,iva3);
-		Producto producto16 = new Producto("Pantalla", "Pantalla  xeon 40'", 25, 10, 1, "izquierda", 1, 10, 5, 15,iva3);
-		Producto producto17 = new Producto("Pantalla", "Pantalla  xeon 45'", 25, 10, 1, "izquierda", 1, 11, 5, 15,iva3);
+		Producto producto15 = new Producto("Pantalla", "Pantalla  xeon 10'", 25, 10, 1, "izquierda", 1, 4, 5, 15,iva3);
+		Producto producto16 = new Producto("Pantalla", "Pantalla  xeon 15'", 25, 10, 1, "izquierda", 1, 5, 5, 15,iva3);
+		Producto producto17 = new Producto("Pantalla", "Pantalla  xeon 20'", 25, 10, 1, "izquierda", 1, 6, 5, 15,iva3);
+		Producto producto18 = new Producto("Pantalla", "Pantalla  xeon 25'", 25, 10, 1, "izquierda", 1, 7, 5, 15,iva3);
+		Producto producto19 = new Producto("Pantalla", "Pantalla  xeon 30'", 25, 10, 1, "izquierda", 1, 8, 5, 15,iva3);
+		Producto producto20 = new Producto("Pantalla", "Pantalla  xeon 35'", 25, 10, 1, "izquierda", 1, 9, 5, 15,iva3);
+		Producto producto21 = new Producto("Pantalla", "Pantalla  xeon 40'", 25, 10, 1, "izquierda", 1, 10, 5, 15,iva3);
+		Producto producto22 = new Producto("Pantalla", "Pantalla  xeon 45'", 25, 10, 1, "izquierda", 1, 11, 5, 15,iva3);
 
 		productoService.addProducto(producto);
+		productoService.addProducto(producto1);
 		productoService.addProducto(producto2);
 		productoService.addProducto(producto3);
 		productoService.addProducto(producto4);
@@ -137,5 +146,10 @@ public class InsertSampleDataService {
 		productoService.addProducto(producto15);
 		productoService.addProducto(producto16);
 		productoService.addProducto(producto17);
+		productoService.addProducto(producto18);
+		productoService.addProducto(producto19);
+		productoService.addProducto(producto20);
+		productoService.addProducto(producto21);
+		productoService.addProducto(producto22);
 	}
 }

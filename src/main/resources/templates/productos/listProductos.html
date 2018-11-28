@@ -15,10 +15,10 @@
 			<button type="submit" class="btn btn-default"
 				th:text="#{listProductosSearchButton.message}"></button>
 		</form>
-		<div class="row">
+		<div class="row" th:with="condition=${#lists.size(productosList) > 20}">
 
 			<!-- categorias -->
-			<div class="col-sm-6" id="categorias">
+			<div class="col-sm-6" id="categorias" th:if="${condition}">
 				<table class="table table-hover" id="tableCategorias">
 					<thead>
 						<tr>
@@ -39,7 +39,8 @@
 							<td>
 								<form class="navbar-form" action="/productos">
 									<button name="category" type="submit" class="btn btn-info"
-									th:id="categoriaProducto" th:value="${producto}" th:text="${producto}"></button>
+										th:id="categoriaProducto" th:value="${producto}"
+										th:text="${producto}"></button>
 								</form>
 							</td>
 						</tr>
@@ -48,7 +49,7 @@
 			</div>
 
 			<!-- productos -->
-			<div class="col-sm-6" id="productos">
+			<div class="col-sm-6" id="productos" th:unless="${condition}">
 				<table class="table table-hover" id="tableListProductos">
 					<thead>
 						<tr>
