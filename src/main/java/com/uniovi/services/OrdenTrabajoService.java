@@ -118,7 +118,7 @@ public class OrdenTrabajoService {
 			}		
 
 			for(OrdenTrabajo ot : ots) {
-				if(ot.getFecha().equals(fecha)) {
+				if(ot.getFecha().equals(fecha) && ot.getAlmacenero() != null) {
 					//aumentamos 1 ot asignada al almacenero
 					int numAux = empleadoOt.get(ot.getAlmacenero().getId()) + 1;
 					empleadoOt.put(ot.getAlmacenero().getId(),numAux);
@@ -152,7 +152,7 @@ public class OrdenTrabajoService {
 			}		
 
 			for(OrdenTrabajo ot : ots) {
-				if(ot.getFecha().equals(fecha)) {
+				if(ot.getFecha().equals(fecha) && ot.getAlmacenero() != null) {
 					for (PedidosOrdenTrabajo pot: ot.getPedidoOrdenesTrabajo()) {
 						for (ProductosPedido pp: pot.getPedido().getProductosPedido()) {
 							int num = pp.getCantidad() - pp.getCantidadPorRecoger();
@@ -190,7 +190,7 @@ public class OrdenTrabajoService {
 			}		
 
 			for(OrdenTrabajo ot : ots) {
-				if(ot.getFecha().equals(fecha)) {
+				if(ot.getFecha().equals(fecha) && ot.getAlmacenero() != null) {
 					for (PedidosOrdenTrabajo pot: ot.getPedidoOrdenesTrabajo()) {
 						for (ProductosPedido pp: pot.getPedido().getProductosPedido()) {
 							int num = pp.getCantidad() - pp.getCantidadPorEmpaquetar();
